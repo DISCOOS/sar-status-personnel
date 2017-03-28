@@ -1,0 +1,44 @@
+<ion-header>
+<ion-navbar>
+<button ion-button menuToggle>
+	<ion-icon name="menu"></ion-icon>
+</button>
+<img src="assets/logo.svg">
+</ion-navbar>
+</ion-header>
+
+<ion-content>
+
+<div class="tilgjengelighet green">
+	  	<ion-icon name="checkmark"></ion-icon>
+	  	<span>Tilgjengelig</span>
+</div>
+
+
+<ion-grid padding>
+
+<ion-item>
+  <ion-label>Tilgjengelig for alarmutkall  </ion-label>
+
+<!-- Når denne innstillingen er slått på vil du kune bli varslet ved nye aksjoner -->
+
+
+  <ion-toggle checked="true"></ion-toggle>
+
+</ion-item>
+
+
+
+<ion-item>
+  <ion-label>
+Tillat GPS-sporing
+
+  </ion-label>
+ <!--  Når denne innstillingen er slått på vil aksjonsledere kunne se din geografiske posisjon under leteaksjoner. Gjelder kun leteaksjoner hvor har svart "stiller". -->
+  <ion-toggle checked="true"></ion-toggle>
+
+</ion-item>
+
+</ion-grid>
+
+</ion-content>

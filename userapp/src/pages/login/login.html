@@ -1,0 +1,17 @@
+<ion-content padding>
+
+ <img src="assets/logo.svg" class="loginlogo">
+
+
+  	<ion-item>
+	  	<ion-input [(ngModel)]="username" placeholder="Brukernavn"></ion-input>
+	</ion-item>
+
+	<ion-item>
+	  	<ion-input [(ngModel)]="password" type="password" placeholder="Passord"></ion-input>
+	</ion-item>
+
+
+<button padding ion-button (click)="login()">Logg inn</button>
+
+</ion-content>
