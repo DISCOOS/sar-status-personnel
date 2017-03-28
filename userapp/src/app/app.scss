@@ -19,8 +19,15 @@
 // Basics
 .hidden { display: none; }
 
+
+// Fjerne shadow fra buttons
+.button {
+	box-shadow: none;
+	transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0s, color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0s
+}
+
 // Fonts
-* { font-family: "MyriadPro-Regular", "Times New Roman", serif;}
+* { font-family: "MyriadPro-Regular", sans-serif;}
 h1,h2,h3,h4,h5 { font-family: "MyriadPro-Semibold"; }
 
 

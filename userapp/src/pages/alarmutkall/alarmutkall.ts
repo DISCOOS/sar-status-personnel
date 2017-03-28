@@ -7,9 +7,10 @@ import { NavController } from 'ionic-angular';
   templateUrl: 'alarmutkall.html'
 })
 export class Alarmutkall {
-
+	alarmType : string;
   constructor(public navCtrl: NavController) {
-    
+	// Setter default alarmtype til pågående alarmutkall
+    this.alarmType = "current";
   }
 
 }
