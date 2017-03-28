@@ -17,27 +17,24 @@
 
 <ion-grid padding>
 
-<ion-item>
-  <ion-label>Tilgjengelig for alarmutkall  </ion-label>
+<ion-row>
+    <ion-col col-3><ion-toggle checked="true"></ion-toggle></ion-col>
+    <ion-col col-9>
+    <h4>Tilgjengelig for alarmutkall</h4>
+    <p>Når denne innstillingen er slått på vil du kune bli varslet ved nye aksjoner</p>
+    </ion-col>
+</ion-row>
 
-<!-- Når denne innstillingen er slått på vil du kune bli varslet ved nye aksjoner -->
+<ion-row>
+    <ion-col col-3><ion-toggle checked="true"></ion-toggle></ion-col>
+    <ion-col col-9>
+    <h4>Tillat GPS-sporing</h4>
+    <p>Når denne innstillingen er slått på vil aksjonsledere kunne se din geografiske posisjon under leteaksjoner. Gjelder kun leteaksjoner hvor har svart "stiller".</p>
+    </ion-col>
 
 
-  <ion-toggle checked="true"></ion-toggle>
+</ion-row>
 
-</ion-item>
-
-
-
-<ion-item>
-  <ion-label>
-Tillat GPS-sporing
-
-  </ion-label>
- <!--  Når denne innstillingen er slått på vil aksjonsledere kunne se din geografiske posisjon under leteaksjoner. Gjelder kun leteaksjoner hvor har svart "stiller". -->
-  <ion-toggle checked="true"></ion-toggle>
-
-</ion-item>
 
 </ion-grid>
 

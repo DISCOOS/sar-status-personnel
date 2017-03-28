@@ -21,10 +21,9 @@
 
 
 // Fjerne shadow fra buttons
-.button {
-	box-shadow: none;
-	transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0s, color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0s
-}
+.button {box-shadow: none; transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0s, color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0s}
+
+// .button-md.activated { box-shadow:none; background-color: transparent; border: 1px; color: #000;}
 
 // Fonts
 * { font-family: "MyriadPro-Regular", sans-serif;}
