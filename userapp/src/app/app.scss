@@ -1,6 +1,4 @@
 // http://ionicframework.com/docs/v2/theming/
-
-
 // App Global Sass
 // --------------------------------------------------
 // Put style rules here that you want to apply globally. These
@@ -14,39 +12,30 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
-
-
 // Basics
-.hidden { display: none; }
+.hidden {display: none; }
+.block-center { display: block; margin: 0 auto;}
+.text-center { text-align: center;}
 
-
-// Fjerne shadow fra buttons
-.button {box-shadow: none; transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0s, color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0s}
-
-// .button-md.activated { box-shadow:none; background-color: transparent; border: 1px; color: #000;}
+// Remove shadow from buttons
+.button {box-shadow: none; transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0s, color 300ms cubic-bezier(0.4, 0, 0.2, 1) 0s }
 
 // Fonts
-* { font-family: "MyriadPro-Regular", sans-serif;}
-h1,h2,h3,h4,h5 { font-family: "MyriadPro-Semibold"; }
 
 
-.toolbar-content { text-align: center;}
-.toolbar-content > img { height: 35px; margin: 1rem 0; }
-.header-md::after {background-image:none;}
+* {font-family: $font-regular; }
+h1, h2, h3, h4, h5 {font-family: $font-semibold; }
 
+.toolbar-content {text-align: center; }
+.toolbar-content > img {height: 35px; margin: 1rem 0; }
 
-.tilgjengelighet { text-align: center; padding: 3rem; font-size: 2em; }
-.tilgjengelighet .icon { font-size: 2em;}
-.tilgjengelighet span { display:block; }
-.green { background: #c5e0b5; color: #ffffff;}
+.header-md::after {background-image: none; }
 
-.tittel { font-size:1.8rem; font-weight:bold;}
-.forklaring { display: block; padding: 1em;}
+.availability {text-align: center; padding: 3rem; font-size: 2em; }
+.availability .icon {font-size: 2em; }
+.availability span {display: block; }
 
+.green {background: #c5e0b5; color: #ffffff; }
 
-.profil { display: block; border-radius:999px; margin: 3em auto; width: 150px; height: 150px; border: 3px solid #ccc; }
-
-
-.loginlogo { display: block; width: 200px; margin: 3em auto;}
-
-
+.profile {display: block; border-radius: 999px; margin: 3em auto; width: 150px; height: 150px; border: 3px solid #ccc; }
+.loginlogo {display: block; width: 200px; margin: 3em auto; }

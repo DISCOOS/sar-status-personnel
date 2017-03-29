@@ -1,0 +1,95 @@
+<ion-header>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <img src="assets/logo.svg">
+    </ion-navbar>
+</ion-header>
+<ion-content>
+    <div padding>
+        <ion-segment [(ngModel)]="alarmType">
+            <ion-segment-button value="current">
+                Pågående
+            </ion-segment-button>
+            <ion-segment-button value="archived">
+                Arkiverte
+            </ion-segment-button>
+        </ion-segment>
+    </div>
+    <div [ngSwitch]="alarmType">
+        <ion-list *ngSwitchCase="'current'">
+            <ion-item>
+                <ion-card>
+                    <img src="assets/img/sample-map.png">
+                    <ion-fab right top>
+                        <button ion-fab>
+                            <ion-icon name="pin"></ion-icon>
+                        </button>
+                    </ion-fab>
+                    <ion-item>
+                        <ion-icon name="ios-map-outline" item-left large></ion-icon>
+                        <h2>En leteaksjon</h2>
+                        <h3>11 N. Way St, Madison, WI 53703</h3>
+                        <p>Litt mer info om hva dette handler om</p>
+                    </ion-item>
+                    <ion-item>
+                        <span item-left>18 min</span>
+                        <span item-left>(23 km)</span>
+                        <button ion-button icon-left clear item-right>
+                            <ion-icon name="navigate"></ion-icon>
+                            Start
+                        </button>
+                    </ion-item>
+                </ion-card>
+            </ion-item>
+            <ion-item>
+                <ion-card>
+                    <img src="assets/img/sample-map.png">
+                    <ion-fab right top>
+                        <button ion-fab>
+                            <ion-icon name="pin"></ion-icon>
+                        </button>
+                    </ion-fab>
+                    <ion-item>
+                        <ion-icon name="ios-map-outline" item-left large></ion-icon>
+                        <h2>En annen aksjon</h2>
+                        <h3>En adresse 123, 5021 Bergen</h3>
+                        <p>Litt mer info om hva dette handler om</p>
+                    </ion-item>
+                    <ion-item>
+                        <span item-left>4 min</span>
+                        <span item-left>(5 km)</span>
+                        <button ion-button icon-left clear item-right>
+                            <ion-icon name="navigate"></ion-icon>
+                            Start
+                        </button>
+                    </ion-item>
+                </ion-card>
+            </ion-item>
+        </ion-list>
+        <ion-list *ngSwitchCase="'archived'">
+            <ion-item>
+                Arkivert alarmutkall med litt lengre navn
+                <button ion-button item-right icon-left>
+                    <ion-icon name="ios-cash"></ion-icon>
+                    Registrer utlegg
+                </button>
+            </ion-item>
+            <ion-item>
+                Arkivert alarmutkall 2
+                <button ion-button item-right icon-left>
+                    <ion-icon name="ios-cash"></ion-icon>
+                    Registrer utlegg
+                </button>
+            </ion-item>
+            <ion-item>
+                Arkivert alarmutkall 3
+                <button ion-button item-right icon-left>
+                    <ion-icon name="ios-cash"></ion-icon>
+                    Registrer utlegg
+                </button>
+            </ion-item>
+        </ion-list>
+    </div>
+</ion-content>

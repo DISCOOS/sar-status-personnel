@@ -5,8 +5,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { Login } from '../pages/login/login';
 import { Home } from '../pages/home/home';
-import { Alarmutkall } from '../pages/alarmutkall/alarmutkall';
-import { Profil } from '../pages/profil/profil';
+import { Alarms } from '../pages/alarms/alarms';
+import { Profile } from '../pages/profile/profile';
 
 
 
@@ -16,7 +16,7 @@ import { Profil } from '../pages/profil/profil';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = Login;
+  rootPage: any = Home;
 
   pages: Array<{title: string, component: any, icon: string}>;
 
@@ -27,8 +27,8 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Tilgjengelighet', component: Home, icon: 'ios-cog-outline' },
-      { title: 'Min Profil', component: Profil, icon:'ios-contact' },
-      { title: 'Alarmutkall', component: Alarmutkall, icon:'ios-alarm-outline'  }
+      { title: 'Min Profil', component: Profile, icon:'ios-contact' },
+      { title: 'Alarmutkall', component: Alarms, icon:'ios-alarm-outline'  }
     ];
 
   }

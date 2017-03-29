@@ -3,10 +3,10 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
 @Component({
-  selector: 'page-alarmutkall',
-  templateUrl: 'alarmutkall.html'
+  selector: 'page-alarms',
+  templateUrl: 'alarms.html'
 })
-export class Alarmutkall {
+export class Alarms {
 	alarmType : string;
   constructor(public navCtrl: NavController) {
 	// Setter default alarmtype til pågående alarmutkall

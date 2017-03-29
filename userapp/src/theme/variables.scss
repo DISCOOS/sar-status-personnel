@@ -1,7 +1,6 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/v2/theming/
 $font-path: "../assets/fonts";
-$assets-path: "../assets/fonts";
 
 @import "ionic.globals";
 
@@ -106,4 +105,6 @@ $colors: (
 // Fonts
 // --------------------------------------------------
 
-$font-family-base: "MyriadPro-Regular", sans-serif !default;
+$font-regular: "MyriadPro-Regular",sans-serif !default;
+$font-semibold: "MyriadPro-Semibold",sans-serif !default;
+$font-bold: "MyriadPro-Bold",sans-serif !default;

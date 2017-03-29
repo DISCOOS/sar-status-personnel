@@ -1,41 +1,34 @@
 <ion-header>
-<ion-navbar>
-<button ion-button menuToggle>
-	<ion-icon name="menu"></ion-icon>
-</button>
-<img src="assets/logo.svg">
-</ion-navbar>
+    <ion-navbar>
+        <button ion-button menuToggle>
+            <ion-icon name="menu"></ion-icon>
+        </button>
+        <img src="assets/logo.svg">
+    </ion-navbar>
 </ion-header>
-
 <ion-content>
-
-<div class="tilgjengelighet green" margin-bottom>
-	  	<ion-icon name="checkmark"></ion-icon>
-	  	<span>Tilgjengelig</span>
-</div>
-
-
-<ion-grid padding>
-
-<ion-row padding>
-    <ion-col col-2><ion-toggle checked="true"></ion-toggle></ion-col>
-    <ion-col col-10>
-    <h4>Tilgjengelig for alarmutkall</h4>
-    <p>Når denne innstillingen er slått på vil du kune bli varslet ved nye aksjoner</p>
-    </ion-col>
-</ion-row>
-
-<ion-row padding>
-    <ion-col col-2><ion-toggle checked="true"></ion-toggle></ion-col>
-    <ion-col col-10>
-    <h4>Tillat GPS-sporing</h4>
-    <p>Når denne innstillingen er slått på vil aksjonsledere kunne se din geografiske posisjon under leteaksjoner. Gjelder kun leteaksjoner hvor har svart "stiller".</p>
-    </ion-col>
-
-
-</ion-row>
-
-
-</ion-grid>
-
+    <div class="availability green" margin-bottom>
+        <ion-icon name="checkmark"></ion-icon>
+        <span>Tilgjengelig</span>
+    </div>
+    <ion-grid padding>
+        <ion-row padding>
+            <ion-col col-3>
+                <ion-toggle checked="true"></ion-toggle>
+            </ion-col>
+            <ion-col col-9>
+                <h4>Tilgjengelig for alarmutkall</h4>
+                <p>Når denne innstillingen er slått på vil du kunne bli varslet ved nye aksjoner</p>
+            </ion-col>
+        </ion-row>
+        <ion-row padding>
+            <ion-col col-3>
+                <ion-toggle checked="true"></ion-toggle>
+            </ion-col>
+            <ion-col col-9>
+                <h4>Tillat GPS-sporing</h4>
+                <p>Når denne innstillingen er slått på vil aksjonsledere kunne se din geografiske posisjon under leteaksjoner. Gjelder kun leteaksjoner hvor du selv har svart at du stiller.</p>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-content>

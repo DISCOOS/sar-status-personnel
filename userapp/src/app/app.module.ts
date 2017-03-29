@@ -4,8 +4,8 @@ import { MyApp } from './app.component';
 
 import { Home } from '../pages/home/home';
 import { Login } from '../pages/login/login';
-import { Alarmutkall } from '../pages/alarmutkall/alarmutkall';
-import { Profil } from '../pages/profil/profil';
+import { Alarms } from '../pages/alarms/alarms';
+import { Profile } from '../pages/profile/profile';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -15,8 +15,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     MyApp,
     Login,
     Home,
-    Profil,
-    Alarmutkall
+    Profile,
+    Alarms
     
   ],
   imports: [
@@ -27,8 +27,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     MyApp,
     Login,
     Home,
-    Profil,
-    Alarmutkall
+    Profile,
+    Alarms
 
   ],
   providers: [
