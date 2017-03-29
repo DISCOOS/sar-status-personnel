@@ -1,7 +1,7 @@
 {
-  "name": "ionic-hello-world",
-  "author": "Stian Morsund",
-  "homepage": "http://stianmorsund.no",
+  "name": "sar-status",
+  "author": "Stian Morsund, Bendik Breidablikk, Lasse Tomren",
+  "homepage": "",
   "private": true,
   "scripts": {
     "clean": "ionic-app-scripts clean",
