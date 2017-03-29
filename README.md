@@ -1,10 +1,10 @@
 # sar-status
 A system that gives an overview of which SAR-personell are available at any time
-## Mobilapp for brukere
+## Hybrid-app for SAR-personell
 
 /userapp
 
 
-## Administratorapp
+## Admin
 
 Kommer
