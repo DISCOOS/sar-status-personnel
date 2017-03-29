@@ -1,7 +1,7 @@
 {
   "name": "ionic-hello-world",
-  "author": "Ionic Framework",
-  "homepage": "http://ionicframework.com/",
+  "author": "Stian Morsund",
+  "homepage": "http://stianmorsund.no",
   "private": true,
   "scripts": {
     "clean": "ionic-app-scripts clean",
@@ -49,5 +49,5 @@
       "locator": "ios"
     }
   ],
-  "description": "userapp: An Ionic project"
+  "description": "App for SAR-personell to set availability and answer alarmcalls"
 }
