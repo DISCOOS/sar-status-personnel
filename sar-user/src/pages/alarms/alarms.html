@@ -1,19 +1,11 @@
-<ion-header>
-    <ion-navbar>
-        <button ion-button menuToggle>
-            <ion-icon name="menu"></ion-icon>
-        </button>
-        <img src="assets/logo.svg">
-    </ion-navbar>
-</ion-header>
 <ion-content>
     <div padding>
         <ion-segment [(ngModel)]="alarmType">
             <ion-segment-button value="current">
-                Pågående
+                Aktive
             </ion-segment-button>
             <ion-segment-button value="archived">
-                Arkiverte
+                Avsluttede
             </ion-segment-button>
         </ion-segment>
     </div>

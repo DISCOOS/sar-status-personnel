@@ -7,7 +7,7 @@ import { Login } from '../pages/login/login';
 import { Home } from '../pages/home/home';
 import { Alarms } from '../pages/alarms/alarms';
 import { Profile } from '../pages/profile/profile';
-
+import { TabsPage } from '../pages/tabs/tabs';
 
 
 @Component({
@@ -16,21 +16,15 @@ import { Profile } from '../pages/profile/profile';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = Home;
+//  rootPage: any = Home;
+
+rootPage: any = TabsPage;
 
   pages: Array<{title: string, component: any, icon: string}>;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
 
     this.initializeApp();
-
-    // used for an example of ngFor and navigation
-    this.pages = [
-      { title: 'Tilgjengelighet', component: Home, icon: 'ios-cog-outline' },
-      { title: 'Min Profil', component: Profile, icon:'ios-contact' },
-      { title: 'Alarmutkall', component: Alarms, icon:'ios-alarm-outline'  }
-    ];
-
   }
 
   initializeApp() {

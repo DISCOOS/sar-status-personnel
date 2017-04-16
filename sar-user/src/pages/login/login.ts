@@ -7,6 +7,7 @@ import { AlertController } from 'ionic-angular';
   selector: 'page-login',
   templateUrl: 'login.html'
 })
+
 export class Login {
 	username: string;
 	password: string;
@@ -14,7 +15,7 @@ export class Login {
     
   }
 
-  login() {
+  login = () => {
   	if(this.username == 'test'
   	&& this.password == 'test'
   	) {
@@ -22,6 +23,8 @@ export class Login {
   	} else {
   		this.wrongCredentialsAlert();
   	}
+
+  
   }
 
   wrongCredentialsAlert() {

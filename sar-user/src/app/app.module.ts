@@ -6,6 +6,7 @@ import { Home } from '../pages/home/home';
 import { Login } from '../pages/login/login';
 import { Alarms } from '../pages/alarms/alarms';
 import { Profile } from '../pages/profile/profile';
+import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -13,6 +14,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 @NgModule({
   declarations: [
     MyApp,
+    TabsPage,
     Login,
     Home,
     Profile,
@@ -28,7 +30,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     Login,
     Home,
     Profile,
-    Alarms
+    Alarms,
+    TabsPage
 
   ],
   providers: [

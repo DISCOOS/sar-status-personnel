@@ -26,10 +26,11 @@
 * {font-family: $font-regular; }
 h1, h2, h3, h4, h5 {font-family: $font-semibold; }
 
-.toolbar-content {text-align: center; }
-.toolbar-content > img {height: 35px; margin: 1rem 0; }
-
+.header {text-align: center; }
+.header img {height: 35px; margin: 1rem 0; }
 .header-md::after {background-image: none; }
+
+ion-content {margin-top:56px;}
 
 .availability {text-align: center; padding: 3rem; font-size: 2em; }
 .availability .icon {font-size: 2em; }
