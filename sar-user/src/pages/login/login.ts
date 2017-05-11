@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Home } from '../home/home';
 import { NavController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
+import { SARService } from '../../services/sar.service';
 
 @Component({
   selector: 'page-login',
@@ -9,22 +10,40 @@ import { AlertController } from 'ionic-angular';
 })
 
 export class Login {
-	username: string;
-	password: string;
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController) {
-    
+  username: string;
+  password: string;
+  constructor(
+    public navCtrl: NavController,
+    public alertCtrl: AlertController,
+    public SARService: SARService
+  ) {
+
   }
 
-  login = () => {
-  	if(this.username == 'test'
-  	&& this.password == 'test'
-  	) {
-  		this.navCtrl.setRoot(Home);
-  	} else {
-  		this.wrongCredentialsAlert();
-  	}
+  login() {
+    /* if (this.username == 'test'
+       && this.password == 'test'
+     ) {
+       this.navCtrl.setRoot(Home);
+     } else {
+       this.wrongCredentialsAlert();
+     }
+ */
+    
+    console.log("username: " + this.username);
+    console.log("password: " + this.password);
+    this.SARService.login(this.username, this.password)
+      .subscribe(
+      data => {
+        //this.router.navigate([this.returnUrl]);
+        this.navCtrl.setRoot(Home);
+      },
+      error => {
+        console.log(error)
+        // this.toastService.activate("Innlogging mislyktes", false, false);
+        // this.loading = false;
+      });
 
-  
   }
 
   wrongCredentialsAlert() {

@@ -8,6 +8,8 @@ import { Alarms } from '../pages/alarms/alarms';
 import { Profile } from '../pages/profile/profile';
 import { TabsPage } from '../pages/tabs/tabs';
 
+import { SARService } from '../services/sar.service';
+
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -37,6 +39,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   providers: [
     StatusBar,
     SplashScreen,
+    SARService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

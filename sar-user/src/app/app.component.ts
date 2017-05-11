@@ -18,7 +18,7 @@ export class MyApp {
 
 //  rootPage: any = Home;
 
-rootPage: any = TabsPage;
+rootPage: any = Login;
 
   pages: Array<{title: string, component: any, icon: string}>;
 

@@ -1,17 +1,18 @@
 <ion-content padding>
 
- <img src="assets/logo.svg" class="loginlogo">
+	<img src="assets/logo.svg" class="loginlogo">
+	<form (ngSubmit)="login()" #loginForm="ngForm">
+		<ion-list>
+			<ion-item>
+				<ion-input [(ngModel)]="username" placeholder="Brukernavn" type="text" name="username"></ion-input>
+			</ion-item>
 
-<ion-list>
-  	<ion-item>
-	  	<ion-input [(ngModel)]="username" placeholder="Brukernavn"></ion-input>
-	</ion-item>
-
-	<ion-item>
-	  	<ion-input [(ngModel)]="password" type="password" placeholder="Passord"></ion-input>
-	</ion-item>
-</ion-list>
-
-<button padding ion-button (click)="login()">Logg inn</button>
+			<ion-item>
+				<ion-input [(ngModel)]="password" type="password" placeholder="Passord" name="password"></ion-input>
+			</ion-item>
+		</ion-list>
+		<button padding ion-button (onclick)="login()" type="submit" >Logg inn</button>
+	</form>
+	
 
 </ion-content>
