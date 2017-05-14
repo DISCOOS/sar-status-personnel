@@ -31,7 +31,7 @@ export class Home {
         user.isAvailable = false;
         console.log("true")
       }
-      console.log(user.isAvailable)
+      console.log(user.isAvailable);
       this.SARService.setAvailability(user.isAvailable)
     
   }
