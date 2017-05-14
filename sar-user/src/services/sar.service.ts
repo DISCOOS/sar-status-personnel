@@ -9,7 +9,7 @@ import { URLSearchParams } from "@angular/http";
 export class SARService {
     loggedIn: boolean;
     token: string;
-    
+    available: string;
     id: any;
     // Other components can subscribe to this 
     public isLoggedIn: Subject<boolean> = new Subject();
@@ -57,16 +57,21 @@ export class SARService {
     public setAvailability(isAvailable:boolean) {
         
         let user = this.getUser();
-        let url = "http://0.0.0.0:3000/api/SARUsers"+this.id;
+        let url = "http://0.0.0.0:3000/api/SARUsers/"+this.getUser().id;
 
         let options = new RequestOptions({ withCredentials: true })
-        /*console.log("user.id: "+ user.id);
-        console.log("paramter fra home.ts: "+isAvailable);
-        console.log(" localstorage user.isAvailable: " +this.getUser().isAvailable);*/
         
+        // console.log("user.id: "+ user.id);
+        // console.log("paramter fra home.ts: "+isAvailable);
+        // console.log(" localstorage user.isAvailable: " +this.getUser().isAvailable);
+        // console.log(url);
+        // console.log(JSON.parse(user.isAvailable));
+        this.available = '{"isAvailable:"'+isAvailable+';}';
+        console.log(this.available);
+
         return this.http
-            .put(url, JSON.parse(user.isAvailable), options)
-            .map(res => res.json())
+            .put(url, this.available);
+        
            
 
         //.catch(this.handleError)

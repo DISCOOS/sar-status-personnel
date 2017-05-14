@@ -24,14 +24,16 @@ export class Home {
   setAvailable() {
 
       let user = this.getUser();
+      console.log("isavailable fra før if: " + user.isAvailable);
       if(user.isAvailable == false){
         user.isAvailable = true;
-        console.log("false")
+        
       }else if (user.isAvailable == true){
         user.isAvailable = false;
-        console.log("true")
+        console.log("isavailable fra else if: " + user.isAvailable);
+        
       }
-      console.log(user.isAvailable);
+      console.log("bruker.available fra home.ts etter if: "+user.isAvailable);
       this.SARService.setAvailability(user.isAvailable)
     
   }
