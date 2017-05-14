@@ -21,17 +21,8 @@ export class Login {
   }
 
   login() {
-    /* if (this.username == 'test'
-       && this.password == 'test'
-     ) {
-       this.navCtrl.setRoot(Home);
-     } else {
-       this.wrongCredentialsAlert();
-     }
- */
+
     
-    console.log("username: " + this.username);
-    console.log("password: " + this.password);
     this.SARService.login(this.username, this.password)
       .subscribe(
       data => {
