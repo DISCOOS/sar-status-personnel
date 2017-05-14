@@ -61,16 +61,13 @@ export class SARService {
 
         let options = new RequestOptions({ withCredentials: true })
         
-        // console.log("user.id: "+ user.id);
-        // console.log("paramter fra home.ts: "+isAvailable);
-        // console.log(" localstorage user.isAvailable: " +this.getUser().isAvailable);
-        // console.log(url);
-        // console.log(JSON.parse(user.isAvailable));
-        this.available = '{"isAvailable:"'+isAvailable+';}';
-        console.log(this.available);
-
+       
+        let body = {isAvailable: isAvailable};
+        
         return this.http
-            .put(url, this.available);
+            .put(url, body, options)
+            .map(res => { console.log(res.json()) 
+                return res.json()})
         
            
 

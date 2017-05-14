@@ -11,6 +11,7 @@ export class Alarms {
   constructor(public navCtrl: NavController) {
 	// Setter default alarmtype til pågående alarmutkall
     this.alarmType = "current";
+    
   }
 
 }

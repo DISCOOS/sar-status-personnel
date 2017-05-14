@@ -7,7 +7,7 @@ import { NavController } from 'ionic-angular';
   templateUrl: 'home.html'
 })
 export class Home {
-  
+  isAvailable: boolean;
   
 
   constructor(
@@ -24,17 +24,12 @@ export class Home {
   setAvailable() {
 
       let user = this.getUser();
-      console.log("isavailable fra før if: " + user.isAvailable);
-      if(user.isAvailable == false){
-        user.isAvailable = true;
-        
-      }else if (user.isAvailable == true){
-        user.isAvailable = false;
-        console.log("isavailable fra else if: " + user.isAvailable);
-        
-      }
-      console.log("bruker.available fra home.ts etter if: "+user.isAvailable);
-      this.SARService.setAvailability(user.isAvailable)
+      
+      this.SARService.setAvailability(this.isAvailable)
+      .subscribe (
+      error => {
+        console.log(error)
+      });
     
   }
 
