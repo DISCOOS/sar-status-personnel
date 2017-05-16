@@ -61,11 +61,21 @@ export class SARService {
 
         let options = new RequestOptions({ withCredentials: true })
         
-       
-        let body = {isAvailable: isAvailable};
+       //Hack å bare sette hele bodyen sånn, men ellers settes alt annet til null?
+        let body = {
+            "kovaId": user.kovaId,
+            "name": user.name,
+            "email": user.email,
+            "phone": user.phone,
+            "isAvailable": isAvailable,
+            "isTrackable": user.isTrackable,
+            "isAdmin": user.isAdmin,
+            "id": user.id,
+            "expenceId": user.expenceId
+        };
         
         return this.http
-            .put(url, body, options)
+            .patch(url, body, options)
             .map(res => { console.log(res.json()) 
                 return res.json()})
         
