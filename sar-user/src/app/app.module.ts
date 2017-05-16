@@ -7,6 +7,7 @@ import { Login } from '../pages/login/login';
 import { Alarms } from '../pages/alarms/alarms';
 import { Profile } from '../pages/profile/profile';
 import { TabsPage } from '../pages/tabs/tabs';
+import { Utlegg } from '../pages/utlegg/utlegg';
 
 import { SARService } from '../services/sar.service';
 
@@ -20,8 +21,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     Login,
     Home,
     Profile,
-    Alarms
-    
+    Alarms,
+    Utlegg,
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -33,8 +34,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     Home,
     Profile,
     Alarms,
-    TabsPage
-
+    TabsPage,
+    Utlegg,
   ],
   providers: [
     StatusBar,

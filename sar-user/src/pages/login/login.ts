@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Home } from '../home/home';
+import { TabsPage } from '../tabs/tabs'
 import { NavController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { SARService } from '../../services/sar.service';
@@ -27,7 +28,7 @@ export class Login {
       .subscribe(
       data => {
         //this.router.navigate([this.returnUrl]);
-        this.navCtrl.setRoot(Home);
+        this.navCtrl.setRoot(TabsPage);
       },
       error => {
         console.log(error)

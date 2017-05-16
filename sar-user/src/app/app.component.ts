@@ -8,6 +8,7 @@ import { Home } from '../pages/home/home';
 import { Alarms } from '../pages/alarms/alarms';
 import { Profile } from '../pages/profile/profile';
 import { TabsPage } from '../pages/tabs/tabs';
+import { Utlegg } from '../pages/utlegg/utlegg';
 
 
 @Component({
