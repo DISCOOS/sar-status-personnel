@@ -66,3 +66,12 @@ export class MissionResponse {
 		public trackings: Tracking[] // If user has tracking enable
 	) { }
 }
+
+export class Tracking {
+	constructor(
+		public missionresponse: MissionResponse,
+		public positionLat: string,
+		public positionLong: string,
+		public date: number
+	) { }
+}

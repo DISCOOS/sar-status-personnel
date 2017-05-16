@@ -12,14 +12,15 @@ export class Alarms {
 	alarmType : string;
   isLoading: boolean;
 	missions: Mission[];
+
 	//missions : Observable<Mission[]>;
 	filteredMissions = this.missions;
 
   constructor(
     public navCtrl: NavController, 
-    private SARService: SARService, ) {
+    private SARService: SARService ) {
 
-		this.filteredMissions = this.missions;
+    this.filteredMissions = this.missions;
     // Setter default alarmtype til pågående alarmutkall
     this.alarmType = "current";
   }
