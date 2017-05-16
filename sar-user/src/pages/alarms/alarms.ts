@@ -2,6 +2,8 @@ import { ViewChild, Component, OnInit } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { SARService } from '../../services/sar.service';
 import { Mission } from '../../models/models';
+import { Http, Response, RequestOptions } from '@angular/http';
+import { Observable } from "rxjs/Observable";
 
 @Component({
   selector: 'page-alarms',
@@ -11,16 +13,13 @@ import { Mission } from '../../models/models';
 export class Alarms {
 	alarmType : string;
   isLoading: boolean;
-	missions: Mission[];
+	missions : Observable<Mission[]>;
 
 	//missions : Observable<Mission[]>;
-	filteredMissions = this.missions;
-
   constructor(
     public navCtrl: NavController, 
     private SARService: SARService ) {
 
-    this.filteredMissions = this.missions;
     // Setter default alarmtype til pågående alarmutkall
     this.alarmType = "current";
     
@@ -29,10 +28,10 @@ export class Alarms {
   getMissions() {
 		this.isLoading = true;
 		this.SARService.getMissions()
-			.subscribe(
-			(missions) => {
-				this.missions = this.filteredMissions = missions;
-			},
+			.subscribe((missions) => { 
+				console.log(missions);
+				this.missions = missions; 
+		},
 			() => this.stopRefreshing(),
 			() => this.stopRefreshing());
 	}

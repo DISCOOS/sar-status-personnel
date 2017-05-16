@@ -10,15 +10,13 @@
         </ion-segment>
     </div>
 
-
-    <!--<div [ngSwitch]="let mission of filteredMissions">
-        <ion-list *ngSwitchCase="'current'">
-            <ion-item>
-                <ion-card>
-                    <p>{{mission.title}}</p>
-                </ion-card>
-            </ion-item>
-    </div>-->
+    <div>
+    <ion-list *ngFor="let mission of missions">
+        <ion-item>
+            <p>{{mission.title}}</p>
+        </ion-item>
+    </ion-list>    
+    </div>   
     <p>Test1</p>
     <p>Test2</p>
 

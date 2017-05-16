@@ -108,9 +108,8 @@ export class SARService {
 		let url = baseUrl + '/missions';
 		let returnMissions: any;
 
-		return this.http.get(url, options)
-			.map((response: Response) => <Mission[]>response.json())
-			.catch(this.handleError)
+        return this.http.get(url, options)
+			.map((response) => { return response.json() })
     }
 
     private handleError(error: Response) {
