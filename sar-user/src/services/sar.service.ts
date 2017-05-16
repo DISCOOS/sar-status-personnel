@@ -98,7 +98,7 @@ export class SARService {
     public getMissions(limit?: number) {
         let options = new RequestOptions({ withCredentials: true })
 		this._configureOptions(options);
-		let url = baseUrl + 'missions';
+		let url = baseUrl + '/missions';
 		let returnMissions: any;
 
 		return this.http.get(url, options)
