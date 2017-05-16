@@ -10,21 +10,12 @@
         </ion-segment>
     </div>
 
-    <div>
-    <ion-list *ngFor="let mission of missions">
-        <ion-item>
-            <p>{{mission.title}}</p>
-        </ion-item>
-    </ion-list>    
-    </div>   
-    <p>Test1</p>
-    <p>Test2</p>
-
-    <!--<div [ngSwitch]="alarmType">
-        <ion-list *ngSwitchCase="'current'">
+    <div [ngSwitch]="alarmType">
+        <div *ngSwitchCase="'current'">
+        <ion-list *ngFor="let mission of missions"> 
             <ion-item>
                 <ion-card>
-                    <img src="assets/img/sample-map.png">
+                <img src="assets/img/sample-map.png">
                     <ion-fab right top>
                         <button ion-fab>
                             <ion-icon name="pin"></ion-icon>
@@ -32,45 +23,15 @@
                     </ion-fab>
                     <ion-item>
                         <ion-icon name="ios-map-outline" item-left large></ion-icon>
-                        <h2>En leteaksjon</h2>
-                        <h3>11 N. Way St, Madison, WI 53703</h3>
-                        <p>Litt mer info om hva dette handler om</p>
-                    </ion-item>
-                    <ion-item>
-                        <span item-left>18 min</span>
-                        <span item-left>(23 km)</span>
-                        <button ion-button icon-left clear item-right>
-                            <ion-icon name="navigate"></ion-icon>
-                            Start
-                        </button>
-                    </ion-item>
-                </ion-card>
-            </ion-item>
-            <ion-item>
-                <ion-card>
-                    <img src="assets/img/sample-map.png">
-                    <ion-fab right top>
-                        <button ion-fab>
-                            <ion-icon name="pin"></ion-icon>
-                        </button>
-                    </ion-fab>
-                    <ion-item>
-                        <ion-icon name="ios-map-outline" item-left large></ion-icon>
-                        <h2>En annen aksjon</h2>
-                        <h3>En adresse 123, 5021 Bergen</h3>
-                        <p>Litt mer info om hva dette handler om</p>
-                    </ion-item>
-                    <ion-item>
-                        <span item-left>4 min</span>
-                        <span item-left>(5 km)</span>
-                        <button ion-button icon-left clear item-right>
-                            <ion-icon name="navigate"></ion-icon>
-                            Start
-                        </button>
+                        <h2>{{mission.title}}</h2>
+                        <h3>{{mission.meetingPointNicename}}</h3>
+                        <p>{{mission.description}}</p>
                     </ion-item>
                 </ion-card>
             </ion-item>
         </ion-list>
+        </div> 
+
         <ion-list *ngSwitchCase="'archived'">
             <ion-item>
                 Arkivert alarmutkall med litt lengre navn
@@ -93,6 +54,6 @@
                     Registrer utlegg
                 </button>
             </ion-item>
-        </ion-list>
-    </div>-->
+        </ion-list>   
+    </div> 
 </ion-content>
