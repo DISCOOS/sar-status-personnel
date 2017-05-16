@@ -29,7 +29,7 @@ export class Alarms {
 		this.isLoading = true;
 		this.SARService.getMissions()
 			.subscribe((missions) => { 
-				console.log(missions);
+				// console.log(missions);
 				this.missions = missions; 
 		},
 			() => this.stopRefreshing(),

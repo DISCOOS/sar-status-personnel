@@ -11,9 +11,8 @@
     </div>
 
     <div [ngSwitch]="alarmType">
-        <div *ngSwitchCase="'current'">
-        <ion-list *ngFor="let mission of missions"> 
-            <ion-item>
+        <ion-list *ngSwitchCase="'current'"> 
+            <ion-item *ngFor="let mission of missions">
                 <ion-card>
                 <img src="assets/img/sample-map.png">
                     <ion-fab right top>
@@ -30,7 +29,6 @@
                 </ion-card>
             </ion-item>
         </ion-list>
-        </div> 
 
         <ion-list *ngSwitchCase="'archived'">
             <ion-item>

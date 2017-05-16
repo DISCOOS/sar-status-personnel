@@ -16,7 +16,7 @@ export class SARService {
     token: string;
     available: string;
     id: any;
-    missions: Mission[];
+    missions : Observable<Mission[]>;
     // Other components can subscribe to this 
     public isLoggedIn: Subject<boolean> = new Subject();
 
@@ -109,7 +109,9 @@ export class SARService {
 		let returnMissions: any;
 
         return this.http.get(url, options)
-			.map((response) => { return response.json() })
+			.map((response) => { 
+                this.missions = response.json();
+                return this.missions })
     }
 
     private handleError(error: Response) {
