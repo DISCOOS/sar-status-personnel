@@ -6,18 +6,18 @@
  <form (ngSubmit)="login()" #loginForm="ngForm">
 		<ion-list>
 			<ion-item>
-				<ion-input  padding [(ngModel)]="title" placeholder="Tittel" type="text" name="username"></ion-input>
+				<ion-input   [(ngModel)]="title" placeholder="Tittel" type="text" name="title"></ion-input>
 			</ion-item>
 			
 
 			<ion-item>
-				<ion-input  padding [(ngModel)]="amount" type="number" placeholder="Sum Utgifter" name="amount"></ion-input>
+				<ion-input   [(ngModel)]="amount" type="number" placeholder="Sum Utgifter" name="amount"></ion-input>
 			</ion-item>
 			
 		</ion-list>
-		<ion-item>
-				<ion-textarea  padding [(ngModel)]="description" placeholder="Beskrivelse" type="text" name="username"></ion-textarea>
-			</ion-item>
+		<!--<ion-item>
+				<ion-textarea  padding [(ngModel)]="description" placeholder="Beskrivelse" type="text" name="descripton"></ion-textarea>
+			</ion-item>-->
 		<button padding ion-button (onclick)="addExpense()" type="submit" >Bekreft</button>
 	</form>
 </ion-content>

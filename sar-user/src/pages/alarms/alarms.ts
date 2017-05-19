@@ -4,6 +4,7 @@ import { SARService } from '../../services/sar.service';
 import { Mission } from '../../models/models';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from "rxjs/Observable";
+import { Expense } from '../utlegg/expense';
 
 @Component({
   selector: 'page-alarms',
@@ -24,6 +25,11 @@ export class Alarms {
     this.alarmType = "current";
     
   }
+	showExpensePage() {
+		console.log("alarms.ts: showExpensePage()");
+    this.navCtrl.push(Expense);
+
+	}
 
   getMissions() {
 		this.isLoading = true;

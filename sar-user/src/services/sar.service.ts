@@ -8,6 +8,7 @@ import { URLSearchParams } from "@angular/http";
 import { Headers } from '@angular/http';
 import { Mission } from '../models/models';
 
+
 let baseUrl = "http://localhost:3000/api";
 
 @Injectable()
@@ -21,7 +22,9 @@ export class SARService {
     public isLoggedIn: Subject<boolean> = new Subject();
 
     constructor(
-        private http: Http
+        private http: Http,
+        
+
     ) {
 
     }
@@ -54,10 +57,12 @@ export class SARService {
                     localStorage.setItem('currentUser', JSON.stringify(res.user.user));
                     this.loggedIn = true;
                     this.isLoggedIn.next(this.loggedIn);
+                }else {
+                   return Observable.throw(new Error("error"));
                 }
             })
 
-        //  .catch(this.handleError)
+  // .catch(this.exceptionService.catchBadResponse)
 
     }
 
