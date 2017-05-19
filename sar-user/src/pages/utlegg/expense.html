@@ -1,0 +1,23 @@
+<ion-content>
+    <div class="head text-center">
+       
+       
+    </div>
+ <form (ngSubmit)="login()" #loginForm="ngForm">
+		<ion-list>
+			<ion-item>
+				<ion-input  padding [(ngModel)]="title" placeholder="Tittel" type="text" name="username"></ion-input>
+			</ion-item>
+			
+
+			<ion-item>
+				<ion-input  padding [(ngModel)]="amount" type="number" placeholder="Sum Utgifter" name="amount"></ion-input>
+			</ion-item>
+			
+		</ion-list>
+		<ion-item>
+				<ion-textarea  padding [(ngModel)]="description" placeholder="Beskrivelse" type="text" name="username"></ion-textarea>
+			</ion-item>
+		<button padding ion-button (onclick)="addExpense()" type="submit" >Bekreft</button>
+	</form>
+</ion-content>

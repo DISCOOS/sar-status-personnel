@@ -7,14 +7,14 @@ import { Login } from '../pages/login/login';
 import { Alarms } from '../pages/alarms/alarms';
 import { Profile } from '../pages/profile/profile';
 import { TabsPage } from '../pages/tabs/tabs';
-import { Utlegg } from '../pages/utlegg/utlegg';
-import { UtleggModal } from '../pages/utlegg/utleggModal';
+import { Expense } from '../pages/utlegg/expense';
+
 
 import { SARService } from '../services/sar.service';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { ModalController } from 'ionic-angular';
+//import { ModalController } from 'ionic-angular';
 
 
 @NgModule({
@@ -25,13 +25,16 @@ import { ModalController } from 'ionic-angular';
     Home,
     Profile,
     Alarms,
-    Utlegg,
-    UtleggModal
+    Expense,
+  
+   
+    
     
     
   ],
   imports: [
     IonicModule.forRoot(MyApp)
+    
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -41,14 +44,15 @@ import { ModalController } from 'ionic-angular';
     Profile,
     Alarms,
     TabsPage,
-    Utlegg,
-    UtleggModal
+    Expense
+   
     
 
   ],
   providers: [
     StatusBar,
     SplashScreen,
+   
     SARService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]

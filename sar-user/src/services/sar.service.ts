@@ -16,7 +16,7 @@ export class SARService {
     token: string;
     available: string;
     id: any;
-    missions : Observable<Mission[]>;
+    missions: Observable<Mission[]>;
     // Other components can subscribe to this 
     public isLoggedIn: Subject<boolean> = new Subject();
 
@@ -27,14 +27,16 @@ export class SARService {
     }
 
     private _configureOptions(options: RequestOptions) {
-		let headers = new Headers();
-		headers.append('Content-Type', 'application/json');
-		options.headers = headers;
-	}
+        let headers = new Headers();
+        headers.append('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem("currentUser")).access_token);
+        headers.append('Content-Type', 'application/£json');
+        options.headers = headers;
+
+    }
 
     public login(username: string, password: string) {
         let data = new URLSearchParams();
-        
+
         data.append('username', username);
         data.append('password', password);
 
@@ -59,18 +61,18 @@ export class SARService {
 
     }
 
-    getUser(){
+    getUser() {
         return JSON.parse(localStorage.getItem('currentUser'));
     }
 
-    public setAvailability(isAvailable:boolean) {
-        
+    public setAvailability(isAvailable: boolean) {
+
         let user = this.getUser();
-        let url = "http://0.0.0.0:3000/api/SARUsers/"+this.getUser().id;
+        let url = "http://0.0.0.0:3000/api/SARUsers/" + this.getUser().id;
 
         let options = new RequestOptions({ withCredentials: true })
-        
-       //Hack å bare sette hele bodyen sånn, men ellers settes alt annet til null?
+
+        //Hack å bare sette hele bodyen sånn, men ellers settes alt annet til null?
         let body = {
             "kovaId": user.kovaId,
             "name": user.name,
@@ -82,13 +84,15 @@ export class SARService {
             "id": user.id,
             "expenceId": user.expenceId
         };
-        
+
         return this.http
             .patch(url, body, options)
-            .map(res => { console.log(res.json()) 
-                return res.json()})
-        
-           
+            .map(res => {
+                console.log(res.json())
+                return res.json()
+            })
+
+
 
         //.catch(this.handleError)
 
@@ -101,19 +105,50 @@ export class SARService {
 
     public getMissions(limit?: number) {
         let options = new RequestOptions({ withCredentials: true })
-		this._configureOptions(options);
-		let url = baseUrl + '/missions';
-		let returnMissions: any;
+        this._configureOptions(options);
+        let url = baseUrl + '/missions';
+        let returnMissions: any;
 
         return this.http.get(url, options)
-			.map((response) => { 
+            .map((response) => {
                 this.missions = response.json();
-                return this.missions })
+                return this.missions
+            })
     }
 
     private handleError(error: Response) {
-		let msg = `Status ${error.status}, url: ${error.url}`;
-		console.error(msg);
-		return Observable.throw(msg || 'Server error');
+        let msg = `Status ${error.status}, url: ${error.url}`;
+        console.error(msg);
+        return Observable.throw(msg || 'Server error');
     }
+
+    public addExpense(amount: number, description: string) {
+        let user = this.getUser();
+        let url = "http://0.0.0.0:3000/api/SARUsers/Expence" + this.getUser().id;
+
+        let options = new RequestOptions({ withCredentials: true })
+
+        //Hack å bare sette hele bodyen sånn, men ellers settes alt annet til null?
+        let body = {
+
+            "title": "string",
+            "description": description,
+            "amount": amount,
+            
+            "missionId": this.getUser().missionId,
+            "sARUserId": this.getUser().sARUserId
+
+        };
+
+        return this.http
+            .patch(url, body, options)
+            .map(res => {
+                console.log(res.json())
+                return res.json()
+            })
+
+    }
+
+
+
 } 

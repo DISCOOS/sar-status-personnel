@@ -8,8 +8,7 @@ import { Home } from '../pages/home/home';
 import { Alarms } from '../pages/alarms/alarms';
 import { Profile } from '../pages/profile/profile';
 import { TabsPage } from '../pages/tabs/tabs';
-import { Utlegg } from '../pages/utlegg/utlegg';
-import { UtleggModal } from '../pages/utlegg/utleggModal';
+import { Expense} from '../pages/utlegg/expense';
 
 @Component({
   templateUrl: 'app.html'
@@ -17,9 +16,9 @@ import { UtleggModal } from '../pages/utlegg/utleggModal';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-//  rootPage: any = Home;
+ //rootPage: any = Login;
 
-rootPage: any = TabsPage;
+  rootPage: any = TabsPage;
 
   pages: Array<{title: string, component: any, icon: string}>;
 
