@@ -35,9 +35,6 @@ export class SARService {
     public login(username: string, password: string) {
         let data = new URLSearchParams();
         
-        console.log(username)
-        console.log(password)
-
         data.append('username', username);
         data.append('password', password);
 

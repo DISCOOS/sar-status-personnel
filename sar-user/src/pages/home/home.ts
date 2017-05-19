@@ -21,8 +21,9 @@ export class Home {
         return JSON.parse(localStorage.getItem('currentUser'));
     }
 
+  
   setAvailable() {
-
+      
       let user = this.getUser();
       
       this.SARService.setAvailability(this.isAvailable)

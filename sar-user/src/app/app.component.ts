@@ -9,7 +9,7 @@ import { Alarms } from '../pages/alarms/alarms';
 import { Profile } from '../pages/profile/profile';
 import { TabsPage } from '../pages/tabs/tabs';
 import { Utlegg } from '../pages/utlegg/utlegg';
-
+import { UtleggModal } from '../pages/utlegg/utleggModal';
 
 @Component({
   templateUrl: 'app.html'
