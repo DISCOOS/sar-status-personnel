@@ -73,7 +73,7 @@ export class SARService {
     public setAvailability(isAvailable: boolean) {
 
         let user = this.getUser();
-        let url = "http://0.0.0.0:3000/api/SARUsers/" + this.getUser().id;
+        let url = baseUrl + "/SARUsers/" + this.getUser().id;
 
         let options = new RequestOptions({ withCredentials: true })
 
@@ -129,7 +129,7 @@ export class SARService {
 
     public addExpense(amount: number, description: string) {
         let user = this.getUser();
-        let url = "http://0.0.0.0:3000/api/SARUsers/Expence" + this.getUser().id;
+        let url = baseUrl + "/SARUsers/Expence" + this.getUser().id;
 
         let options = new RequestOptions({ withCredentials: true })
 
