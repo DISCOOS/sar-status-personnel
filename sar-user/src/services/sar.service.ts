@@ -18,6 +18,7 @@ export class SARService {
     available: string;
     id: any;
     missions: Observable<Mission[]>;
+    mission: Mission;
     // Other components can subscribe to this 
     public isLoggedIn: Subject<boolean> = new Subject();
 
@@ -34,7 +35,6 @@ export class SARService {
         headers.append('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem("currentUser")).access_token);
         headers.append('Content-Type', 'application/£json');
         options.headers = headers;
-
     }
 
     public login(username: string, password: string) {
@@ -66,6 +66,11 @@ export class SARService {
 
     }
 
+    /**
+    * Returns SARUser-object with active user.
+    * @return Object from JSON-string
+    */
+    
     getUser() {
         return JSON.parse(localStorage.getItem('currentUser'));
     }
@@ -103,9 +108,28 @@ export class SARService {
 
     }
 
-    /*
-    *   Gets a list of all missions
+    /**
+     * Returns a spesific Mission from database.
+     * @param missionId Id of wanted Mission.
+     * @return Mission-object
+     */
+
+    public getMission(missionId? : number) {
+        let options = new RequestOptions({ withCredentials: true })
+        this._configureOptions(options);
+        let url = baseUrl + '/missions/' + missionId;
+        return this.http.get(url, options)
+            .map((response) => {
+                this.mission = response.json();
+                console.log(this.mission);
+                return this.mission; 
+        })
+    }
+
+    /**
+    *   Gets a list of all/latests missions
     *   @param limit - the maximum number of missions the method should fetch.
+    *   @return Observable with array of latest Missions
     */
 
     public getMissions(limit?: number) {

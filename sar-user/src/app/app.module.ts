@@ -8,7 +8,7 @@ import { Alarms } from '../pages/alarms/alarms';
 import { Profile } from '../pages/profile/profile';
 import { TabsPage } from '../pages/tabs/tabs';
 import { Expense } from '../pages/utlegg/expense';
-
+import { Call } from '../pages/call/call';
 
 import { SARService } from '../services/sar.service';
 
@@ -26,10 +26,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     Profile,
     Alarms,
     Expense,
-  
-   
-    
-    
+    Call,
     
   ],
   imports: [
@@ -44,10 +41,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     Profile,
     Alarms,
     TabsPage,
-    Expense
+    Expense,
+    Call
    
-    
-
   ],
   providers: [
     StatusBar,

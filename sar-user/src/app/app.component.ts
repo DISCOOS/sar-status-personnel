@@ -8,7 +8,8 @@ import { Home } from '../pages/home/home';
 import { Alarms } from '../pages/alarms/alarms';
 import { Profile } from '../pages/profile/profile';
 import { TabsPage } from '../pages/tabs/tabs';
-import { Expense} from '../pages/utlegg/expense';
+import { Expense } from '../pages/utlegg/expense';
+import { Call } from '../pages/call/call';
 
 @Component({
   templateUrl: 'app.html'
