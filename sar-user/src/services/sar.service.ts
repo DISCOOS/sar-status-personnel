@@ -24,7 +24,7 @@ export class SARService {
 
     constructor(
         private http: Http,
-        
+
 
     ) {
 
@@ -57,12 +57,12 @@ export class SARService {
                     localStorage.setItem('currentUser', JSON.stringify(res.user.user));
                     this.loggedIn = true;
                     this.isLoggedIn.next(this.loggedIn);
-                }else {
-                   return Observable.throw(new Error("error"));
+                } else {
+                    return Observable.throw(new Error("error"));
                 }
             })
 
-  // .catch(this.exceptionService.catchBadResponse)
+        // .catch(this.exceptionService.catchBadResponse)
 
     }
 
@@ -82,7 +82,7 @@ export class SARService {
 
         let options = new RequestOptions({ withCredentials: true })
 
-        //Hack å bare sette hele bodyen sånn, men ellers settes alt annet til null?
+        //Hack å bare sette hele bodyen sånn, men ellers settes alt annet til null
         let body = {
             "kovaId": user.kovaId,
             "name": user.name,
@@ -101,8 +101,6 @@ export class SARService {
                 console.log(res.json())
                 return res.json()
             })
-
-
 
         //.catch(this.handleError)
 
@@ -150,33 +148,28 @@ export class SARService {
         return Observable.throw(msg || 'Server error');
     }
 
-    public addExpense(amount: number, description: string) {
+    public addExpense(amount: number, title: string) {
         let user = this.getUser();
+
         let url = baseUrl + "/SARUsers/Expence" + this.getUser().id;
+
 
         let options = new RequestOptions({ withCredentials: true })
 
-        //Hack å bare sette hele bodyen sånn, men ellers settes alt annet til null?
+
         let body = {
 
-            "title": "string",
-            "description": description,
+            "title": title,
             "amount": amount,
-            
             "missionId": this.getUser().missionId,
             "sARUserId": this.getUser().sARUserId
-
         };
 
         return this.http
-            .patch(url, body, options)
+            .post(url, body, options)
             .map(res => {
                 console.log(res.json())
                 return res.json()
             })
-
     }
-
-
-
 } 
