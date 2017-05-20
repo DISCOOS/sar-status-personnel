@@ -121,7 +121,6 @@ export class SARService {
         return this.http.get(url, options)
             .map((response) => {
                 this.mission = response.json();
-                console.log(this.mission);
                 return this.mission; 
         })
     }

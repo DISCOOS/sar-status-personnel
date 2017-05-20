@@ -1,13 +1,15 @@
 <ion-content padding>
-    <h2>Du har blitt innkalt til</h2>
-    <h1>{{mission?.title}}</h1>
-    <p>Oppmøtested: </p>
 
-    <button ion-button full icon-left color="green" padding>
+    <div class="call">
+        <h4>Du har blitt innkalt til</h4>
+        <h1>{{mission?.title}}</h1>
+        <p><b>Oppmøtested:</b> {{mission?.meetingPointNicename}}</p>
+    </div>
+    <button ion-button full icon-left color="green" padding ng-click="onclick(true)">
         <ion-icon name="checkmark"></ion-icon>
         Stiller
     </button>
-    <button ion-button full icon-left color="red" padding>
+    <button ion-button full icon-left color="red" padding ng-click="onclick(false)">
         <ion-icon name="close"></ion-icon>
         Kan ikke stille
     </button>

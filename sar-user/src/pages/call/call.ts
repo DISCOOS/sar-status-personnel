@@ -10,7 +10,8 @@ import { Observable } from "rxjs/Observable";
 })
 
 export class Call {
-  mission : Mission; 
+  mission : Mission;
+  isLoading : boolean; 
 
   constructor(public navCtrl: NavController, private SARService: SARService) {
     
@@ -22,14 +23,28 @@ export class Call {
    */
 
   getMission(missionId?: number) {
+    this.isLoading = true;
     this.SARService.getMission(missionId)
 			.subscribe((mission) => { 
 				this.mission = mission; 
-        console.log("Fra constructor:" + this.mission.title);
-		})
+		}, 
+    	() => this.stopRefreshing(), 
+			() => this.stopRefreshing()); 
 	}
 
   ngOnInit() {
 		this.getMission(1);
 	}
+
+  private stopRefreshing() {
+		this.isLoading = false;
+	}
+
+  private onclick(input: boolean) {
+    if(input) {
+
+    } else {
+
+    }
+  }
 }

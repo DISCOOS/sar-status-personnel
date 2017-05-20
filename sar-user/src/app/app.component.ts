@@ -17,8 +17,8 @@ import { Call } from '../pages/call/call';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
- //rootPage: any = Login;
-
+  //rootPage: any = Login;
+  //rootPage: any = Call;
   rootPage: any = TabsPage;
 
   pages: Array<{title: string, component: any, icon: string}>;
