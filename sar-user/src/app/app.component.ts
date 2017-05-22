@@ -10,6 +10,7 @@ import { Profile } from '../pages/profile/profile';
 import { TabsPage } from '../pages/tabs/tabs';
 import { Expense } from '../pages/utlegg/expense';
 import { Call } from '../pages/call/call';
+import { CallFeedback } from '../pages/callFeedback/callFeedback';
 
 @Component({
   templateUrl: 'app.html'
@@ -18,8 +19,9 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   //rootPage: any = Login;
-  //rootPage: any = Call;
-  rootPage: any = TabsPage;
+  //rootPage: any = CallFeedback;
+  rootPage: any = Call;
+  //rootPage: any = TabsPage;
 
   pages: Array<{title: string, component: any, icon: string}>;
 

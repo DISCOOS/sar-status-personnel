@@ -5,11 +5,12 @@
         <h1>{{mission?.title}}</h1>
         <p><b>Oppmøtested:</b> {{mission?.meetingPointNicename}}</p>
     </div>
-    <button ion-button full icon-left color="green" padding ng-click="onclick(true)">
+
+    <button (click)="buttonClick(true)" ion-button full icon-left color="green" padding>
         <ion-icon name="checkmark"></ion-icon>
         Stiller
     </button>
-    <button ion-button full icon-left color="red" padding ng-click="onclick(false)">
+    <button (click)="buttonClick(false)" ion-button full icon-left color="red" padding>
         <ion-icon name="close"></ion-icon>
         Kan ikke stille
     </button>

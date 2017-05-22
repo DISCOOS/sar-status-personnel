@@ -6,7 +6,7 @@ import { Subject } from 'rxjs/Subject';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { URLSearchParams } from "@angular/http";
 import { Headers } from '@angular/http';
-import { Mission } from '../models/models';
+import { Mission,  MissionResponse, Alarm } from '../models/models';
 
 
 let baseUrl = "http://localhost:3000/api";
@@ -19,6 +19,7 @@ export class SARService {
     id: any;
     missions: Observable<Mission[]>;
     mission: Mission;
+    alarm: Alarm;
     // Other components can subscribe to this 
     public isLoggedIn: Subject<boolean> = new Subject();
 
@@ -36,6 +37,17 @@ export class SARService {
         headers.append('Content-Type', 'application/£json');
         options.headers = headers;
     }
+
+    /**
+	 * Filter out ID from JSON-object. 
+	 * @param key 
+	 * @param value 
+	 */
+	private _replacer(key, value) {
+		if (key == "id") return undefined;
+		else return value;
+	}
+
 
     public login(username: string, password: string) {
         let data = new URLSearchParams();
@@ -144,6 +156,44 @@ export class SARService {
             })
     }
 
+    /**
+     * Send a persist MissionResponse to the database.
+     * @param missionResponse MissionResponse-object with user input.
+     */
+
+    public postMissionResponse(missionResponse: MissionResponse) {
+        let options = new RequestOptions({ withCredentials: true })
+        this._configureOptions(options);
+        let url = baseUrl + '/missionResponses';
+        let postBody = JSON.stringify(missionResponse, this._replacer);  
+        
+        this.http.post(url, postBody, options)
+            .map((res) =>  {
+                console.log(res);
+            })   
+    }
+
+    /**
+     * Fetch alarm from database by id.
+     * @param alarmId id of wanted alarm
+     */
+
+    public getAlarm(alarmId: number) {
+        let options = new RequestOptions({ withCredentials: true })
+        this._configureOptions(options);
+        let url = baseUrl + '/alarms/' + alarmId;
+        
+        return this.http.get(url, options)
+            .map((response) => {
+                this.alarm = response.json();
+                return this.alarm;
+            })      
+    }
+
+    public sendAlarmResponse(missionResponse: MissionResponse) {
+        console.log(missionResponse);
+    }
+
     private handleError(error: Response) {
         let msg = `Status ${error.status}, url: ${error.url}`;
         console.error(msg);
@@ -176,6 +226,8 @@ export class SARService {
             })
 
     }
+
+    
 
 
 

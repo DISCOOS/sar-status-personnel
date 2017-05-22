@@ -1,0 +1,37 @@
+<ion-content>
+    <div [ngSwitch]="feedbackType" class="callFeedback">
+        <div *ngSwitchCase="'true'">
+            <ion-icon name="ios-checkmark-circle-outline"></ion-icon>
+            <h1>Takk for at du kan stille!</h1>
+            <h4><b>Fortell aksjonsleder når du ankommer:</b></h4>
+            <form (ngSubmit)="submit()" #loginForm="ngForm">
+                <ion-list>
+                    <!-- <ion-item>
+                        <ion-label>Jeg kan møte om...</ion-label>
+                        <ion-select [(ngModel)]="arrival.time" name="arrivalTime">
+                            <ion-option value="1">10 minutter</ion-option>
+                            <ion-option value="2">15 minutter</ion-option>
+                            <ion-option value="3">30 minutter</ion-option>
+                            <ion-option value="4">45 minutter</ion-option>
+                            <ion-option value="5">1 time</ion-option>
+                            <ion-option value="6">Mer enn 1 time</ion-option>
+                        </ion-select>
+                    </ion-item>-->
+                    <ion-label>Valgfri melding:</ion-label>    
+                    <ion-item>    
+                        <ion-textarea [(ngModel)]="arrival" placeholder="Melding." name="arrivalMessage"></ion-textarea>
+                    </ion-item>
+                    <button padding ion-button (onclick)="submit()" type="submit">Send inn</button>
+                </ion-list>
+            </form>
+        </div>
+        <div *ngSwitchCase="'false'">
+            <ion-item>
+                <ion-icon name="ios-close-circle-outline"></ion-icon>
+                <p>Registrert at du ikke stiller på aksjon</p>
+                <p></p>
+                <p><b>Takk for at du gir beskjed</b></p>
+            </ion-item>
+        </div>
+    </div>
+</ion-content>
