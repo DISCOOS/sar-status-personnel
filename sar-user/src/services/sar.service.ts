@@ -112,13 +112,13 @@ export class SARService {
     public setAvailability(isAvailable: boolean) {
         let user = this.getUser();
         user.isAvailable = isAvailable;
-        let postBody = JSON.stringify(user);
+        let postBody = JSON.stringify(user, this._replacer);
 
         let url = baseUrl + "/SARUsers/" + this.getUser().id;
         let options = new RequestOptions({ withCredentials: true })
         this._configureOptions(options);
 
-        return this.http.put(url, postBody, options)
+        return this.http.patch(url, postBody, options)
             .map(res => {
                 return res.json()
             })
@@ -138,8 +138,7 @@ export class SARService {
         let options = new RequestOptions({ withCredentials: true });
         this._configureOptions(options);
         
-        return this.http.put(url, postBody, options)
-            .do((res) => console.log("respons: " + res ))
+        return this.http.patch(url, postBody, options)
             .map((res) => {
                 return res.json();
             })

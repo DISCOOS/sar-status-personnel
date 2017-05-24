@@ -1,7 +1,11 @@
 <ion-content>
-    <div class="availability green" id="test" margin-bottom>
-        <ion-icon name="checkmark"></ion-icon>
+    <div *ngIf="available == true" class="availability green" id="homeHeader" margin-bottom>
+        <ion-icon name="ios-checkmark-circle-outline"></ion-icon>
         <span>Tilgjengelig</span>
+    </div>
+    <div *ngIf="available != true" class="availability red" id="homeHeader" margin-bottom>
+        <ion-icon name="md-close"></ion-icon>
+        <span>Ikke tilgjengelig</span>
     </div>
     <ion-grid padding>
         <ion-row padding>
@@ -15,7 +19,7 @@
         </ion-row>
         <ion-row padding>
             <ion-col col-3>
-                <ion-toggle ([ngModel])="isTrackable" (ionChange)="setTrackable()" ng-false-value="false" ng-true-value="true"></ion-toggle>
+                <ion-toggle [(ngModel)]="trackable" (ionChange)="setTrackable()"></ion-toggle>
             </ion-col>
             <ion-col col-9>
                 <h4>Tillat GPS-sporing</h4>

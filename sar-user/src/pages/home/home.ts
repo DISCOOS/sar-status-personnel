@@ -1,42 +1,65 @@
 import { Component } from '@angular/core';
 import { SARService } from '../../services/sar.service';
+import { ExceptionService } from '../../services/exception.service';
 import { NavController } from 'ionic-angular';
 import { SARUser } from '../../models/models';
-import { Observable } from "rxjs/Observable";
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
+
 export class Home {
   available: boolean;
-  isTrackable: boolean;
-  user: SARUser;
-  user2: Observable<SARUser>;
-  
+  trackable: boolean;
+  user: SARUser;  
 
   constructor(
     public navCtrl: NavController,
-    public SARService: SARService   
+    public SARService: SARService,
+    public ExceptionService: ExceptionService,   
   ) {}
   
-  setAvailable() {
+  /**
+   * Method to set isAvailible of the user-object both in localStorage and DAO based on toggle-element. The method will fire once if the value is set to true on init. 
+   */
 
+  setAvailable() {
+    this.SARService.setAvailability(this.available)
+      .subscribe(
+        res => { localStorage.setItem('currentUser', JSON.stringify(res)); },
+        error => { 
+          console.log("An error: " + error) 
+          this.available = !this.available; 
+        });
   }
 
-  setTrackable() {
-    console.log("hit " + this.isTrackable);
+  /**
+   * Method to set isTrackable of the user-object both in localStorage and DAO based on toggle-element. The method will fire once if the value is set to true on init. 
+   */
 
+  setTrackable() {
+    this.SARService.setTrackable(this.trackable)
+      .subscribe(
+        res => { 
+          localStorage.setItem('currentUser', JSON.stringify(res)); },
+        error => { 
+          console.log("An error: " + error)
+          this.trackable = !this.trackable;
+        });
+    
   }
 
   ngOnInit() {
     this.user = this.SARService.getUser();
-    this.user2 = this.SARService.getUserFromDAO(this.user.id);
-    console.log("This user: " + this.user.id + this.user.name + this.user.isAvailable + this.user.isTrackable);
-    console.log("This user2: " + this.user2);
-    console.log("Starting value: " + this.user.isAvailable);
-		this.available = this.user.isAvailable;
-    this.isTrackable = this.user.isTrackable;
+    if(this.user == null) {
+      this.ExceptionService.userError(1);
+    } else if (this.user.isAvailable == null || this.user.isTrackable == null) {
+      this.user.isAvailable = true;
+      this.user.isTrackable = false;
+      localStorage.setItem('currentUser', JSON.stringify(this.user));      
+    }   
+    this.available = this.user.isAvailable;
+    this.trackable = this.user.isTrackable;
 	}
-
 }
