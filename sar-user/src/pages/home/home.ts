@@ -3,6 +3,7 @@ import { SARService } from '../../services/sar.service';
 import { ExceptionService } from '../../services/exception.service';
 import { NavController } from 'ionic-angular';
 import { SARUser } from '../../models/models';
+import { Login } from '../pages/login/login';
 
 @Component({
   selector: 'page-home',
@@ -54,6 +55,7 @@ export class Home {
     this.user = this.SARService.getUser();
     if(this.user == null) {
       this.ExceptionService.userError(1);
+      this.navCtrl.setRoot(Login);
     } else if (this.user.isAvailable == null || this.user.isTrackable == null) {
       this.user.isAvailable = true;
       this.user.isTrackable = false;
