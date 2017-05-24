@@ -9,26 +9,42 @@ import { SARService } from '../../services/sar.service';
 })
 
 export class CallFeedback {
-    feedbackType: string;
+    feedbackType: boolean;
     missionResponse: MissionResponse;
     missionId: number;
     alarmId: number;
     arrival: string;
 
-  constructor(public navCtrl: NavController, public SARService: SARService, public params:NavParams) {
+  constructor(public navCtrl: NavController, public SARService: SARService, public params:NavParams) {   
     this.feedbackType = params.get("parameter");
-    //this.missionId = params.get("missionId");
-    //this.alarmId = params.get("alarmId");
+    this.missionId = params.get("missionId");
+    this.alarmId = params.get("alarmId");
+
+    if(!this.feedbackType) {
+      this.submit();  
+    }
   }
 
   /**
-   * Formats data from form and creates MissionRespons-object to be persisted to database.  
+   * Formats data from form and creates MissionRespons-object to be persisted to database.
+   * @param type user input for type of response true/false
    */
 
   submit() { 
-    let alarm = this.SARService.getAlarm(1);
+    let alarm = this.SARService.getAlarm(this.alarmId);
     let user = this.SARService.getUser();
-    let missionResponse = new MissionResponse(alarm, user, true, 10, this.arrival, null);
+    let input = this.arrival;
+    let missionResponse = new MissionResponse(alarm, user, this.feedbackType, 10, input, null);
     this.SARService.postMissionResponse(missionResponse);
   }
+
+  /**
+   * Method for validating user input from form
+   * @param input string with raw user input
+   * @return escaped string
+   */
+
+  private validateInput(input: string) {
+    return encodeURI(input);  
+  }  
 }

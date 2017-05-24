@@ -6,7 +6,7 @@
     <ion-grid padding>
         <ion-row padding>
             <ion-col col-3>
-                <ion-toggle [(ngModel)]="isAvailable" (ionChange)="setAvailable()" ng-false-value="false" ng-true-value="true" ></ion-toggle>
+                <ion-toggle [(ngModel)]="available" (ionChange)="setAvailable()"></ion-toggle>
             </ion-col>
             <ion-col col-9>
                 <h4>Tilgjengelig for alarmutkall</h4>
@@ -15,7 +15,7 @@
         </ion-row>
         <ion-row padding>
             <ion-col col-3>
-                <ion-toggle ([ngModel])="isTrackable" checked="true"></ion-toggle>
+                <ion-toggle ([ngModel])="isTrackable" (ionChange)="setTrackable()" ng-false-value="false" ng-true-value="true"></ion-toggle>
             </ion-col>
             <ion-col col-9>
                 <h4>Tillat GPS-sporing</h4>

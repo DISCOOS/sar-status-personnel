@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Mission } from '../../models/models';
+import { Mission, Alarm } from '../../models/models';
 import { NavController } from 'ionic-angular';
 import { SARService } from '../../services/sar.service';
 import { Observable } from "rxjs/Observable";
@@ -12,10 +12,10 @@ import { CallFeedback } from '../callFeedback/callFeedback';
 
 export class Call {
   mission : Mission;
-  isLoading : boolean; 
+  isLoading : boolean;
+  alarm: Alarm;
 
-  constructor(public navCtrl: NavController, private SARService: SARService) {
-  }
+  constructor(public navCtrl: NavController, private SARService: SARService) {}
 
   /**
    * Returns mission from specified Id
@@ -41,18 +41,21 @@ export class Call {
     if(input) {
       this.navCtrl.push(CallFeedback, {
         parameter: "true",
-        // missionId: this.mission.id
+        missionId: this.mission.id,
+        alarmId: 1,
       });
     } else if(!input) {
       this.navCtrl.push(CallFeedback, {
         paramater: "false",
-        // missionId: this.mission.id
+        missionId: this.mission.id,
+        alarmId: 1,
       });
     }
   }
 
   ngOnInit() {
 		this.getMission(1);
+    this.SARService.login("demo@kova.no", "demo");
 	}
 
   private stopRefreshing() {

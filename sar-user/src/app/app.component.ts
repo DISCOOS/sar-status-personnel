@@ -18,9 +18,9 @@ import { CallFeedback } from '../pages/callFeedback/callFeedback';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  //rootPage: any = Login;
+  rootPage: any = Login;
   //rootPage: any = CallFeedback;
-  rootPage: any = Call;
+  //rootPage: any = Call;
   //rootPage: any = TabsPage;
 
   pages: Array<{title: string, component: any, icon: string}>;
