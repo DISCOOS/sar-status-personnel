@@ -3,7 +3,7 @@ import { SARService } from '../../services/sar.service';
 import { ExceptionService } from '../../services/exception.service';
 import { NavController } from 'ionic-angular';
 import { SARUser } from '../../models/models';
-import { Login } from '../pages/login/login';
+import { Login } from '../login/login';
 
 @Component({
   selector: 'page-home',
@@ -30,8 +30,8 @@ export class Home {
       .subscribe(
         res => { localStorage.setItem('currentUser', JSON.stringify(res)); },
         error => { 
-          console.log("An error: " + error) 
-          this.available = !this.available; 
+          this.ExceptionService.responseError(error);
+          this.available = !this.available;
         });
   }
 
@@ -45,7 +45,7 @@ export class Home {
         res => { 
           localStorage.setItem('currentUser', JSON.stringify(res)); },
         error => { 
-          console.log("An error: " + error)
+          this.ExceptionService.responseError(error);
           this.trackable = !this.trackable;
         });
     

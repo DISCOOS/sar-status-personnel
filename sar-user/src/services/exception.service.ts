@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { NavController } from 'ionic-angular';
 import { Login } from '../pages/login/login';
 import { Response } from '@angular/http';
 
@@ -7,14 +6,15 @@ import { Response } from '@angular/http';
 export class ExceptionService {
     emsg: string;
 
-    constructor(public navCtrl: NavController) { }
+    constructor() { }
 
     public userError(type: number) {
-        this.emsg = "En ukjent feil har oppstått";
         if(type == 1) {
-            console.log("You are not logged in, please log in again.");
-            this.emsg = "You are not logged in, please log in again."
+            console.log("Du er ikke innlogget, vær vennlig og logg inn på nytt.");
+            this.emsg = "Du er ikke innlogget, vær vennlig og logg inn på nytt."
             localStorage.setItem('currentUser', null);
+        } else {
+            this.emsg = "En ukjent feil har oppstått";
         }
         return this.emsg;     
     }
