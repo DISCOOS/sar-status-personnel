@@ -16,14 +16,14 @@ import { TabsPage } from '../tabs/tabs'
 
 export class Expense {
   amount: number;
-  description: string;
+  title: string;
   constructor(
     public navCtrl: NavController,
     public SARService : SARService
   ) { }
 
 addExpense(){
-this.SARService.addExpense(this.amount, this.description)
+this.SARService.addExpense(this.amount, this.title)
       .subscribe(
       data => {
         

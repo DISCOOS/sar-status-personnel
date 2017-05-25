@@ -26,11 +26,17 @@ export class SARService {
     // Other components can subscribe to this 
     public isLoggedIn: Subject<boolean> = new Subject();
 
+<<<<<<< HEAD
     constructor(private http: Http) {}
 
     /**
      * Configures options with token and header for http-operations on server.
      */
+=======
+    constructor(
+        private http: Http,
+
+>>>>>>> master
 
 	private _configureOptions(options: RequestOptions) {
 		let headers = new Headers();
@@ -98,10 +104,16 @@ export class SARService {
                     localStorage.setItem('currentUser', JSON.stringify(res.user));
                     this.loggedIn = true;
                     this.isLoggedIn.next(this.loggedIn);
-                }else {
-                   return Observable.throw(new Error("error"));
+                } else {
+                    return Observable.throw(new Error("error"));
                 }
             })
+<<<<<<< HEAD
+=======
+
+        // .catch(this.exceptionService.catchBadResponse)
+
+>>>>>>> master
     }
 
     /**
@@ -118,12 +130,31 @@ export class SARService {
         let options = new RequestOptions({ withCredentials: true })
         this._configureOptions(options);
 
+<<<<<<< HEAD
         return this.http.patch(url, postBody, options)
+=======
+        //Hack å bare sette hele bodyen sånn, men ellers settes alt annet til null
+        let body = {
+            "kovaId": user.kovaId,
+            "name": user.name,
+            "email": user.email,
+            "phone": user.phone,
+            "isAvailable": isAvailable,
+            "isTrackable": user.isTrackable,
+            "isAdmin": user.isAdmin,
+            "id": user.id,
+            "expenceId": user.expenceId
+        };
+
+        return this.http
+            .patch(url, body, options)
+>>>>>>> master
             .map(res => {
                 return res.json()
             })
     }
 
+<<<<<<< HEAD
     /**
      * Method to persist SARUser-variable isTrackable to database.
      * @param isTrackable wanted boolean value for the user.
@@ -142,6 +173,10 @@ export class SARService {
             .map((res) => {
                 return res.json();
             })
+=======
+        //.catch(this.handleError)
+
+>>>>>>> master
     }
 
     /**
@@ -222,35 +257,36 @@ export class SARService {
         return Observable.throw(msg || 'Server error');
     }
 
-    public addExpense(amount: number, description: string) {
+    public addExpense(amount: number, title: string) {
         let user = this.getUser();
+
         let url = baseUrl + "/SARUsers/Expence" + this.getUser().id;
+
 
         let options = new RequestOptions({ withCredentials: true })
 
-        //Hack å bare sette hele bodyen sånn, men ellers settes alt annet til null?
+
         let body = {
 
-            "title": "string",
-            "description": description,
+            "title": title,
             "amount": amount,
-            
             "missionId": this.getUser().missionId,
             "sARUserId": this.getUser().sARUserId
-
         };
 
         return this.http
-            .patch(url, body, options)
+            .post(url, body, options)
             .map(res => {
                 console.log(res.json())
                 return res.json()
             })
-
     }
+<<<<<<< HEAD
 
     
 
 
 
+=======
+>>>>>>> master
 } 
