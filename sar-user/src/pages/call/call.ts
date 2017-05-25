@@ -55,7 +55,6 @@ export class Call {
 
   ngOnInit() {
 		this.getMission(1);
-    this.SARService.login("demo@kova.no", "demo");
 	}
 
   private stopRefreshing() {

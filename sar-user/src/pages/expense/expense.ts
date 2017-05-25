@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { SARService } from '../../services/sar.service';
 import { NavController, NavParams } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs'
+import { Alarms } from '../alarms/alarms';
 
 
 @Component({
@@ -26,15 +27,15 @@ export class Expense {
   }
 
   addExpense(){
-    this.SARService.addExpense(this.amount, this.description)
-      .subscribe(
-      data => {       
-        this.navCtrl.setRoot(TabsPage);
-      },
-      error => {
-        console.log(error)
-        // this.toastService.activate("Innlogging mislyktes", false, false);
-        // this.loading = false;
-      });
+    if(this.description.length == 0 && this.description == null ) {
+
+    } else if (this.amount == null ) {
+      
+    } else {
+      this.SARService.addExpense(this.amount, this.description)
+        .subscribe(data => {
+          this.navCtrl.setRoot(Alarms);
+        })
+    }
   }
 }

@@ -7,7 +7,7 @@ import { Subject } from 'rxjs/Subject';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { URLSearchParams } from "@angular/http";
 import { Headers } from '@angular/http';
-import { Mission, MissionResponse, Alarm, SARUser } from '../models/models';
+import { Mission, MissionResponse, Alarm, SARUser, Expence } from '../models/models';
 import { CONFIG } from '../shared/config';
 
 let baseUrl = CONFIG.urls.baseUrl;
@@ -232,35 +232,31 @@ export class SARService {
         return Observable.throw(msg || 'Server error');
     }
 
-    public addExpense(amount: number, description: string) {
+    /**
+     * Method to persist user expense
+     * @param amount of the expense
+     * @param description of the expense
+     */
+
+    public addExpense(amount: number, description: string, missionId: number) {
         let user = this.getUser();
-        let url = baseUrl + "/SARUsers/Expence" + this.getUser().id;
 
+        let url = baseUrl + "/SARUsers/Expences";
         let options = new RequestOptions({ withCredentials: true })
+        this._configureOptions(options);
 
-        //Hack å bare sette hele bodyen sånn, men ellers settes alt annet til null?
-        let body = {
-
-            "title": "string",
-            "description": description,
-            "amount": amount,
-            
-            "missionId": this.getUser().missionId,
-            "sARUserId": this.getUser().sARUserId
-
-        };
-
-        return this.http
-            .patch(url, body, options)
-            .map(res => {
-                console.log(res.json())
-                return res.json()
+        this.getMission(missionId).subscribe(res => {
+            this.mission = res;
+            let expense = new Expence(null, null, description, amount, this.mission, user.id);
+            let postBody = JSON.stringify(expense, this._replacer);  
+            return this.http.post(url, postBody, options)
+                .map(res => {
+                    //console.log(res.json())
+                    return res.json()
             })
-
+        }),
+        (error) => {
+            return error;
+        }
     }
-
-    
-
-
-
 } 
