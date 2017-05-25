@@ -182,6 +182,16 @@ export class SARService {
     }
 
     /**
+     * Method fetches all alarms connected to a user id from DAO.
+     * @param userId SARUser id
+     */
+
+    public getUserAlarms(userId) {
+        
+    }
+
+
+    /**
      * Send a persist MissionResponse to the database.
      * @param missionResponse MissionResponse-object with user input.
      */

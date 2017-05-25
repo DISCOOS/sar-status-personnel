@@ -7,7 +7,7 @@ import { Login } from '../pages/login/login';
 import { Alarms } from '../pages/alarms/alarms';
 import { Profile } from '../pages/profile/profile';
 import { TabsPage } from '../pages/tabs/tabs';
-import { Expense } from '../pages/utlegg/expense';
+import { Expense } from '../pages/expense/expense';
 import { Call } from '../pages/call/call';
 import { CallFeedback } from '../pages/callFeedback/callFeedback';
 
@@ -16,7 +16,6 @@ import { ExceptionService } from '../services/exception.service';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-//import { ModalController } from 'ionic-angular';
 
 
 @NgModule({
@@ -30,7 +29,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     Expense,
     Call,
     CallFeedback,
-    
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -47,7 +45,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     Expense,
     Call,
     CallFeedback,
-   
   ],
   providers: [
     StatusBar,

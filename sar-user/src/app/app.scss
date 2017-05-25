@@ -47,3 +47,14 @@ ion-content {margin-top:56px; }
 .callFeedback p {
     font-size: 2em;
 }
+
+map-picker { 
+    .scroll-content {
+         height: 100%
+    }
+ 
+    .map {
+      width: 200px;
+      height: 200px;
+    }
+}

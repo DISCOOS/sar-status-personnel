@@ -31,26 +31,16 @@
         </ion-list>
 
         <ion-list *ngSwitchCase="'archived'">
-            <ion-item>
-                Arkivert alarmutkall med litt lengre navn
-                <button ion-button item-right icon-left (click)="showExpensePage()">
-                    <ion-icon name="ios-cash" ></ion-icon>
-                    Registrer utlegg
-                </button>
-            </ion-item>
-            <ion-item>
-                Arkivert alarmutkall 2
-                <button ion-button item-right icon-left  (click)="showExpensePage()">
-                    <ion-icon name="ios-cash"></ion-icon>
-                    Registrer utlegg
-                </button>
-            </ion-item>
-            <ion-item>
-                Arkivert alarmutkall 3
-                <button ion-button item-right icon-left (click)="showExpensePage()">
-                    <ion-icon name="ios-cash" ></ion-icon>
-                    Registrer utlegg
-                </button>
+            <ion-item *ngFor="let mission of missions">
+                <ion-card>
+                    <ion-item>
+                        {{mission.title}}
+                        <button ion-button item-right icon-left (click)="showExpensePage({{mission.id}})">
+                            <ion-icon name="ios-cash" ></ion-icon>
+                            Registrer utlegg
+                        </button>
+                    </ion-item>
+                </ion-card>
             </ion-item>
         </ion-list>   
     </div> 
