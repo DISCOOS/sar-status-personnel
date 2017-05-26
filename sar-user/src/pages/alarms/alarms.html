@@ -31,7 +31,17 @@
         </ion-list>
 
         <ion-list *ngSwitchCase="'archived'">
-
+            <!--<ion-item *ngFor="let mission of missions">
+                <ion-card>
+                    <ion-item>
+                        {{mission.title}}
+                        <button ion-button item-right icon-left (click)="showExpensePage()">
+                            <ion-icon name="ios-cash" ></ion-icon>
+                            Registrer utlegg
+                        </button>
+                    </ion-item>
+                </ion-card>
+            </ion-item>-->
         </ion-list>   
     </div> 
 </ion-content>

@@ -4,7 +4,6 @@ import { TabsPage } from '../tabs/tabs'
 import { NavController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { SARService } from '../../services/sar.service';
-import { SplashScreen } from '@ionic-native/splash-screen';
 
 @Component({
   selector: 'page-login',
@@ -17,8 +16,7 @@ export class Login {
   constructor(
     public navCtrl: NavController,
     public alertCtrl: AlertController,
-    public SARService: SARService,
-    private splashScreen: SplashScreen
+    public SARService: SARService
   ) {
 
   }
@@ -30,8 +28,7 @@ export class Login {
       .subscribe(
       data => {
         //this.router.navigate([this.returnUrl]);
-        //this.navCtrl.setRoot(TabsPage);
-        this.splashScreen.show();
+        this.navCtrl.setRoot(TabsPage);
       },
       error => {
         console.log(error)
