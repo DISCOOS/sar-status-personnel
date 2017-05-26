@@ -9,6 +9,7 @@ import { Profile } from '../pages/profile/profile';
 import { TabsPage } from '../pages/tabs/tabs';
 import { Expense } from '../pages/utlegg/expense';
 import { Call } from '../pages/call/call';
+import { CallFeedback } from '../pages/callFeedback/callFeedback';
 
 import { SARService } from '../services/sar.service';
 
@@ -27,6 +28,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     Alarms,
     Expense,
     Call,
+    CallFeedback,
     
   ],
   imports: [
@@ -42,7 +44,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     Alarms,
     TabsPage,
     Expense,
-    Call
+    Call,
+    CallFeedback,
    
   ],
   providers: [

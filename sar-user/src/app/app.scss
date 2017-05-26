@@ -36,8 +36,14 @@ ion-content {margin-top:56px;}
 .availability .icon {font-size: 2em; }
 .availability span {display: block; }
 
-.green {background: #c5e0b5; color: #ffffff; }
+.green { background: #c5e0b5; color: #ffffff; }
+.red { background: #f73f47 ; color: #ffffff; }
 
 .profile {display: block; border-radius: 999px; margin: 3em auto; width: 150px; height: 150px; border: 3px solid #ccc; }
 .loginlogo {display: block; width: 200px; margin: 3em auto; }
 .call {display: block; text-align: center; margin-top: 3em; }
+
+.callFeedback { display: block; height: auto; background: #f8f8f8; text-align: center; }
+.callFeedback p {
+    font-size: 2em;
+}
