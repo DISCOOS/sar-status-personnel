@@ -28,10 +28,14 @@ export class Expense {
 
   addExpense(){
     if(this.description.length == 0 && this.description == null ) {
+
     } else if (this.amount == null ) {
+      
     } else {
-      this.SARService.addExpense(this.amount, this.description, this.missionId);
-      this.navCtrl.setRoot(Alarms);
+      this.SARService.addExpense(this.amount, this.description)
+        .subscribe(data => {
+          this.navCtrl.setRoot(Alarms);
+        })
     }
   }
 }
