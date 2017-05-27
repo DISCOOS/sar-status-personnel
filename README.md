@@ -7,5 +7,5 @@ Hybrid-app in Cordova / Ionic for SAR-personell
 - legge til push notifications
   https://medium.com/@ankushaggarwal/push-notifications-in-ionic-2-658461108c59
 - utgifter skal lagres i databasen
-- tracking via googles api.
+- tracking via:
   https://ionicframework.com/docs/native/geolocation/

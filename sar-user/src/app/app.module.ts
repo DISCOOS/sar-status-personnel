@@ -12,6 +12,7 @@ import { Call } from '../pages/call/call';
 
 import { SARService } from '../services/sar.service';
 
+import { Geolocation } from '@ionic-native/geolocation';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 //import { ModalController } from 'ionic-angular';
@@ -48,6 +49,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   providers: [
     StatusBar,
     SplashScreen,
+    Geolocation,
    
     SARService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
