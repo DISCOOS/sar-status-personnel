@@ -9,7 +9,7 @@ import { Headers } from '@angular/http';
 import { Mission } from '../models/models';
 
 
-let baseUrl = "http://localhost:3000/api";
+let baseUrl = "http://0.0.0.0:3000/api";
 
 @Injectable()
 export class SARService {
@@ -20,7 +20,7 @@ export class SARService {
     missions: Observable<Mission[]>;
     mission: Mission;
     // Other components can subscribe to this 
-    public isLoggedIn: Subject<boolean> = new Subject();
+    //public isLoggedIn: Subject<boolean> = new Subject();
 
     constructor(
         private http: Http,
@@ -56,7 +56,7 @@ export class SARService {
                     // store user details and token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify(res.user.user));
                     this.loggedIn = true;
-                    this.isLoggedIn.next(this.loggedIn);
+                    //this.isLoggedIn.next(this.loggedIn);
                 } else {
                     return Observable.throw(new Error("error"));
                 }
