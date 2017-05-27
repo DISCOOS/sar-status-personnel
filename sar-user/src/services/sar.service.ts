@@ -16,6 +16,7 @@ export class SARService {
     loggedIn: boolean;
     token: string;
     available: string;
+    trackable: string;
     id: any;
     missions: Observable<Mission[]>;
     mission: Mission;
@@ -90,6 +91,37 @@ export class SARService {
             "phone": user.phone,
             "isAvailable": isAvailable,
             "isTrackable": user.isTrackable,
+            "isAdmin": user.isAdmin,
+            "id": user.id,
+            "expenceId": user.expenceId
+        };
+
+        return this.http
+            .patch(url, body, options)
+            .map(res => {
+                console.log(res.json())
+                return res.json()
+            })
+
+        //.catch(this.handleError)
+
+    }
+
+    public setTrackable(isTrackable: boolean) {
+
+        let user = this.getUser();
+        let url = baseUrl + "/SARUsers/" + this.getUser().id;
+
+        let options = new RequestOptions({ withCredentials: true })
+
+        //Hack å bare sette hele bodyen sånn, men ellers settes alt annet til null
+        let body = {
+            "kovaId": user.kovaId,
+            "name": user.name,
+            "email": user.email,
+            "phone": user.phone,
+            "isAvailable": user.isAvailable,
+            "isTrackable": isTrackable,
             "isAdmin": user.isAdmin,
             "id": user.id,
             "expenceId": user.expenceId

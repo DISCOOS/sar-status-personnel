@@ -8,7 +8,7 @@ import { NavController } from 'ionic-angular';
 })
 export class Home {
   isAvailable: boolean;
-  
+  isTrackable: boolean;
 
   constructor(
     public navCtrl: NavController,
@@ -27,6 +27,17 @@ export class Home {
       let user = this.getUser();
       
       this.SARService.setAvailability(this.isAvailable)
+      .subscribe (
+      error => {
+        console.log(error)
+      });
+    
+  }
+    setTrackable() {
+      
+      let user = this.getUser();
+      
+      this.SARService.setTrackable(this.isTrackable)
       .subscribe (
       error => {
         console.log(error)

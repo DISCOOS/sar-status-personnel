@@ -58,4 +58,8 @@
     <plugin name="cordova-plugin-splashscreen" spec="~4.0.3" />
     <plugin name="cordova-plugin-statusbar" spec="~2.2.1" />
     <plugin name="ionic-plugin-keyboard" spec="~2.2.1" />
+    <plugin name="cordova-plugin-geolocation" spec="^2.4.3" />
+    <plugin name="phonegap-plugin-push" spec="1.8.2">    
+  <variable name="SENDER_ID" value="YOUR_SENDER_ID"/>   
+</plugin>
 </widget>
