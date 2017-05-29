@@ -25,12 +25,10 @@ export class Alarm {
 		public mission?: Mission,
 		public persons?: SARUser[] // Persons to be alarmed
 	) { }
-
 }
 
 
 export class SARUser {
-
 	constructor(
 		public id: number,
 		public hasApp: boolean,
@@ -44,7 +42,6 @@ export class SARUser {
 		public checked : boolean, // bool used for checking peoplelist (not persisted)
 		public access_token : string
 	) { }
-
 }
 
 export class Expence {

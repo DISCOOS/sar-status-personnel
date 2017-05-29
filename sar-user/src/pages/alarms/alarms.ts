@@ -1,10 +1,11 @@
-import { ViewChild, Component, OnInit } from '@angular/core';
+import { ViewChild, Component, OnInit, ElementRef } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { SARService } from '../../services/sar.service';
-import { Mission } from '../../models/models';
+import { Mission, SARUser } from '../../models/models';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from "rxjs/Observable";
-import { Expense } from '../utlegg/expense';
+import { Expense } from '../expense/expense';
+
 
 @Component({
   selector: 'page-alarms',
@@ -15,20 +16,23 @@ export class Alarms {
 	alarmType : string;
   isLoading: boolean;
 	missions : Observable<Mission[]>;
+	user: SARUser;
+	clickedExpense: number;
 
 	//missions : Observable<Mission[]>;
   constructor(
     public navCtrl: NavController, 
-    private SARService: SARService ) {
+    private SARService: SARService, ) {
 
     // Setter default alarmtype til pågående alarmutkall
     this.alarmType = "current";
     
   }
-	showExpensePage() {
-		console.log("alarms.ts: showExpensePage()");
-    this.navCtrl.push(Expense);
 
+	showExpensePage(missId: number) {
+    this.navCtrl.push(Expense, {
+        missionId: missId,
+    });
 	}
 
   getMissions() {
@@ -48,5 +52,7 @@ export class Alarms {
 
   ngOnInit() {
 		this.getMissions();
+		this.user = this.SARService.getUser();
+		console.log("BrukerId: " + this.user.id);
 	}
 }
