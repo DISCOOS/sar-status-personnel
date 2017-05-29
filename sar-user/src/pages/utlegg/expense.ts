@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+/** import { Component } from '@angular/core';
 import { SARService } from '../../services/sar.service';
 import { NavController } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs'
@@ -38,3 +38,4 @@ this.SARService.addExpense(this.amount, this.description)
 
 
 }
+*/
