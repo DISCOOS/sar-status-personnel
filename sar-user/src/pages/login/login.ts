@@ -22,20 +22,14 @@ export class Login {
   }
 
   login() {
-
-    
     this.SARService.login(this.username, this.password)
       .subscribe(
       data => {
-        //this.router.navigate([this.returnUrl]);
         this.navCtrl.setRoot(TabsPage);
       },
       error => {
         console.log(error)
-        // this.toastService.activate("Innlogging mislyktes", false, false);
-        // this.loading = false;
       });
-
   }
 
   wrongCredentialsAlert() {

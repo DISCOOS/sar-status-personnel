@@ -9,6 +9,7 @@ import { URLSearchParams } from "@angular/http";
 import { Headers } from '@angular/http';
 import { Mission, MissionResponse, Alarm, SARUser, Expence } from '../models/models';
 import { CONFIG } from '../shared/config';
+import { Push, PushToken } from '@ionic/cloud-angular';
 
 let baseUrl = CONFIG.urls.baseUrl;
 let token = CONFIG.headers.token;
@@ -26,7 +27,7 @@ export class SARService {
     // Other components can subscribe to this 
     public isLoggedIn: Subject<boolean> = new Subject();
 
-    constructor(private http: Http) {}
+    constructor(private http: Http, public push: Push) {}
 
     /**
      * Configures options with token and header for http-operations on server.
@@ -76,7 +77,7 @@ export class SARService {
     }
 
     /**
-     * Logs user in to the app. stores currentUser in localStorage and sets the loggedIn variable to true. 
+     * Logs user in to the app. Stores currentUser in localStorage and sets the loggedIn variable to true.
      */
 
     public login(username: string, password: string) {
@@ -101,6 +102,30 @@ export class SARService {
                     return Observable.throw(new Error("error"));
                 }
             })
+    }
+
+    /**
+     * Logs the user out of the app. Also unregisters from push notifications.
+     */
+
+    public logout() {
+        this.push.unregister();
+    }
+
+    /**
+     * Method to register token for reciving push notifications from the app
+     */
+
+    private pushRegister() {
+        this.push.register().then((t: PushToken) => {
+            return this.push.saveToken(t);
+        }).then((t: PushToken) => {
+            console.log('Token saved:', t.token);
+        });
+        this.push.rx.notification()
+            .subscribe((msg) => {
+                alert(msg.title + ': ' + msg.text);
+            });
     }
 
     /**

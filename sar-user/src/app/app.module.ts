@@ -17,7 +17,25 @@ import { ExceptionService } from '../services/exception.service';
 import { Geolocation } from '@ionic-native/geolocation';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 
+const cloudSettings: CloudSettings = {
+  'core': {
+    'app_id': '0c6efcdf'
+  },
+  'push': {
+    'sender_id': '906828526894',
+    'pluginConfig': {
+      'ios': {
+        'badge': true,
+        'sound': true
+      },
+      'android': {
+        'iconColor': '#343434'
+      }
+    }
+  }
+};
 
 @NgModule({
   declarations: [
@@ -32,8 +50,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     CallFeedback,
   ],
   imports: [
-    IonicModule.forRoot(MyApp)
-    
+    IonicModule.forRoot(MyApp),
+    CloudModule.forRoot(cloudSettings)   
   ],
   bootstrap: [IonicApp],
   entryComponents: [
