@@ -10,7 +10,7 @@ import { Headers } from '@angular/http';
 import { Mission, MissionResponse, Alarm, SARUser, Expence } from '../models/models';
 import { CONFIG } from '../shared/config';
 import { Push, PushToken } from '@ionic/cloud-angular';
-import {GeoService} from 'geo.service';
+import { GeoService } from '../services/geo.service';
 
 let baseUrl = CONFIG.urls.baseUrl;
 let token = CONFIG.headers.token;
@@ -28,7 +28,11 @@ export class SARService {
     // Other components can subscribe to this 
     public isLoggedIn: Subject<boolean> = new Subject();
 
-    constructor(private http: Http, public push: Push) {}
+    constructor(
+        private http: Http, 
+        public push: Push,
+        public GeoService: GeoService    
+    ) {}
 
     /**
      * Configures options with token and header for http-operations on server.
@@ -85,7 +89,7 @@ export class SARService {
         let data = new URLSearchParams();
         data.append('username', username);
         data.append('password', password);
-        setInterval(GeoService.watchPos(), 5000);
+        setInterval(this.GeoService.watchPos(), 5000);
         let options = new RequestOptions();
         return this.http
             .post(baseUrl + '/SARUsers/login', data, options)

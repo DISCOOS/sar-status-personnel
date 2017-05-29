@@ -69,9 +69,9 @@ const cloudSettings: CloudSettings = {
     StatusBar,
     SplashScreen,
     Geolocation,
-   
-    SARService,
     ExceptionService,
+    SARService,
+    GeoService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
