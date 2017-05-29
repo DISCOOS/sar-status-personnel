@@ -18,13 +18,14 @@ export class SARService {
     loggedIn: boolean;
     token: string;
     available: string;
+    trackable: string;
     id: any;
     missions: Observable<Mission[]>;
     mission: Mission;
     alarm: Alarm;
     user: SARUser;
     // Other components can subscribe to this 
-    public isLoggedIn: Subject<boolean> = new Subject();
+    //public isLoggedIn: Subject<boolean> = new Subject();
 
     constructor(private http: Http) {}
 
@@ -96,7 +97,7 @@ export class SARService {
                     // store user details and token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify(res.user));
                     this.loggedIn = true;
-                    this.isLoggedIn.next(this.loggedIn);
+                    //this.isLoggedIn.next(this.loggedIn);
                 } else {
                     return Observable.throw(new Error("error"));
                 }
@@ -140,6 +141,37 @@ export class SARService {
             .map((res) => {
                 return res.json();
             })
+    }
+
+    public setTrackable(isTrackable: boolean) {
+
+        let user = this.getUser();
+        let url = baseUrl + "/SARUsers/" + this.getUser().id;
+
+        let options = new RequestOptions({ withCredentials: true })
+
+        //Hack å bare sette hele bodyen sånn, men ellers settes alt annet til null
+        let body = {
+            "kovaId": user.kovaId,
+            "name": user.name,
+            "email": user.email,
+            "phone": user.phone,
+            "isAvailable": user.isAvailable,
+            "isTrackable": isTrackable,
+            "isAdmin": user.isAdmin,
+            "id": user.id,
+            "expenceId": user.expenceId
+        };
+
+        return this.http
+            .patch(url, body, options)
+            .map(res => {
+                console.log(res.json())
+                return res.json()
+            })
+
+        //.catch(this.handleError)
+
     }
 
     /**

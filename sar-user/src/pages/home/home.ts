@@ -50,6 +50,17 @@ export class Home {
         });
     
   }
+    setTrackable() {
+      
+      let user = this.getUser();
+      
+      this.SARService.setTrackable(this.isTrackable)
+      .subscribe (
+      error => {
+        console.log(error)
+      });
+    
+  }
 
   ngOnInit() {
     this.user = this.SARService.getUser();

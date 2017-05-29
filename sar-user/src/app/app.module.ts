@@ -14,6 +14,7 @@ import { CallFeedback } from '../pages/callFeedback/callFeedback';
 import { SARService } from '../services/sar.service';
 import { ExceptionService } from '../services/exception.service';
 
+import { Geolocation } from '@ionic-native/geolocation';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -49,6 +50,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   providers: [
     StatusBar,
     SplashScreen,
+    Geolocation,
    
     SARService,
     ExceptionService,
