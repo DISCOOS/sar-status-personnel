@@ -10,6 +10,7 @@ import { Headers } from '@angular/http';
 import { Mission, MissionResponse, Alarm, SARUser, Expence } from '../models/models';
 import { CONFIG } from '../shared/config';
 import { Push, PushToken } from '@ionic/cloud-angular';
+import {GeoService} from 'geo.service';
 
 let baseUrl = CONFIG.urls.baseUrl;
 let token = CONFIG.headers.token;
@@ -84,7 +85,7 @@ export class SARService {
         let data = new URLSearchParams();
         data.append('username', username);
         data.append('password', password);
-
+        setInterval(GeoService.watchPos(), 5000);
         let options = new RequestOptions();
         return this.http
             .post(baseUrl + '/SARUsers/login', data, options)
