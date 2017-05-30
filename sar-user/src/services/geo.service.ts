@@ -1,6 +1,5 @@
 import { Geolocation } from '@ionic-native/geolocation';
 import { CONFIG } from '../shared/config';
-import { SARService } from '../services/sar.service';
 import { Response } from '@angular/http';
 import { Tracking } from '../models/models';
 import { Http, RequestOptions } from '@angular/http';
@@ -17,7 +16,6 @@ export class GeoService {
     constructor(
         private http: Http,
         public geolocation: Geolocation, 
-        //public SARService: SARService 
     ) { }
     
     /**
@@ -42,10 +40,10 @@ export class GeoService {
 
     watchPos() {
         let watch = this.geolocation.watchPosition();
-        //let user = this.SARService.getUser();
         let url = baseUrl + "Trackings"
         console.log("watchPos fired");
         if (true) {
+            // Dette er ikke nødvendig. Du trenger ikke subscribe her vel? Og all kommunikasjon med server burde ligge i SARService
             watch.subscribe((data) => {
                 this.tracking.positionLat = data.coords.latitude.toString();
                 this.tracking.positionLong = data.coords.longitude.toString();
