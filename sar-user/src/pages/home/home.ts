@@ -4,6 +4,7 @@ import { ExceptionService } from '../../services/exception.service';
 import { NavController } from 'ionic-angular';
 import { SARUser } from '../../models/models';
 import { Login } from '../login/login';
+import { AlertController } from 'ionic-angular';
 
 @Component({
   selector: 'page-home',
@@ -18,7 +19,8 @@ export class Home {
   constructor(
     public navCtrl: NavController,
     public SARService: SARService,
-    public ExceptionService: ExceptionService,   
+    public ExceptionService: ExceptionService,
+    public alertCtrl: AlertController   
   ) {}
   
   /**
@@ -39,22 +41,31 @@ export class Home {
   setTrackable() {
     this.SARService.setTrackable(this.trackable)
       .subscribe(
-        res => { 
-          localStorage.setItem('currentUser', JSON.stringify(res)); 
+        res => {
+          localStorage.setItem('currentUser', JSON.stringify(res));
         });
-
   }
 
-  ngOnInit() {
+  ionViewDidLoad() {
     this.user = this.SARService.getUser();
-    if(!this.user) {
-      this.navCtrl.setRoot(Login);
-    } else if (this.user.isAvailable == null || this.user.isTrackable == null) {
-      this.user.isAvailable = true;
-      this.user.isTrackable = false;
-      localStorage.setItem('currentUser', JSON.stringify(this.user));      
-    }   
-    this.available = this.user.isAvailable;
-    this.trackable = this.user.isTrackable;
-	}
+    try {
+      this.available = this.user.isAvailable;
+      this.trackable = this.user.isTrackable;
+    } catch(error) {
+      let msg: string;
+      if(error instanceof TypeError) {
+        msg = 'Sesjonen er utløpt. Vennligst logg inn på nytt.';  
+      } else {
+        console.log(error);
+        msg = 'Ukjent feil. Logg inn på nytt.';
+      }
+      let alert = this.alertCtrl.create ({
+        title: 'En feil har oppstått',
+        subTitle: msg,
+        buttons: ['Ok']
+      });
+      alert.present();
+      this.navCtrl.setRoot(Login); 
+    }      
+  }
 }

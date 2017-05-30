@@ -46,6 +46,6 @@ export class ExceptionService {
         });
         alert.present();    
 
-        return Observable.of(false);
+        return Observable.throw(new Error("Error"));
     }   
 }

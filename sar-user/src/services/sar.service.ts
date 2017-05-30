@@ -141,6 +141,7 @@ export class SARService {
             .map(res => {
                 return res.json()
             })
+            .catch(this.ExceptionService.catchBadResponse)
     }
 
     /**
@@ -161,6 +162,7 @@ export class SARService {
             .map((res) => {
                 return res.json();
             })
+            .catch(this.ExceptionService.catchBadResponse)
     }
 
     /**
