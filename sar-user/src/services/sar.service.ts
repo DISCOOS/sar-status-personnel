@@ -10,7 +10,7 @@ import { Headers } from '@angular/http';
 import { Mission, MissionResponse, Alarm, SARUser, Expence } from '../models/models';
 import { CONFIG } from '../shared/config';
 import { Push, PushToken } from '@ionic/cloud-angular';
-import { GeoService } from '../services/geo.service';
+import { ExceptionService } from '../services/exception.service';
 
 let baseUrl = CONFIG.urls.baseUrl;
 let token = CONFIG.headers.token;
@@ -31,13 +31,13 @@ export class SARService {
     constructor(
         private http: Http, 
         public push: Push,
-        public GeoService: GeoService    
+        public ExceptionService: ExceptionService,    
     ) {}
 
     /**
      * Configures options with token and header for http-operations on server.
      */
-
+    
 	private _configureOptions(options: RequestOptions) {
 		let headers = new Headers();
 		headers.append('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem("currentUser")).access_token);
@@ -50,15 +50,16 @@ export class SARService {
 	 * @param key 
 	 * @param value 
 	 */
+
 	private _replacer(key, value) {
 		if (key == "id") return undefined;
 		else return value;
 	}
 
-   /**
-    * Returns SARUser-object with active user from localStorage.
-    * @return Object from JSON-string
-    */
+    /**
+     * Returns SARUser-object with active user from localStorage.
+     * @return Object from JSON-string
+     */
     
     getUser() {
         return JSON.parse(localStorage.getItem('currentUser'));
@@ -82,14 +83,13 @@ export class SARService {
     }
 
     /**
-     * Logs user in to the app. Stores currentUser in localStorage and sets the loggedIn variable to true.
+     * Logs user in to the app. Stores currentUser in localStorage.
      */
 
     public login(username: string, password: string) {
         let data = new URLSearchParams();
         data.append('username', username);
         data.append('password', password);
-        setInterval(this.GeoService.watchPos(), 5000);
         let options = new RequestOptions();
         return this.http
             .post(baseUrl + '/SARUsers/login', data, options)
@@ -97,16 +97,14 @@ export class SARService {
 
                 // login successful if there's a token in the response
                 let res = response.json();
-
                 if (res.user && res.user.access_token) {
                     // store user details and token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify(res.user));
-                    this.loggedIn = true;
-                    this.isLoggedIn.next(this.loggedIn);
                 } else {
-                    return Observable.throw(new Error("error"));
+                    return Observable.throw(new Error("Login error"));
                 }
             })
+            .catch(this.ExceptionService.catchBadResponse)
     }
 
     /**
@@ -114,7 +112,8 @@ export class SARService {
      */
 
     public logout() {
-        this.push.unregister();
+        localStorage.removeItem('currentUser');
+        //this.push.unregister();
     }
 
     /**
@@ -122,15 +121,7 @@ export class SARService {
      */
 
     private pushRegister() {
-        this.push.register().then((t: PushToken) => {
-            return this.push.saveToken(t);
-        }).then((t: PushToken) => {
-            console.log('Token saved:', t.token);
-        });
-        this.push.rx.notification()
-            .subscribe((msg) => {
-                alert(msg.title + ': ' + msg.text);
-            });
+
     }
 
     /**
@@ -158,14 +149,14 @@ export class SARService {
      */
 
     public setTrackable(isTrackable: boolean) {
-        let user = this.getUser();
-        user.isTrackable = isTrackable;
-        let postBody = JSON.stringify(user, this._replacer);
-
         let url = baseUrl + "/sarusers/" + this.getUser().id;
         let options = new RequestOptions({ withCredentials: true });
         this._configureOptions(options);
         
+        let user = this.getUser();
+        user.isTrackable = isTrackable;
+        let postBody = JSON.stringify(user, this._replacer);
+
         return this.http.patch(url, postBody, options)
             .map((res) => {
                 return res.json();

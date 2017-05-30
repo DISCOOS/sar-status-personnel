@@ -28,10 +28,7 @@ export class Home {
   setAvailable() {
     this.SARService.setAvailability(this.available)
       .subscribe(
-        res => { localStorage.setItem('currentUser', JSON.stringify(res)); },
-        error => { 
-          this.ExceptionService.responseError(error);
-          this.available = !this.available;
+        res => { localStorage.setItem('currentUser', JSON.stringify(res));
         });
   }
 
@@ -43,18 +40,14 @@ export class Home {
     this.SARService.setTrackable(this.trackable)
       .subscribe(
         res => { 
-          localStorage.setItem('currentUser', JSON.stringify(res)); },
-        error => { 
-          this.ExceptionService.responseError(error);
-          this.trackable = !this.trackable;
+          localStorage.setItem('currentUser', JSON.stringify(res)); 
         });
-    
+
   }
 
   ngOnInit() {
     this.user = this.SARService.getUser();
-    if(this.user == null) {
-      this.ExceptionService.userError(1);
+    if(!this.user) {
       this.navCtrl.setRoot(Login);
     } else if (this.user.isAvailable == null || this.user.isTrackable == null) {
       this.user.isAvailable = true;

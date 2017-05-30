@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { Home } from '../home/home';
 import { TabsPage } from '../tabs/tabs'
 import { NavController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { SARService } from '../../services/sar.service';
+import { ExceptionService } from '../../services/exception.service';
+import { Http, Response, RequestOptions } from '@angular/http';
 
 @Component({
   selector: 'page-login',
@@ -13,32 +14,32 @@ import { SARService } from '../../services/sar.service';
 export class Login {
   username: string;
   password: string;
+
   constructor(
     public navCtrl: NavController,
     public alertCtrl: AlertController,
-    public SARService: SARService
-  ) {
+    public SARService: SARService,
+    public ExceptionService: ExceptionService
+  ) {}
 
-  }
+  /**
+   * Metode for å håndtere login-knapp. Setter ny root dersom innlogging gjennomføres. 
+   */
 
   login() {
     this.SARService.login(this.username, this.password)
       .subscribe(
       data => {
-        this.navCtrl.setRoot(TabsPage);
+        if(data != false) {
+          this.navCtrl.setRoot(TabsPage);
+        }
       },
       error => {
-        console.log(error)
+        console.log(error);
       });
   }
-
-  wrongCredentialsAlert() {
-    let alert = this.alertCtrl.create({
-      title: 'Feil',
-      subTitle: 'Brukernavnet og/eller passordet er feil.',
-      buttons: ['Prøv igjen']
-    });
-    alert.present();
+  
+  ionViewDidLoad() {
+    this.SARService.logout();
   }
-
 }

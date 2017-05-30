@@ -17,7 +17,7 @@ export class Profile {
   ngOnInit() {
     this.user = this.SARService.getUser();
     if(this.user == null) {
-      this.ExceptionService.userError(1);
+      //this.ExceptionService.userError(1);
       this.navCtrl.setRoot(Login);
     }
   }

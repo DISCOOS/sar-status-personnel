@@ -1,31 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Login } from '../pages/login/login';
 import { Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { AlertController } from 'ionic-angular';
 
 @Injectable()
 export class ExceptionService {
     emsg: string;
 
-    constructor() { }
+    constructor(
+        public alertCtrl: AlertController
+    ) {}
 
-    public userError(type: number) {
-        if(type == 1) {
-            console.log("Du er ikke innlogget, vær vennlig og logg inn på nytt.");
-            this.emsg = "Du er ikke innlogget, vær vennlig og logg inn på nytt."
-            localStorage.setItem('currentUser', null);
-        } else {
-            this.emsg = "En ukjent feil har oppstått";
-        }
-        return this.emsg;     
-    }
+    catchBadResponse: (errorResponse: any) => Observable<any> = (errorResponse: any) => {
+        console.log(errorResponse)
 
-    public responseError(errorResponse: any) {
         let res = <Response>errorResponse;
-        console.log(res);
-
         let err = res.json();
-        let statusCode = "";
 
+        let emsg = err ?
+            (err.error ? err.error.message : JSON.stringify(err)) :
+            (res.statusText || 'Ukjent feil');
+        let statusCode;
         if (err && err.status) {
             statusCode = err.status;
         } else {
@@ -34,17 +30,22 @@ export class ExceptionService {
         }
 
         if (statusCode == '401') {
-            this.emsg = 'Ingen tilgang. Forsøk å logge inn på nytt'
-        }
-        else if (statusCode == '404') {
-            this.emsg = 'Denne ressursen finnes ikke'
-        }
-        else if (statusCode == '500') {
-            this.emsg = 'Intern serverfeil i SAR-API '
+            this.emsg = 'Ingen tilgang. Forsøk å logge inn på nytt.'
+        } else if (statusCode == '404') {
+            this.emsg = 'Denne ressursen finnes ikke.'
+        } else if (statusCode == '500') {
+            this.emsg = 'Tjenesten er utilgjengelig. Prøv igjen senere.'
         } else {
-            this.emsg = ""
+            this.emsg = 'Ukjent feil. Prøv igjen senere.'
         }
 
-        return this.emsg;
+        let alert = this.alertCtrl.create ({
+            title: 'En feil har oppstått',
+            subTitle: this.emsg,
+            buttons: ['Ok']
+        });
+        alert.present();    
+
+        return Observable.of(false);
     }   
 }
