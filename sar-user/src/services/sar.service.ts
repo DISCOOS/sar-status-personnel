@@ -7,10 +7,11 @@ import { Subject } from 'rxjs/Subject';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { URLSearchParams } from "@angular/http";
 import { Headers } from '@angular/http';
-import { Mission, MissionResponse, Alarm, SARUser, Expence } from '../models/models';
+import { Mission, Tracking, MissionResponse, Alarm, SARUser, Expence } from '../models/models';
 import { CONFIG } from '../shared/config';
 import { Push, PushToken } from '@ionic/cloud-angular';
 import { ExceptionService } from '../services/exception.service';
+import { Geolocation } from '@ionic-native/geolocation';
 
 let baseUrl = CONFIG.urls.baseUrl;
 let token = CONFIG.headers.token;
@@ -25,25 +26,63 @@ export class SARService {
     mission: Mission;
     alarm: Alarm;
     user: SARUser;
+    tracking: Tracking;
+    longitude: number;
+    latitude: number;
     // Other components can subscribe to this 
     public isLoggedIn: Subject<boolean> = new Subject();
 
     constructor(
-        private http: Http, 
+        private http: Http,
         public push: Push,
-        public ExceptionService: ExceptionService,    
-    ) {}
+        public ExceptionService: ExceptionService,
+        private geolocation: Geolocation
+    ) { }
+
+
+
 
     /**
      * Configures options with token and header for http-operations on server.
      */
-    
-	private _configureOptions(options: RequestOptions) {
-		let headers = new Headers();
-		headers.append('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem("currentUser")).access_token);
-		headers.append('Content-Type', 'application/json');
-		options.headers = headers;
-	}
+
+    private _configureOptions(options: RequestOptions) {
+        let headers = new Headers();
+        headers.append('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem("currentUser")).access_token);
+        headers.append('Content-Type', 'application/json');
+        options.headers = headers;
+    }
+        getPos() {
+        console.log("getPos() fired");
+       //let user = this.getUser();
+        let tracking 
+        let url = baseUrl + "/SARUsers/Tracking";
+        let options = new RequestOptions({ withCredentials: true })
+        this._configureOptions(options);
+
+        //if (this.user.isTrackable == true) {
+            this.geolocation.getCurrentPosition().then((resp) => {
+
+               
+                this.tracking.positionLat = resp.coords.latitude.toString();
+                this.tracking.positionLong = resp.coords.longitude.toString();
+                console.log(this.tracking.positionLat);
+                let postBody = JSON.stringify(this.tracking, this._replacer);
+                console.log(postBody);
+                return this.http.post(url, postBody)
+                    .map(res => {
+                        return res.json()
+                    })
+
+            }).catch((error) => {
+                console.log('Error getting location', error);
+            });
+            
+            console.log(this.longitude);
+       // }
+
+
+    }
 
     /**
 	 * Filter out ID from JSON-object. 
@@ -51,16 +90,16 @@ export class SARService {
 	 * @param value 
 	 */
 
-	private _replacer(key, value) {
-		if (key == "id") return undefined;
-		else return value;
-	}
+    private _replacer(key, value) {
+        if (key == "id") return undefined;
+        else return value;
+    }
 
     /**
      * Returns SARUser-object with active user from localStorage.
      * @return Object from JSON-string
      */
-    
+
     getUser() {
         return JSON.parse(localStorage.getItem('currentUser'));
     }
@@ -87,6 +126,8 @@ export class SARService {
      */
 
     public login(username: string, password: string) {
+        //this.getPos();
+
         let data = new URLSearchParams();
         data.append('username', username);
         data.append('password', password);
@@ -144,6 +185,8 @@ export class SARService {
             .catch(this.ExceptionService.catchBadResponse)
     }
 
+
+
     /**
      * Method to persist SARUser-variable isTrackable to database.
      * @param isTrackable boolean value to persist.
@@ -153,7 +196,7 @@ export class SARService {
         let url = baseUrl + "/sarusers/" + this.getUser().id;
         let options = new RequestOptions({ withCredentials: true });
         this._configureOptions(options);
-        
+
         let user = this.getUser();
         user.isTrackable = isTrackable;
         let postBody = JSON.stringify(user, this._replacer);
@@ -171,15 +214,15 @@ export class SARService {
      * @return Mission-object
      */
 
-    public getMission(missionId? : number) {
+    public getMission(missionId?: number) {
         let options = new RequestOptions({ withCredentials: true })
         this._configureOptions(options);
         let url = baseUrl + '/missions/' + missionId;
         return this.http.get(url, options)
             .map((response) => {
                 this.mission = response.json();
-                return this.mission; 
-        })
+                return this.mission;
+            })
     }
 
     /**
@@ -208,7 +251,7 @@ export class SARService {
      */
 
     public getUserAlarms(userId) {
-        
+
     }
 
 
@@ -222,7 +265,7 @@ export class SARService {
         this._configureOptions(options);
         let url = baseUrl + '/missionResponses';
         console.log("hit");
-        let postBody = JSON.stringify(missionResponse, this._replacer);  
+        let postBody = JSON.stringify(missionResponse, this._replacer);
         console.log(postBody);
         return this.http.post(url, missionResponse, options)
             .map(res => {
@@ -239,12 +282,12 @@ export class SARService {
         let options = new RequestOptions({ withCredentials: true })
         this._configureOptions(options);
         let url = baseUrl + '/alarms/' + alarmId;
-        
+
         return this.http.get(url, options)
             .map((response) => {
                 this.alarm = response.json();
                 return this.alarm;
-            })      
+            })
     }
 
     private handleError(error: Response) {
@@ -269,15 +312,17 @@ export class SARService {
         this.getMission(missionId).subscribe(res => {
             this.mission = res;
             let expense = new Expence(null, null, description, amount, this.mission, user.id);
-            let postBody = JSON.stringify(expense, this._replacer);  
+            let postBody = JSON.stringify(expense, this._replacer);
             return this.http.post(url, postBody, options)
                 .map(res => {
                     //console.log(res.json())
                     return res.json()
-            })
+                })
         }),
-        (error) => {
-            return error;
-        }
+            (error) => {
+                return error;
+            }
     }
+
+
 }
