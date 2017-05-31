@@ -1,4 +1,4 @@
-<ion-content>
+<ion-content padding>
     <div class="head text-center">
         <img src="assets/img/nouser.png" class="profile">
         <h1>{{user.name}}</h1>
@@ -6,15 +6,15 @@
     <ion-list>
         <ion-item>
             <ion-label floating>Navn</ion-label>
-            <ion-input type="text" readonly="true" value="{{user.name}}"></ion-input>
+            <ion-input readonly="true" type="text" value="{{user.name}}"></ion-input>
         </ion-item>
         <ion-item>
             <ion-label floating>E-post</ion-label>
-            <ion-input type="email" readonly="true" value="{{user.email}}"></ion-input>
+            <ion-input readonly="true" type="email" value="{{user.email}}"></ion-input>
         </ion-item>
         <ion-item>
             <ion-label floating>Telefon</ion-label>
-            <ion-input type="tel" readonly="true" value="{{user.phone}}"></ion-input>
+            <ion-input readonly="true" type="tel" value="{{user.phone}}"></ion-input>
         </ion-item>
     </ion-list>
 </ion-content>

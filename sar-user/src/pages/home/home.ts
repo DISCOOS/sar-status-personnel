@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { SARService } from '../../services/sar.service';
 import { ExceptionService } from '../../services/exception.service';
+import { AuthService } from '../../services/auth.service';
 import { NavController } from 'ionic-angular';
 import { SARUser } from '../../models/models';
 import { Login } from '../login/login';
@@ -20,7 +21,8 @@ export class Home {
     public navCtrl: NavController,
     public SARService: SARService,
     public ExceptionService: ExceptionService,
-    public alertCtrl: AlertController   
+    public AuthService: AuthService,
+    public alertCtrl: AlertController,   
   ) {}
   
   /**
@@ -67,5 +69,9 @@ export class Home {
       alert.present();
       this.navCtrl.setRoot(Login); 
     }      
+  }
+
+  ionViewCanEnter() {
+    return this.AuthService.isLoggedIn();
   }
 }

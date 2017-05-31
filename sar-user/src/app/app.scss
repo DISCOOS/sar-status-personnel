@@ -30,23 +30,32 @@ h1, h2, h3, h4, h5 {font-family: $font-semibold; }
 .header img {height: 35px; margin: 1rem 0; }
 .header-md::after {background-image: none; }
 
-ion-content {margin-top:56px; }
+ion-content { margin-top:56px; margin-bottom: 5em; }
 
 .availability {text-align: center; padding: 3rem; font-size: 2em; }
 .availability .icon {font-size: 2em; }
 .availability span {display: block; }
 
 .green { background: #c5e0b5; color: #ffffff; }
+.darkgreen { color: #859878; }
 .red { background: #f73f47 ; color: #ffffff; }
+.darkred { color: #b4211a; }
 
-.profile {display: block; border-radius: 999px; margin: 3em auto; width: 150px; height: 150px; border: 3px solid #ccc; }
+.profile {display: block; border-radius: 999px; margin: 3em auto; width: 25%; height: auto; border: 0.5em solid #ccc; }
+
 .loginlogo {display: block; width: 200px; margin: 3em auto; }
-.call {display: block; text-align: center; margin-top: 3em; }
 
-.callFeedback { display: block; height: auto; background: #f8f8f8; text-align: center; }
-.callFeedback p {
-    font-size: 2em;
-}
+.call {display: block; text-align: center; margin-top: 3em; }
+.call h1 { font-size: 5em; }
+.call h2 { font-size: 1.5em; }
+.call p { font-size: 1.5em; }
+
+.callFeedback { display: block; height: auto; text-align: center; align-content: center; }
+.callFeedback p { font-size: 2em; }
+.callFeedback h1 { font-size: 3em; }
+.callFeedback h2 { font-size: 1.5em; }
+.callFeedback ion-icon { font-size: 10em; }
+.callFeedback ion-textarea { border-top: 0.2em solid #ccc; }
 
 map-picker { 
     .scroll-content {

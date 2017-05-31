@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { Mission,  MissionResponse, Alarm, SARUser } from '../../models/models';
 import { SARService } from '../../services/sar.service';
+import { Alarms } from '../alarms/alarms';
+import { TabsPage } from '../tabs/tabs'
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'page-callFeedback',
@@ -15,14 +18,10 @@ export class CallFeedback {
     alarmId: number;
     arrival: string;
 
-  constructor(public navCtrl: NavController, public SARService: SARService, public params:NavParams) {   
-    this.feedbackType = params.get("parameter");
+  constructor(public navCtrl: NavController, public SARService: SARService, public params:NavParams, private AuthService: AuthService) {   
+    this.feedbackType = params.get("feedbackType");
     this.missionId = params.get("missionId");
     this.alarmId = params.get("alarmId");
-
-    if(!this.feedbackType) {
-      this.submit();  
-    }
   }
 
   /**
@@ -34,8 +33,18 @@ export class CallFeedback {
     let alarm = this.SARService.getAlarm(this.alarmId);
     let user = this.SARService.getUser();
     let input = this.arrival;
-    let missionResponse = new MissionResponse(alarm, user, this.feedbackType, 10, input, null);
-    this.SARService.postMissionResponse(missionResponse);
+    let missionResponse = new MissionResponse(alarm, user, this.feedbackType, 10, input, undefined);
+    this.SARService.postMissionResponse(missionResponse)
+      .subscribe( res => {
+        this.navCtrl.push(Alarms)
+          .catch(error => {
+            console.log(error);
+            
+          });
+      }
+      
+      )
+
   }
 
   /**
@@ -46,5 +55,9 @@ export class CallFeedback {
 
   private validateInput(input: string) {
     return encodeURI(input);  
+  }
+  
+  ionViewCanEnter() {
+    return this.AuthService.isLoggedIn();
   }  
 }

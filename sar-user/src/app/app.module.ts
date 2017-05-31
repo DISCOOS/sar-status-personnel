@@ -13,11 +13,13 @@ import { CallFeedback } from '../pages/callFeedback/callFeedback';
 import { GeoService } from '../services/geo.service';
 import { SARService } from '../services/sar.service';
 import { ExceptionService } from '../services/exception.service';
+import { AuthService } from '../services/auth.service';
 
 import { Geolocation } from '@ionic-native/geolocation';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
+
 
 const cloudSettings: CloudSettings = {
   'core': {
@@ -72,6 +74,7 @@ const cloudSettings: CloudSettings = {
     ExceptionService,
     SARService,
     GeoService,
+    AuthService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

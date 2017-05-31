@@ -12,6 +12,15 @@ export class ExceptionService {
         public alertCtrl: AlertController
     ) {}
 
+    loginError() {
+        let alert = this.alertCtrl.create ({
+            title: 'En feil har oppstått',
+            subTitle: 'Ingen tilgang. Forsøk å logge inn på nytt.',
+            buttons: ['Ok']
+        });
+        alert.present();    
+    }
+
     catchBadResponse: (errorResponse: any) => Observable<any> = (errorResponse: any) => {
         console.log(errorResponse)
 

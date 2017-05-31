@@ -78,8 +78,8 @@ export class SARService {
         return this.http.get(url, options)
             .map((res) => {
                 this.user = res.json();
-                return this.user;
-            });
+                return this.user; })
+            .catch(this.ExceptionService.catchBadResponse);
     }
 
     /**
@@ -138,9 +138,7 @@ export class SARService {
         let options = new RequestOptions({ withCredentials: true })
         this._configureOptions(options);
         return this.http.patch(url, postBody, options)
-            .map(res => {
-                return res.json()
-            })
+            .map(res => { return res.json() })
             .catch(this.ExceptionService.catchBadResponse)
     }
 
@@ -159,9 +157,7 @@ export class SARService {
         let postBody = JSON.stringify(user, this._replacer);
 
         return this.http.patch(url, postBody, options)
-            .map((res) => {
-                return res.json();
-            })
+            .map((res) => { return res.json(); })
             .catch(this.ExceptionService.catchBadResponse)
     }
 
@@ -175,11 +171,12 @@ export class SARService {
         let options = new RequestOptions({ withCredentials: true })
         this._configureOptions(options);
         let url = baseUrl + '/missions/' + missionId;
-        return this.http.get(url, options)
-            .map((response) => {
+        return this.http
+            .get(url, options)
+            .map(response => {  
                 this.mission = response.json();
-                return this.mission; 
-        })
+                return this.mission; })
+            .catch(this.ExceptionService.catchBadResponse);
     }
 
     /**
@@ -197,9 +194,8 @@ export class SARService {
         return this.http.get(url, options)
             .map((response) => {
                 this.missions = response.json();
-                return this.missions
-            })
-
+                return this.missions; })
+            .catch(this.ExceptionService.catchBadResponse);
     }
 
     /**
@@ -225,9 +221,8 @@ export class SARService {
         let postBody = JSON.stringify(missionResponse, this._replacer);  
         console.log(postBody);
         return this.http.post(url, missionResponse, options)
-            .map(res => {
-                return res.json();
-            })
+            .map(res => { return res.json(); })
+            .catch(this.ExceptionService.catchBadResponse)
     }
 
     /**
@@ -243,14 +238,8 @@ export class SARService {
         return this.http.get(url, options)
             .map((response) => {
                 this.alarm = response.json();
-                return this.alarm;
-            })      
-    }
-
-    private handleError(error: Response) {
-        let msg = `Status ${error.status}, url: ${error.url}`;
-        console.error(msg);
-        return Observable.throw(msg || 'Server error');
+                return this.alarm; })
+            .catch(this.ExceptionService.catchBadResponse)      
     }
 
     /**

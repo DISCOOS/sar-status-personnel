@@ -5,6 +5,8 @@ import { AlertController } from 'ionic-angular';
 import { SARService } from '../../services/sar.service';
 import { ExceptionService } from '../../services/exception.service';
 
+import { Call } from '../call/call';
+
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html'
@@ -30,12 +32,12 @@ export class Login {
       .subscribe(
       data => {
         if(data != false) {
-          console.log("Login: " + this.SARService.getUser());
-          this.navCtrl.setRoot(TabsPage);   
+          this.navCtrl.setRoot(Call);   
         }
       },
       error => {
         console.log(error);
+        console.log("Funker dette faktisk?");
       });
   }
 
