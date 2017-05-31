@@ -33,6 +33,7 @@ export class CallFeedback {
     let alarm = this.SARService.getAlarm(this.alarmId);
     let user = this.SARService.getUser();
     let input = this.arrival;
+
     let missionResponse = new MissionResponse(alarm, user, this.feedbackType, 10, input, undefined);
     this.SARService.postMissionResponse(missionResponse)
       .subscribe( res => {
@@ -44,7 +45,6 @@ export class CallFeedback {
       }
       
       )
-
   }
 
   /**
