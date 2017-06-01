@@ -1,58 +1,64 @@
-import { Geolocation } from '@ionic-native/geolocation';
-import { CONFIG } from '../shared/config';
-import { Response } from '@angular/http';
-import { Tracking } from '../models/models';
-import { Http, RequestOptions } from '@angular/http';
-import { Injectable} from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
+import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
+import { Geolocation, Geoposition } from '@ionic-native/geolocation';
 
-let baseUrl = CONFIG.urls.baseUrl;
-let token = CONFIG.headers.token;
+import { Tracking } from '../models/models';
+import 'rxjs/add/operator/filter';
 
 @Injectable()
 export class GeoService {
-    timer = 5000;
-    tracking: Tracking;
+    public watch: any;    
+    public lat: number = 0;
+    public lng: number = 0
 
     constructor(
-        private http: Http,
-        public geolocation: Geolocation, 
-    ) { }
+        public geolocation: Geolocation,
+        public zone: NgZone,
+        public backgroundGeolocation: BackgroundGeolocation,
+    ) {}
     
-    /**
-     * @Returns current posisition of device
-     */
+    startTracking() {
+        let config = {
+            desiredAccuracy: 10,
+            stationaryRadius: 20,
+            distanceFilter: 30, 
+            debug: true, //  enable this hear sounds for background-geolocation life-cycle.
+            interval: 2000,
+            stopOnTerminate: false, // enable this to clear background location settings when the app terminates
+        };
 
-    getLocation() {
-        
-        return this.geolocation.getCurrentPosition().then((resp) => {
-            resp.coords.latitude
-            resp.coords.longitude
-        }).catch((error) => {
-            console.log('Error getting location', error);
+        this.backgroundGeolocation.configure(config)
+            .subscribe((location) => {          
+                console.log('BackgroundGeolocation:  ' + location.latitude + ', ' + location.longitude);
+                // Run update inside of Angular's zone
+                this.zone.run(() => {
+                    this.lat = location.latitude;
+                    this.lng = location.longitude;
+                });
+             }, (err) => { console.log(err); });
+
+        this.backgroundGeolocation.start();
+
+        let options = {
+            frequency: 3000, 
+            enableHighAccuracy: true
+        };
+ 
+        this.watch = this.geolocation.watchPosition(options).filter((p: any) => p.code === undefined).subscribe((position: Geoposition) => {
+            console.log(position);
+ 
+            // Run update inside of Angular's zone
+            this.zone.run(() => {
+                this.lat = position.coords.latitude;
+                this.lng = position.coords.longitude;
+            });
         });
     }
 
-    /**
-     * Watch the current device’s position. 
-     * Clear the watch by unsubscribing from Observable changes.
-     * subscription.unsubscribe();
-     */
-
-    watchPos() {
-        let watch = this.geolocation.watchPosition();
-        let url = baseUrl + "Trackings"
-        console.log("watchPos fired");
-        if (true) {
-            // Dette er ikke nødvendig. Du trenger ikke subscribe her vel? Og all kommunikasjon med server burde ligge i SARService
-            watch.subscribe((data) => {
-                this.tracking.positionLat = data.coords.latitude.toString();
-                this.tracking.positionLong = data.coords.longitude.toString();
-                return this.http.patch(url, this.tracking) 
-                    .map(res => {
-                        return res.json()
-                    })
-            });
-        } 
+    stopTracking() {
+        console.log('stopTracking');
+        this.backgroundGeolocation.finish();
+        this.watch.unsubscribe();        
     }
 }
 

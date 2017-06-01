@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { Mission,  MissionResponse, Alarm, SARUser } from '../../models/models';
+import { Mission,  MissionResponse, Alarm, SARUser, Tracking } from '../../models/models';
 import { SARService } from '../../services/sar.service';
 import { Alarms } from '../alarms/alarms';
 import { TabsPage } from '../tabs/tabs';
 import { Login } from '../login/login';
 import { AuthService } from '../../services/auth.service';
+import { GeoService } from '../../services/geo.service';
 
 @Component({
   selector: 'page-callFeedback',
@@ -18,8 +19,9 @@ export class CallFeedback {
     missionId: number;
     alarmId: number;
     arrival: string;
+    tracking: Tracking;
 
-  constructor(public navCtrl: NavController, public SARService: SARService, public params:NavParams, private AuthService: AuthService) {   
+  constructor(public navCtrl: NavController, public SARService: SARService, public params:NavParams, private AuthService: AuthService, public GeoService: GeoService) {   
     this.feedbackType = params.get("feedbackType");
     this.missionId = params.get("missionId");
     this.alarmId = params.get("alarmId");
@@ -36,6 +38,9 @@ export class CallFeedback {
     let input = this.arrival;
 
     let missionResponse = new MissionResponse(alarm, user, this.feedbackType, 10, input, undefined);
+    if(this.feedbackType) {
+      this.GeoService.startTracking();
+    }
     this.SARService.postMissionResponse(missionResponse)
       .subscribe( res => {
         this.navCtrl.push(Alarms)

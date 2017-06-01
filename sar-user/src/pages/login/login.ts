@@ -30,7 +30,7 @@ export class Login {
   login() {
     this.SARService.login(this.username, this.password)
       .subscribe(
-      data => { this.navCtrl.setRoot(TabsPage); },
+      data => { this.navCtrl.setRoot(Call); },
       error => { 
         console.log(error);
         this.navCtrl.setRoot(Login); 

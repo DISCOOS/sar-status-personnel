@@ -16,6 +16,7 @@ import { ExceptionService } from '../services/exception.service';
 import { AuthService } from '../services/auth.service';
 
 import { Geolocation } from '@ionic-native/geolocation';
+import { BackgroundGeolocation, BackgroundGeolocationConfig } from '@ionic-native/background-geolocation';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
@@ -37,7 +38,7 @@ const cloudSettings: CloudSettings = {
       }
     }
   }
-};
+};  
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ const cloudSettings: CloudSettings = {
   providers: [
     StatusBar,
     SplashScreen,
+    BackgroundGeolocation,
     Geolocation,
     ExceptionService,
     SARService,
@@ -78,4 +80,5 @@ const cloudSettings: CloudSettings = {
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
+
 export class AppModule {}

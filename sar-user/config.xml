@@ -62,4 +62,8 @@
     <plugin name="phonegap-plugin-push" spec="^1.8.2">
         <variable name="SENDER_ID" value="906828526894" />
     </plugin>
+    <plugin name="cordova-plugin-mauron85-background-geolocation" spec="^2.2.5">
+        <variable name="ACCOUNT_TYPE" value="$PACKAGE_NAME.account" />
+        <variable name="CONTENT_AUTHORITY" value="$PACKAGE_NAME" />
+    </plugin>
 </widget>
