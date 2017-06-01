@@ -6,11 +6,13 @@ import { Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from "rxjs/Observable";
 import { Expense } from '../expense/expense';
 import { AuthService } from '../../services/auth.service';
+import { ExceptionService } from '../../services/exception.service';
 import { TabsPage } from '../tabs/tabs';
+import { Login } from '../login/login';
 
 @Component({
   selector: 'page-alarms',
-  templateUrl: 'alarms.html'
+	templateUrl: 'alarms.html'
 })
 
 export class Alarms {
@@ -27,6 +29,7 @@ export class Alarms {
     public navCtrl: NavController, 
     private SARService: SARService,
 		private AuthService: AuthService,
+		private ExceptionService: ExceptionService,
 	) {}
 
 	showExpensePage(missId: number) {
@@ -36,7 +39,7 @@ export class Alarms {
 	}
 
 	sortAlarms() {
-		this.alarms
+
 	}
 
   ngOnInit() {
@@ -46,8 +49,12 @@ export class Alarms {
 			.subscribe(
 				res => { this.alarms = res; },
 				error => {
-					console.log(error);
 					this.navCtrl.push(TabsPage)
+						.catch(error => {
+							console.log(error);
+							this.ExceptionService.expiredSessionError();
+							this.navCtrl.push(Login);	
+						})
 				});
 	}
 

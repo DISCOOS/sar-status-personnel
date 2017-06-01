@@ -12,7 +12,7 @@ export class ExceptionService {
         public alertCtrl: AlertController
     ) {}
 
-    loginError() {
+    expiredSessionError() {
         let alert = this.alertCtrl.create ({
             title: 'En feil har oppstått',
             subTitle: 'Ingen tilgang. Forsøk å logge inn på nytt.',

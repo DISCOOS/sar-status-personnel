@@ -22,9 +22,9 @@
                     </ion-fab>
                     <ion-item>
                         <ion-icon name="ios-map-outline" item-left large></ion-icon>
-                        <h2>{{alarm.alarm.mission.title}}</h2>
+                        <!--<h2>{{alarm.alarm.mission.title}}</h2>
                         <h3>{{alarm.alarm.mission.meetingPointNicename}}</h3>
-                        <p>{{alarm.alarm.mission.description}}</p>
+                        <p>{{alarm.alarm.mission.description}}</p>-->
                     </ion-item>
                 </ion-card>
             </ion-item>
@@ -34,7 +34,7 @@
             <ion-item *ngFor="let alarm of alarms">
                 <ion-card>
                     <ion-item>
-                        {{alarm.alarm.mission.title}}
+                        <!--{{alarm.alarm.mission.title}}-->
                         <button ion-button item-right icon-left (click)="showExpensePage()">
                             <ion-icon name="ios-cash" ></ion-icon>
                             Registrer utlegg

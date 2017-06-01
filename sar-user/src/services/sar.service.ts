@@ -7,7 +7,7 @@ import { Subject } from 'rxjs/Subject';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { URLSearchParams } from "@angular/http";
 import { Headers } from '@angular/http';
-import { Mission, Tracking, MissionResponse, Alarm, SARUser, Expence } from '../models/models';
+import { Mission, Tracking, MissionResponse, Alarm, SARUser, Expence, AlarmResponse } from '../models/models';
 import { CONFIG } from '../shared/config';
 import { Push, PushToken } from '@ionic/cloud-angular';
 import { ExceptionService } from '../services/exception.service';
@@ -260,9 +260,7 @@ export class SARService {
         let url = baseUrl + '/alarmusers?filter[include][alarm][mission]&filter[where][sarUserId]=' + userId;
 
         return this.http.get(url, options)
-            .map(response => {
-                this.alarms = response.json();
-                return this.alarms; })
+            .map(response => { return response.json() })
             .catch(this.ExceptionService.catchBadResponse)
     }
 

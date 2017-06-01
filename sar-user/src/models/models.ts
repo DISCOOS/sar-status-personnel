@@ -75,3 +75,13 @@ export class Tracking {
 		public date: number
 	) { }
 }
+
+export class AlarmResponse {
+	constructor(
+		public id: number,
+		public sarUserId: number,
+		public alarmId: number,
+		public missionId: number,
+		public alarm: Alarm,
+	) {}
+}
