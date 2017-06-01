@@ -16,7 +16,10 @@ import { TabsPage } from '../tabs/tabs';
 export class Alarms {
 	alarmType : string;
   isLoading: boolean;
-	alarms: Observable<Alarm[]>;
+	alarm: any;
+	alarms: Alarm[];
+	activeAlarms: Alarm[];
+	inactiveAlarms: Alarm[];
 	user: SARUser;
 	clickedExpense: number;
 
@@ -30,6 +33,10 @@ export class Alarms {
     this.navCtrl
 			.push(Expense, { missionId: missId })
 			.catch(error => { console.log(error) });
+	}
+
+	sortAlarms(alarms: Observable<Alarm[]>) {
+
 	}
 
   ngOnInit() {

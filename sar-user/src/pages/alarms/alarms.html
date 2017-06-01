@@ -12,7 +12,7 @@
 
     <div [ngSwitch]="alarmType">
         <ion-list *ngSwitchCase="'current'"> 
-            <!--<ion-item *ngFor="let alarm of alarms">
+            <ion-item *ngFor="let alarm of activeAlarms">
                 <ion-card>
                 <img src="assets/img/sample-map.png">
                     <ion-fab right top>
@@ -27,21 +27,21 @@
                         <p>{{alarm.alarm.mission.description}}</p>
                     </ion-item>
                 </ion-card>
-            </ion-item>-->
+            </ion-item>
         </ion-list>
 
         <ion-list *ngSwitchCase="'archived'">
-            <!--<ion-item *ngFor="let mission of missions">
+            <ion-item *ngFor="let alarm of alarms">
                 <ion-card>
                     <ion-item>
-                        {{mission.title}}
+                        {{alarm.alarm.mission.title}}
                         <button ion-button item-right icon-left (click)="showExpensePage()">
                             <ion-icon name="ios-cash" ></ion-icon>
                             Registrer utlegg
                         </button>
                     </ion-item>
                 </ion-card>
-            </ion-item>-->
+            </ion-item>
         </ion-list>   
     </div> 
 </ion-content>
