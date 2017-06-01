@@ -47,9 +47,10 @@ export class SARService {
     private _configureOptions(options: RequestOptions) {
         let headers = new Headers();
         headers.append('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem("currentUser")).access_token);
-        headers.append('Content-Type', 'application/json charset=UTF-8');
+        headers.append('Content-Type', 'application/json');
         options.headers = headers;
     }
+    
         getPos() {
         console.log("getPos() fired");
        //let user = this.getUser();
@@ -138,8 +139,8 @@ export class SARService {
                 let res = response.json();
                 if (res.user && res.user.access_token) {
                     // store user details and token in local storage to keep user logged in between page refreshes
-                    console.log(res.user);
                     localStorage.setItem('currentUser', JSON.stringify(res.user));
+                    console.log(localStorage.getItem("currentUser"));
                 } else {
                     return Observable.throw(new Error("Login error"));
                 }
@@ -170,9 +171,9 @@ export class SARService {
      * @param isAvailable new status of user.
      */
 
-    public setAvailability(newValue: boolean) {
+    public setAvailability(isAvailable: boolean) {
         let postBody = { 
-            "isAvailable" : newValue
+            "isAvailable" : isAvailable
         }
 
         let url = baseUrl + "/sarusers/" + this.getUser().id;
@@ -180,10 +181,9 @@ export class SARService {
         this._configureOptions(options);
         console.log(postBody);
 
-        return this.http.patch(url, postBody, options)
+        return this.http.patch(url, JSON.stringify(postBody), options)
             .map(res => { 
-                console.log("Funker som faen")
-                return res.json() 
+                return res.json();
             })
             .catch(this.ExceptionService.catchBadResponse)
     }
@@ -196,17 +196,19 @@ export class SARService {
      */
 
     public setTrackable(isTrackable: boolean) {
-        let url = baseUrl + "/sarusers/" + this.getUser().id;
-        let options = new RequestOptions({ withCredentials: true });
-        this._configureOptions(options);
-        
-        let body = { 
-            "isTrackable" : isTrackable
+        let postBody = { 
+            "isAvailable" : isTrackable
         }
-        let postBody = JSON.stringify(body, this._replacer);
-        console.log("Trackable" + postBody);
-        return this.http.patch(url, postBody, options)
-            .map((res) => { return res.json(); })
+
+        let url = baseUrl + "/sarusers/" + this.getUser().id;
+        let options = new RequestOptions({ withCredentials: true })
+        this._configureOptions(options);
+        console.log(postBody);
+
+        return this.http.patch(url, JSON.stringify(postBody), options)
+            .map(res => { 
+                return res.json();
+            })
             .catch(this.ExceptionService.catchBadResponse)
     }
 

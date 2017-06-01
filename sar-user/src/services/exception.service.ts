@@ -38,7 +38,7 @@ export class ExceptionService {
                 (err.error ? err.error.statusCode : '') : '';
         }
 
-        if (statusCode == '401') {
+        if (statusCode == '401' || statusCode == 401 ) {
             this.emsg = 'Ingen tilgang. Forsøk å logge inn på nytt.'
         } else if (statusCode == '404') {
             this.emsg = 'Denne ressursen finnes ikke.'

@@ -37,6 +37,10 @@ export class Login {
       });
   }
 
+  ionViewWillEnter() {
+    this.SARService.logout();
+  }
+
   ionViewDidLoad() {
     this.SARService.logout();
   }

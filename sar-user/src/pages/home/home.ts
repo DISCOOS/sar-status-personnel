@@ -32,7 +32,10 @@ export class Home {
   setAvailable() {
     this.SARService.setAvailability(this.available)
       .subscribe(
-        res => { localStorage.setItem('currentUser', JSON.stringify(res)) },
+        res => {
+          this.user.isAvailable = this.available; 
+          localStorage.setItem('currentUser', JSON.stringify(this.user)) 
+        },
         error => { this.navCtrl.setRoot(Login); }
       );
   }
@@ -44,7 +47,10 @@ export class Home {
   setTrackable() {
     this.SARService.setTrackable(this.trackable)
       .subscribe(
-        res => { localStorage.setItem('currentUser', JSON.stringify(res)) },
+        res => { 
+          this.user.isTrackable = this.trackable; 
+          localStorage.setItem('currentUser', JSON.stringify(this.user)) 
+        },
         error => { this.navCtrl.setRoot(Login); }
       );
   }
