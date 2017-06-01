@@ -30,14 +30,10 @@ export class Login {
   login() {
     this.SARService.login(this.username, this.password)
       .subscribe(
-      data => {
-        if(data != false) {
-          this.navCtrl.setRoot(TabsPage);   
-        }
-      },
-      error => {
+      data => { this.navCtrl.setRoot(TabsPage); },
+      error => { 
         console.log(error);
-        console.log("Funker dette faktisk?");
+        this.navCtrl.setRoot(Login); 
       });
   }
 

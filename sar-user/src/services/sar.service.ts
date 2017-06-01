@@ -138,6 +138,7 @@ export class SARService {
                 let res = response.json();
                 if (res.user && res.user.access_token) {
                     // store user details and token in local storage to keep user logged in between page refreshes
+                    console.log(res.user);
                     localStorage.setItem('currentUser', JSON.stringify(res.user));
                 } else {
                     return Observable.throw(new Error("Login error"));
@@ -169,16 +170,21 @@ export class SARService {
      * @param isAvailable new status of user.
      */
 
-    public setAvailability(isAvailable: boolean) {
-        let user = this.getUser();
-        user.isAvailable = isAvailable;
-        let postBody = JSON.stringify(user, this._replacer);
+    public setAvailability(newValue: boolean) {
+        let postBody = { 
+            "isAvailable" : newValue
+        }
 
-        let url = baseUrl + "/SARUsers/" + this.getUser().id;
+        let url = baseUrl + "/sarusers/" + this.getUser().id;
         let options = new RequestOptions({ withCredentials: true })
         this._configureOptions(options);
+        console.log(postBody);
+
         return this.http.patch(url, postBody, options)
-            .map(res => { return res.json() })
+            .map(res => { 
+                console.log("Funker som faen")
+                return res.json() 
+            })
             .catch(this.ExceptionService.catchBadResponse)
     }
 
@@ -193,11 +199,12 @@ export class SARService {
         let url = baseUrl + "/sarusers/" + this.getUser().id;
         let options = new RequestOptions({ withCredentials: true });
         this._configureOptions(options);
-
-        let user = this.getUser();
-        user.isTrackable = isTrackable;
-        let postBody = JSON.stringify(user, this._replacer);
-
+        
+        let body = { 
+            "isTrackable" : isTrackable
+        }
+        let postBody = JSON.stringify(body, this._replacer);
+        console.log("Trackable" + postBody);
         return this.http.patch(url, postBody, options)
             .map((res) => { return res.json(); })
             .catch(this.ExceptionService.catchBadResponse)

@@ -32,8 +32,9 @@ export class Home {
   setAvailable() {
     this.SARService.setAvailability(this.available)
       .subscribe(
-        res => { localStorage.setItem('currentUser', JSON.stringify(res));
-        });
+        res => { localStorage.setItem('currentUser', JSON.stringify(res)) },
+        error => { this.navCtrl.setRoot(Login); }
+      );
   }
 
   /**
@@ -43,9 +44,9 @@ export class Home {
   setTrackable() {
     this.SARService.setTrackable(this.trackable)
       .subscribe(
-        res => {
-          localStorage.setItem('currentUser', JSON.stringify(res));
-        });
+        res => { localStorage.setItem('currentUser', JSON.stringify(res)) },
+        error => { this.navCtrl.setRoot(Login); }
+      );
   }
 
   ionViewDidLoad() {

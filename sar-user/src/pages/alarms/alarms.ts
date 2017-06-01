@@ -17,7 +17,7 @@ export class Alarms {
 	alarmType : string;
   isLoading: boolean;
 	alarm: any;
-	alarms: Alarm[];
+	alarms: Observable<Alarm[]>;
 	activeAlarms: Alarm[];
 	inactiveAlarms: Alarm[];
 	user: SARUser;
@@ -35,8 +35,8 @@ export class Alarms {
 			.catch(error => { console.log(error) });
 	}
 
-	sortAlarms(alarms: Observable<Alarm[]>) {
-
+	sortAlarms() {
+		this.alarms
 	}
 
   ngOnInit() {

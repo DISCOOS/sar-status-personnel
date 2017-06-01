@@ -40,7 +40,8 @@ export class SARUser {
 		public isAvailable: boolean,
 		public isTrackable: boolean,
 		public checked : boolean, // bool used for checking peoplelist (not persisted)
-		public access_token : string
+		public access_token : string,
+		public deviceToken : string,
 	) { }
 }
 
