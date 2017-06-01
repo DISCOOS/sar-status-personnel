@@ -46,7 +46,7 @@ export class SARService {
     private _configureOptions(options: RequestOptions) {
         let headers = new Headers();
         headers.append('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem("currentUser")).access_token);
-        headers.append('Content-Type', 'application/json');
+        headers.append('Content-Type', 'application/json charset=UTF-8');
         options.headers = headers;
     }
         getPos() {
