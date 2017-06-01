@@ -25,6 +25,7 @@ export class SARService {
     missions: Observable<Mission[]>;
     mission: Mission;
     alarm: Alarm;
+    alarms: Observable<Alarm[]>;
     user: SARUser;
     tracking: Tracking;
     longitude: number;
@@ -159,7 +160,8 @@ export class SARService {
      */
 
     private pushRegister() {
-
+        this.push.register().then((t: PushToken) => { return this.push.saveToken(t); })
+            .then((t: PushToken) => { console.log('Token saved:', t.token); });
     }
 
     /**
@@ -243,8 +245,16 @@ export class SARService {
      * @param userId SARUser id
      */
 
-    public getUserAlarms(userId) {
+    public getUserAlarms(userId: number) {
+        let options = new RequestOptions({ withCredentials: true })
+        this._configureOptions(options);
+        let url = baseUrl + '/alarmusers?filter[include][alarm][mission]&filter[where][sarUserId]=' + userId;
 
+        return this.http.get(url, options)
+            .map(response => {
+                this.alarms = response.json();
+                return this.alarms; })
+            .catch(this.ExceptionService.catchBadResponse)
     }
 
 

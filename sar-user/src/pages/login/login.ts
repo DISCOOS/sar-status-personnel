@@ -32,7 +32,7 @@ export class Login {
       .subscribe(
       data => {
         if(data != false) {
-          this.navCtrl.setRoot(Call);   
+          this.navCtrl.setRoot(TabsPage);   
         }
       },
       error => {

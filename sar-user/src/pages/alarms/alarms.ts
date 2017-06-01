@@ -1,11 +1,12 @@
 import { ViewChild, Component, OnInit, ElementRef } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { SARService } from '../../services/sar.service';
-import { Mission, SARUser } from '../../models/models';
+import { Mission, SARUser, Alarm } from '../../models/models';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { Observable } from "rxjs/Observable";
 import { Expense } from '../expense/expense';
-
+import { AuthService } from '../../services/auth.service';
+import { TabsPage } from '../tabs/tabs';
 
 @Component({
   selector: 'page-alarms',
@@ -15,44 +16,35 @@ import { Expense } from '../expense/expense';
 export class Alarms {
 	alarmType : string;
   isLoading: boolean;
-	missions : Observable<Mission[]>;
+	alarms: Observable<Alarm[]>;
 	user: SARUser;
 	clickedExpense: number;
 
-	//missions : Observable<Mission[]>;
   constructor(
     public navCtrl: NavController, 
-    private SARService: SARService, ) {
-
-    // Setter default alarmtype til pågående alarmutkall
-    this.alarmType = "current";
-    
-  }
+    private SARService: SARService,
+		private AuthService: AuthService,
+	) {}
 
 	showExpensePage(missId: number) {
-    this.navCtrl.push(Expense, {
-        missionId: missId,
-    });
-	}
-
-  getMissions() {
-		this.isLoading = true;
-		this.SARService.getMissions()
-			.subscribe((missions) => { 
-				// console.log(missions);
-				this.missions = missions; 
-		},
-			() => this.stopRefreshing(),
-			() => this.stopRefreshing());
-	}
-
-  private stopRefreshing() {
-		this.isLoading = false;
+    this.navCtrl
+			.push(Expense, { missionId: missId })
+			.catch(error => { console.log(error) });
 	}
 
   ngOnInit() {
-		this.getMissions();
+		this.alarmType = "current"; 
 		this.user = this.SARService.getUser();
-		console.log("BrukerId: " + this.user.id);
+		this.SARService.getUserAlarms(this.user.id)
+			.subscribe(
+				res => { this.alarms = res; },
+				error => {
+					console.log(error);
+					this.navCtrl.push(TabsPage)
+				});
 	}
+
+	ionViewCanEnter() {
+    return this.AuthService.isLoggedIn();
+  }
 }
