@@ -4,6 +4,7 @@ import { NavController } from 'ionic-angular';
 import { SARService } from '../../services/sar.service';
 import { Login } from '../login/login';
 import { AlertController } from 'ionic-angular';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'page-profile',
@@ -15,7 +16,8 @@ export class Profile {
   constructor(
     public navCtrl: NavController, 
     public SARService: SARService,
-    public alertCtrl: AlertController  
+    public alertCtrl: AlertController,
+    public AuthService: AuthService,  
   ) {}
   
   ngOnInit() {
@@ -29,5 +31,9 @@ export class Profile {
       alert.present();
       this.navCtrl.setRoot(Login); 
     }
+  }
+
+  ionViewCanEnter() {
+    return this.AuthService.isLoggedIn();
   }
 }

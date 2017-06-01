@@ -3,7 +3,8 @@ import { NavController, NavParams } from 'ionic-angular';
 import { Mission,  MissionResponse, Alarm, SARUser } from '../../models/models';
 import { SARService } from '../../services/sar.service';
 import { Alarms } from '../alarms/alarms';
-import { TabsPage } from '../tabs/tabs'
+import { TabsPage } from '../tabs/tabs';
+import { Login } from '../login/login';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -40,7 +41,7 @@ export class CallFeedback {
         this.navCtrl.push(Alarms)
           .catch(error => {
             console.log(error);
-            
+            this.navCtrl.setRoot(Login);
           });
       }
       
