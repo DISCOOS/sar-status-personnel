@@ -3,7 +3,7 @@ import { SARService } from '../../services/sar.service';
 import { NavController, NavParams } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs'
 import { Alarms } from '../alarms/alarms';
-
+import {Home } from '../home/home';
 
 @Component({
   selector: 'page-expense',
@@ -33,7 +33,7 @@ export class Expense {
       
     } else {
       this.SARService.addExpense(this.amount, this.description, this.missionId)
-      this.navCtrl.setRoot(Alarms);
+      this.navCtrl.setRoot(Home);
     }
   }
 }
