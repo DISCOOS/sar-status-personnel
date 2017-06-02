@@ -32,8 +32,9 @@ export class Expense {
     } else if (this.amount == null ) {
       
     } else {
+      console.log("Mahad <3")
       this.SARService.addExpense(this.amount, this.description, this.missionId)
-      this.navCtrl.setRoot(Home);
+      this.navCtrl.setRoot(TabsPage);
     }
   }
 }
