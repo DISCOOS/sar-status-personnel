@@ -274,7 +274,7 @@ export class SARService {
         let options = new RequestOptions({ withCredentials: true })
         this._configureOptions(options);
         let url = baseUrl + '/missionResponses';
-        
+
         console.log("hit");
         let postBody = JSON.stringify(missionResponse, this._replacer);
         console.log(postBody);
@@ -327,6 +327,19 @@ export class SARService {
                 return error;
             }
     }
+
+    /**
+     * Method to persist geolocation coordinates to databse.
+     * @param Tracking object to be persisted
+     */
+
+    public setTracking(tracking: Tracking) {
+        let url = baseUrl + "/SARUsers/Expences";
+        let options = new RequestOptions({ withCredentials: true })
+        this._configureOptions(options);
+    }
+
+
 
 
 }

@@ -14,6 +14,7 @@ import { GeoService } from '../services/geo.service';
 import { SARService } from '../services/sar.service';
 import { ExceptionService } from '../services/exception.service';
 import { AuthService } from '../services/auth.service';
+import { MapPage } from '../pages/map/map.component';
 
 import { Geolocation } from '@ionic-native/geolocation';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
@@ -51,6 +52,7 @@ const cloudSettings: CloudSettings = {
     Expense,
     Call,
     CallFeedback,
+    MapPage,
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -67,6 +69,7 @@ const cloudSettings: CloudSettings = {
     Expense,
     Call,
     CallFeedback,
+    MapPage
   ],
   providers: [
     StatusBar,

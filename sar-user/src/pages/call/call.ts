@@ -43,6 +43,7 @@ export class Call {
   }
 
   ionViewDidLoad() {
+    console.log("Error");
 		this.SARService.getMission(1)
       .subscribe(
         mission => { this.mission = mission; },

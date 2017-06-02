@@ -27,6 +27,7 @@ export class GeoService {
         public geolocation: Geolocation,
         public zone: NgZone,
         private backgroundGeolocation: BackgroundGeolocation,
+        public SARService: SARService,
     ) {}
     
     startTracking(missionResponse: MissionResponse) {
@@ -46,7 +47,7 @@ export class GeoService {
         this.backgroundGeolocation.start();
 
         let options = {
-            frequency: 3000, 
+            frequency: 30000, 
             enableHighAccuracy: true,
         };
  
@@ -63,9 +64,7 @@ export class GeoService {
             this.tracking.positionLat = this.lat.toString();
             this.tracking.positionLong = this.lng.toString();
             this.tracking.date = this.date;
-            console.log(this.lat)
-            console.log(this.lng)
-            console.log(this.date)
+            this.SARService.setTracking(this.tracking);
         });
     }
 

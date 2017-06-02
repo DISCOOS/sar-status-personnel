@@ -4,6 +4,7 @@ import { NavController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { SARService } from '../../services/sar.service';
 import { ExceptionService } from '../../services/exception.service';
+import { MapPage } from '../map/map.component';
 
 import { Call } from '../call/call';
 
@@ -30,8 +31,9 @@ export class Login {
   login() {
     this.SARService.login(this.username, this.password)
       .subscribe(
-      data => { this.navCtrl.setRoot(Call); },
+      data => { this.navCtrl.setRoot(TabsPage); },
       error => { 
+        console.log("Error");
         console.log(error);
         this.navCtrl.setRoot(Login); 
       });
