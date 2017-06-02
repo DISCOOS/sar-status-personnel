@@ -7,6 +7,7 @@ import { TabsPage } from '../tabs/tabs';
 import { Login } from '../login/login';
 import { AuthService } from '../../services/auth.service';
 import { GeoService } from '../../services/geo.service';
+import { ExceptionService } from '../../services/exception.service';
 
 @Component({
   selector: 'page-callFeedback',
@@ -20,11 +21,17 @@ export class CallFeedback {
     alarmId: number;
     arrival: string;
     tracking: Tracking;
+    alarm: Alarm;
+    user: SARUser;
 
-  constructor(public navCtrl: NavController, public SARService: SARService, public params:NavParams, private AuthService: AuthService, public GeoService: GeoService) {   
+  constructor(public navCtrl: NavController, public SARService: SARService, public params:NavParams, private AuthService: AuthService, public GeoService: GeoService, private ExceptionService: ExceptionService) {   
     this.feedbackType = params.get("feedbackType");
     this.missionId = params.get("missionId");
     this.alarmId = params.get("alarmId");
+
+    if(!this.feedbackType) {
+      this.submit();
+    }
   }
 
   /**
@@ -33,25 +40,42 @@ export class CallFeedback {
    */
 
   submit() { 
-    let alarm = this.SARService.getAlarm(this.alarmId);
-    let user = this.SARService.getUser();
-    let input = this.arrival;
+    console.log("hit før geo");
 
-    let missionResponse = new MissionResponse(alarm, user, this.feedbackType, 10, input, undefined);
-    if(this.feedbackType) {
-      this.GeoService.startTracking();
+    this.user = this.SARService.getUser();
+    let input = this.arrival;
+    this.user.isTrackable = true; // Må bort
+ 
+    let missionResponse = new MissionResponse(this.alarm, this.user, this.feedbackType, 10, input, null);
+
+    if(this.feedbackType && this.user.isTrackable) {
+      console.log("hit geo");
+      this.GeoService.startTracking(missionResponse);
     }
+
+    console.log("hit etter geo");
     this.SARService.postMissionResponse(missionResponse)
       .subscribe( res => {
         this.navCtrl.push(Alarms)
-          .catch(error => {
+          .catch((error) => {
             console.log(error);
+            this.ExceptionService.expiredSessionError();
             this.navCtrl.setRoot(Login);
-          });
-      }
-      
-      )
+          }); // end catch
+      }, (error) => {
+        this.navCtrl.push(Alarms);
+      }); // end subscribe 
   }
+
+  backButton() {
+    this.navCtrl.push(TabsPage)
+      .catch((error) => {
+        this.ExceptionService.expiredSessionError();
+        this.navCtrl.setRoot(Login);
+      });
+  }
+
+
 
   /**
    * Method for validating user input from form
@@ -65,5 +89,12 @@ export class CallFeedback {
   
   ionViewCanEnter() {
     return this.AuthService.isLoggedIn();
-  }  
+  }
+
+  ionViewDidLoad() {
+    this.SARService.getAlarm(this.alarmId)
+      .subscribe(
+        data => { this.alarm = data; }, 
+        error => { this.navCtrl.setRoot(TabsPage); })
+  }
 }
