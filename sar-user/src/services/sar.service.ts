@@ -9,9 +9,7 @@ import { URLSearchParams } from "@angular/http";
 import { Headers } from '@angular/http';
 import { Mission, Tracking, MissionResponse, Alarm, SARUser, Expence, AlarmResponse } from '../models/models';
 import { CONFIG } from '../shared/config';
-import { Push, PushToken } from '@ionic/cloud-angular';
 import { ExceptionService } from '../services/exception.service';
-import { Geolocation } from '@ionic-native/geolocation';
 
 let baseUrl = CONFIG.urls.baseUrl;
 let token = CONFIG.headers.token;
@@ -30,14 +28,13 @@ export class SARService {
     tracking: Tracking;
     longitude: number;
     latitude: number;
+    lastUpdate: Date;
     // Other components can subscribe to this 
     public isLoggedIn: Subject<boolean> = new Subject();
 
     constructor(
         private http: Http,
-        public push: Push,
         public ExceptionService: ExceptionService,
-        private geolocation: Geolocation
     ) { }
 
     /**
@@ -228,7 +225,6 @@ export class SARService {
         this._configureOptions(options);
         let url = baseUrl + '/missionResponses';
 
-        console.log("hit");
         let postBody = JSON.stringify(missionResponse, this._replacer);
         console.log(postBody);
         return this.http.post(url, missionResponse, options)
@@ -296,13 +292,43 @@ export class SARService {
     }
 
     /**
-     * Method to persist geolocation coordinates to databse.
+     * Method to persist a new Tracking-object to the database.
      * @param Tracking object to be persisted
      */
 
-    public setTracking(tracking: Tracking) {
-        let url = baseUrl + "/SARUsers/Expences";
+    public setTracking(missionResponseId: number) {
+        let geopoint = {
+            "lat": 60.38917550000001,
+            "lng": 5.3132653
+        }
+        let tracking = new Tracking(null, missionResponseId, geopoint, new Date());
+
+        let url = baseUrl + "/Trackings";
         let options = new RequestOptions({ withCredentials: true })
         this._configureOptions(options);
+
+        return this.http.post(url, JSON.stringify(tracking), options)
+            .map(res => { console.log("Opprettet tracking i db"); return res.json(); })
+            .catch(this.ExceptionService.catchBadResponse)
+    }
+
+    public updateTracking(track: Tracking) {
+        let minFrequency = 60000; // Frequency controller for how often the database should be utdated in milliseconds
+        var now = new Date();
+        let url = baseUrl + "/Trackings";
+        let options = new RequestOptions({ withCredentials: true })
+        
+        if(this.lastUpdate && now.getTime() - this.lastUpdate.getTime() < minFrequency) {
+            console.log("Ignoring updated geodata");
+            return;
+        } 
+
+        this.lastUpdate = now;
+        this._configureOptions(options);
+        console.log(JSON.stringify(track));
+
+        return this.http.patch(url, JSON.stringify(track), options)
+            .map(res => { console.log(res.json()); return res.json(); })
+            .catch(this.ExceptionService.catchBadResponse)    
     }
 }

@@ -12,7 +12,7 @@ const config: BackgroundGeolocationConfig = {
             distanceFilter: 30,
             debug: true, //  enable this hear sounds for background-geolocation life-cycle.
             stopOnTerminate: false, // enable this to clear background location settings when the app terminates
-            interval: 3000,
+            interval: 30000,
 };
 
 @Injectable()
@@ -30,8 +30,13 @@ export class GeoService {
         public SARService: SARService,
     ) {}
     
-    startTracking(missionResponse: MissionResponse) {
-        this.tracking = new Tracking(missionResponse, null, null, null);
+    startTracking(missionResponseId: number) {
+        console.log(missionResponseId);
+        this.SARService.setTracking(missionResponseId)
+            .subscribe( 
+                data => { this.tracking = data; },
+                error => { console.log("Error creating tracking object") }
+            );
         
         this.backgroundGeolocation.configure(config)
             .subscribe((location) => {          
@@ -41,30 +46,37 @@ export class GeoService {
                     this.lat = location.latitude;
                     this.lng = location.longitude;
                 });
+
+                if(this.tracking) {
+                    this.tracking.geopoint = {
+                        "lat" : this.lat,
+                        "lng" : this.lng
+                    } 
+                    this.tracking.date = new Date();
+                    this.SARService.updateTracking(this.tracking);
+                }
                 this.backgroundGeolocation.finish();
              }, (err) => { console.log(err); });
 
         this.backgroundGeolocation.start();
 
         let options = {
-            frequency: 30000, 
             enableHighAccuracy: true,
         };
  
         this.watch = this.geolocation.watchPosition(options).filter((p: any) => p.code === undefined).subscribe((position: Geoposition) => {
             console.log(position);
- 
-            // Run update inside of Angular's zone
-            this.zone.run(() => {
-                this.lat = position.coords.latitude;
-                this.lng = position.coords.longitude;
-                this.date = position.timestamp;
-            });
-
-            this.tracking.positionLat = this.lat.toString();
-            this.tracking.positionLong = this.lng.toString();
-            this.tracking.date = this.date;
-            this.SARService.setTracking(this.tracking);
+            if(this.tracking) {
+                console.log(this.tracking)                
+                this.tracking.geopoint = {
+                        "lat" : position.coords.latitude,
+                        "lng" : position.coords.longitude
+                }
+                console.log(this.tracking.geopoint)                       
+                this.tracking.date = new Date();
+                console.log("E vi her hver gang?"); 
+                this.SARService.updateTracking(this.tracking);
+            }
         });
     }
 
@@ -72,6 +84,10 @@ export class GeoService {
         console.log('stopTracking');
         this.backgroundGeolocation.stop();
         this.watch.unsubscribe();        
+    }
+
+    getPosision() {
+        return this.geolocation.getCurrentPosition();
     }
 }
 

@@ -50,17 +50,18 @@ export class CallFeedback {
     let input = this.arrival;
     this.user.isTrackable = true; // Må bort
  
-    let missionResponse = new MissionResponse(this.alarm, this.user, this.feedbackType, 10, input, null);
+    let missionResponse = new MissionResponse(null, this.missionId, this.user.id, this.feedbackType, new Date(), input, null);
 
-    if(this.feedbackType && this.user.isTrackable) {
-      console.log("hit geo");
-      this.GeoService.startTracking(missionResponse);
-    }
-
-    console.log("hit etter geo");
     this.SARService.postMissionResponse(missionResponse)
       .subscribe( res => {
         this.loading = false;
+        missionResponse = res;
+        
+        if(this.feedbackType && this.user.isTrackable) {
+          console.log("hit geo");
+          this.GeoService.startTracking(missionResponse.id);
+        }
+
         this.navCtrl.push(Alarms)
           .catch((error) => {
             console.log(error);
