@@ -9,6 +9,7 @@ import { AuthService } from '../../services/auth.service';
 import { ExceptionService } from '../../services/exception.service';
 import { TabsPage } from '../tabs/tabs';
 import { Login } from '../login/login';
+import {MissionSinglePage } from "../mission-single/mission-single";
 
 @Component({
   selector: 'page-alarms',
@@ -19,7 +20,8 @@ export class Alarms {
 	alarmType : string;
   isLoading: boolean;
 	alarm: any;
-	alarms: Observable<Alarm[]>;
+	//alarms: Observable<Alarm[]>;
+	alarms : any;
 	activeAlarms: Alarm[];
 	inactiveAlarms: Alarm[];
 	user: SARUser;
@@ -35,6 +37,12 @@ export class Alarms {
 	showExpensePage(missId: number) {
     this.navCtrl
 			.push(Expense, { missionId: missId })
+			.catch(error => { console.log(error) });
+	}
+
+	pushMission(id: number) {
+		    this.navCtrl
+			.push(MissionSinglePage, { id: id })
 			.catch(error => { console.log(error) });
 	}
 

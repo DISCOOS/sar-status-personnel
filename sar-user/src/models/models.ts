@@ -8,7 +8,7 @@ export class Mission {
 		public dateStart: Date,
 		public dateEnd: Date,
 		public alarms: Alarm[],
-		public meetingPoint: string, // geolocation { lat, lng }
+		public meetingPoint: any, // geolocation { lat, lng }
 		public meetingPointNicename: string, // converted geolocation to nicename
 		public creator: SARUser,
 		public expences: Expence[],

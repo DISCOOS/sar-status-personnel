@@ -31,7 +31,8 @@ export class Login {
   login() {
     this.SARService.login(this.username, this.password)
       .subscribe(
-      data => { this.navCtrl.setRoot(TabsPage); },
+      data => { 
+        this.navCtrl.setRoot(TabsPage); },
       error => { 
         console.log("Error");
         console.log(error);
@@ -45,5 +46,6 @@ export class Login {
 
   ionViewDidLoad() {
     this.SARService.logout();
+    this.SARService.pushUnregister();
   }
 }

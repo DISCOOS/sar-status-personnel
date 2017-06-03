@@ -31,6 +31,7 @@ h1, h2, h3, h4, h5 {font-family: $font-semibold; }
 .header-md::after {background-image: none; }
 
 ion-content { margin-top: 3.5em; margin-bottom: 5em; }
+.ion-page { padding-top: 100px;}
 
 .availability {text-align: center; padding: 3rem; font-size: 2em; }
 .availability .icon {font-size: 2em; }

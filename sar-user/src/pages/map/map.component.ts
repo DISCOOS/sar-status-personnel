@@ -1,70 +1,78 @@
 import {
- GoogleMaps,
- GoogleMap,
- GoogleMapsEvent,
- LatLng,
- CameraPosition,
- MarkerOptions,
- Marker
+  GoogleMaps,
+  GoogleMap,
+  GoogleMapsEvent,
+  LatLng,
+  CameraPosition,
+  MarkerOptions,
+  Marker
 } from '@ionic-native/google-maps';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Mission } from "../../models/models";
 
 
 @Component({
-    selector: 'page-map',
-    templateUrl: 'map.component.html',
-    providers: [
-        GoogleMaps,
-    ]
+  selector: 'map',
+  templateUrl: 'map.component.html',
+  providers: [
+    GoogleMaps,
+  ]
 })
 
 export class MapPage {
-    
-    constructor(private googleMaps: GoogleMaps) {}
 
-// Load map only after view is initialized
-ngAfterViewInit() {
- this.loadMap();
-}
+  @Input() mission: Mission;
 
-loadMap() {
-    
- // create a new map by passing HTMLElement
- let element: HTMLElement = document.getElementById('map');
+  constructor(private googleMaps: GoogleMaps) { }
 
- let map: GoogleMap = this.googleMaps.create(element);
+  // Load map only after view is initialized
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.loadMap();
+    }, 4000)
 
- // listen to MAP_READY event
- // You must wait for this event to fire before adding something to the map or modifying it in anyway
- map.one(GoogleMapsEvent.MAP_READY).then(
-   () => {
-     console.log('Map is ready!');
-     // Now you can add elements to the map like the marker
-   }
- );
+  }
 
- // create LatLng object
- let ionic: LatLng = new LatLng(43.0741904,-89.3809802);
+  loadMap() {
 
- // create CameraPosition
- let position: CameraPosition = {
-   target: ionic,
-   zoom: 18,
-   tilt: 30
- };
+    // create a new map by passing HTMLElement
+    let element: HTMLElement = document.getElementById('map');
 
- // move the map's camera to position
- map.moveCamera(position);
+    let map: GoogleMap = this.googleMaps.create(element);
 
- // create new marker
- /*let markerOptions: MarkerOptions = {
-   position: ionic,
-   title: 'Ionic'
- };
+    // listen to MAP_READY event
+    // You must wait for this event to fire before adding something to the map or modifying it in anyway
+    map.one(GoogleMapsEvent.MAP_READY).then(
+      () => {
+        console.log('Map is ready!');
+        // Now you can add elements to the map like the marker
+      }
+    );
 
- const marker: Marker = map.addMarker(markerOptions)
-   .then((marker: Marker) => {
-      marker.showInfoWindow();
-    });*/
- }
+    // create LatLng object
+
+
+    const markerPos: LatLng = new LatLng(this.mission.meetingPoint.lat, this.mission.meetingPoint.lng);
+
+    // create CameraPosition
+    let position: CameraPosition = {
+      target: markerPos,
+      zoom: 11,
+      tilt: 30
+    };
+
+    // move the map's camera to position
+    map.moveCamera(position);
+
+    // create new marker
+    let markerOptions: MarkerOptions = {
+      position: markerPos,
+      title: this.mission.meetingPointNicename
+    };
+
+    map.addMarker(markerOptions)
+      .then((marker: Marker) => {
+        marker.showInfoWindow();
+      });
+  }
 }

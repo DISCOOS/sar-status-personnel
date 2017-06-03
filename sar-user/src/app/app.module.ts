@@ -15,6 +15,7 @@ import { SARService } from '../services/sar.service';
 import { ExceptionService } from '../services/exception.service';
 import { AuthService } from '../services/auth.service';
 import { MapPage } from '../pages/map/map.component';
+import {MissionSinglePage } from "../pages/mission-single/mission-single";
 
 import { Geolocation } from '@ionic-native/geolocation';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
@@ -25,7 +26,7 @@ import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 
 const cloudSettings: CloudSettings = {
   'core': {
-    'app_id': '0c6efcdf'
+    'app_id': '0c6efcdf',
   },
   'push': {
     'sender_id': '906828526894',
@@ -39,7 +40,7 @@ const cloudSettings: CloudSettings = {
       }
     }
   }
-};  
+};
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ const cloudSettings: CloudSettings = {
     Call,
     CallFeedback,
     MapPage,
+    MissionSinglePage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -69,7 +71,8 @@ const cloudSettings: CloudSettings = {
     Expense,
     Call,
     CallFeedback,
-    MapPage
+    MapPage,
+    MissionSinglePage
   ],
   providers: [
     StatusBar,

@@ -12,10 +12,13 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { Expense } from '../pages/expense/expense';
 import { Call } from '../pages/call/call';
 import { CallFeedback } from '../pages/callFeedback/callFeedback';
+import { SARService } from '../services/sar.service';
+import { MapPage } from '../pages/map/map.component';
 
 @Component({
   templateUrl: 'app.html'
 })
+
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
@@ -24,22 +27,35 @@ export class MyApp {
   //rootPage: any = Call;
   //rootPage: any = TabsPage;
   //rootPage: any = SingleMission; 
+  //rootPage : any = MapPage;
 
   pages: Array<{title: string, component: any, icon: string}>;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public push: Push) {
-
     this.initializeApp();
+
+    this.push.register().then((t: PushToken) => {
+        return this.push.saveToken(t);
+    }).then((t: PushToken) => {
+  console.log('Token saved:', t.token);
+
+  this.push.rx.notification()
+  .subscribe((msg) => {
+    alert(msg.title + ': ' + msg.text);
+  });
+
+
+});
+
+
+
   }
 
   initializeApp() {
       this.platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-    });
-   
+      });
   }
 
   openPage(page) {
@@ -47,4 +63,7 @@ export class MyApp {
     // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
   }
+
+  
+
 }

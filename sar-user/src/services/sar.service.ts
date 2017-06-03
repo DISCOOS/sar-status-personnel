@@ -140,7 +140,6 @@ export class SARService {
                 if (res.user && res.user.access_token) {
                     // store user details and token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify(res.user));
-                    console.log(localStorage.getItem("currentUser"));
                 } else {
                     return Observable.throw(new Error("Login error"));
                 }
@@ -154,18 +153,24 @@ export class SARService {
 
     public logout() {
         localStorage.removeItem('currentUser');
-        //this.push.unregister();
     }
 
     /**
      * Method to register token for reciving push notifications from the app
      */
 
-    private pushRegister() {
-        this.push.register().then((t: PushToken) => { return this.push.saveToken(t); })
-            .then((t: PushToken) => { console.log('Token saved:', t.token); });
+   public pushRegister() {
+
     }
 
+    public handlePush() {
+
+
+    }
+
+    public pushUnregister() {
+
+    }
     /**
      * Method to persist user availability to the server.
      * @param isAvailable new status of user.
@@ -179,7 +184,6 @@ export class SARService {
         let url = baseUrl + "/sarusers/" + this.getUser().id;
         let options = new RequestOptions({ withCredentials: true })
         this._configureOptions(options);
-        console.log(postBody);
 
         return this.http.patch(url, JSON.stringify(postBody), options)
             .map(res => { 
