@@ -18,13 +18,8 @@ import {MissionSinglePage } from "../mission-single/mission-single";
 
 export class Alarms {
 	alarmType : string;
-  isLoading: boolean;
-	alarm: any;
-	alarms : Observable<any[]>;
-	activeAlarms: Alarm[];
-	inactiveAlarms: Alarm[];
+	missions : any;
 	user: SARUser;
-	clickedExpense: number;
 
   constructor(
     public navCtrl: NavController, 
@@ -46,7 +41,7 @@ export class Alarms {
 	}
 
 	sortAlarms() {
-
+		// TODO: Sort alarms
 	}
 
   ngOnInit() {
@@ -54,7 +49,7 @@ export class Alarms {
 		this.user = this.SARService.getUser();
 		this.SARService.getUserAlarms(this.user.id)
 			.subscribe(
-				res => { this.alarms = res; },
+				res => { this.missions = res; },
 				error => {
 					this.navCtrl.push(TabsPage)
 						.catch(error => {

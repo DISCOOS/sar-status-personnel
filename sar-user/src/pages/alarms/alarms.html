@@ -12,8 +12,8 @@
 
     <div [ngSwitch]="alarmType">
         <ion-list *ngSwitchCase="'current'"> 
-            <ion-item *ngFor="let alarm of alarms">
-                <ion-card (click)="pushMission(alarm.alarm.mission.id)">
+            <ion-item *ngFor="let mission of missions">
+                <ion-card (click)="pushMission(mission.mission.id)">
 
                     <ion-fab right top>
                         <button ion-fab>
@@ -22,20 +22,20 @@
                     </ion-fab>
                     <ion-item>
                         <ion-icon name="ios-map-outline" item-left large></ion-icon>
-                        <h2>{{alarm.alarm.mission.title}}</h2>
-                        <h3>{{alarm.alarm.mission.meetingPointNicename}}</h3>
-                        <p>{{alarm.alarm.mission.description}}</p>
+                        <h2>{{mission.mission.title}}</h2>
+                        <h3>{{mission.mission.meetingPointNicename}}</h3>
+                        <p>{{mission.mission.description}}</p>
                     </ion-item>
                 </ion-card>
             </ion-item>
         </ion-list>
 
         <ion-list *ngSwitchCase="'archived'">
-            <ion-item *ngFor="let alarm of alarms">
+            <ion-item *ngFor="let mission of missions">
                 <ion-card>
                     <ion-item>
-                        {{alarm.alarm.mission.title}}. Oppmøtested: {{alarm.alarm.mission.meetingPointNicename}}
-                        <button ion-button item-right icon-left (click)="showExpensePage(alarm.alarm.mission.id)">
+                        {{mission.mission.title}}. Oppmøtested: {{mission.mission.meetingPointNicename}}
+                        <button ion-button item-right icon-left (click)="showExpensePage(mission.mission.id)">
                             <ion-icon name="ios-cash" ></ion-icon>
                             Registrer utlegg
                         </button>

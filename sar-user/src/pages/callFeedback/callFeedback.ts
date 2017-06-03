@@ -16,6 +16,7 @@ import { ExceptionService } from '../../services/exception.service';
 
 export class CallFeedback {
     feedbackType: boolean;
+    loading: boolean;
     missionResponse: MissionResponse;
     missionId: number;
     alarmId: number;
@@ -30,7 +31,9 @@ export class CallFeedback {
     this.alarmId = params.get("alarmId");
 
     if(!this.feedbackType) {
-      this.submit();
+      setTimeout(() => {
+        this.submit();
+      }, 3000)
     }
   }
 
@@ -40,6 +43,7 @@ export class CallFeedback {
    */
 
   submit() { 
+    this.loading = true;
     console.log("hit før geo");
 
     this.user = this.SARService.getUser();
@@ -56,6 +60,7 @@ export class CallFeedback {
     console.log("hit etter geo");
     this.SARService.postMissionResponse(missionResponse)
       .subscribe( res => {
+        this.loading = false;
         this.navCtrl.push(Alarms)
           .catch((error) => {
             console.log(error);
@@ -63,6 +68,7 @@ export class CallFeedback {
             this.navCtrl.setRoot(Login);
           }); // end catch
       }, (error) => {
+        this.loading = false;
         this.navCtrl.push(Alarms);
       }); // end subscribe 
   }
@@ -74,8 +80,6 @@ export class CallFeedback {
         this.navCtrl.setRoot(Login);
       });
   }
-
-
 
   /**
    * Method for validating user input from form
@@ -92,6 +96,7 @@ export class CallFeedback {
   }
 
   ionViewDidLoad() {
+    this.loading = false;
     this.SARService.getAlarm(this.alarmId)
       .subscribe(
         data => { this.alarm = data; }, 

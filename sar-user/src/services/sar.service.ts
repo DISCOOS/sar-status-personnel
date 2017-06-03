@@ -210,7 +210,7 @@ export class SARService {
     public getUserAlarms(userId: number) {
         let options = new RequestOptions({ withCredentials: true })
         this._configureOptions(options);
-        let url = baseUrl + '/alarmusers?filter[include][alarm][mission]&filter[where][sarUserId]=' + userId;
+        let url = baseUrl + '/attendants?filter[include][mission]&filter[where][sarUserId]=' + userId;
 
         return this.http.get(url, options)
             .map(response => { return response.json() })
@@ -251,6 +251,21 @@ export class SARService {
                 this.alarm = response.json();
                 return this.alarm; })
             .catch(this.ExceptionService.catchBadResponse)
+    }
+
+    /**
+     * Fetch all alarms of one mission
+     * @param missionId
+     */
+
+    public getAlarms(missionId: number) {
+        let options = new RequestOptions({ withCredentials: true })
+        this._configureOptions(options);
+        let url = baseUrl + '/missions/' + missionId + '/alarms';  
+
+        return this.http.get(url, options)
+            .map((res) => { return res.json(); })
+            .catch(this.ExceptionService.catchBadResponse)    
     }
 
     /**

@@ -5,11 +5,12 @@
     <p><b>Beskrivelse:</b> {{mission?.description}}</p>
     <p></p>
     <h2>Utkallinger: </h2>
-    <ion-item *ngFor="let alarm of alarms">
-        <ion-card>
-        <ion-item>
-            <p><b>Melding:</b> {{alarm?.message}}</p>
+    <ion-list>
+        <ion-item *ngFor="let alarm of alarms">
+            <ion-item>
+                {{alarm?.date}}. Beskjed: {{alarm?.message}}
+                <button ion-button item-right icon-left (click)="showCallPage()">Besvar</button>
+            </ion-item>
         </ion-item>
-        </ion-card>
-    </ion-item>
+    </ion-list>
 </ion-content>
