@@ -308,9 +308,14 @@ export class SARService {
         this._configureOptions(options);
 
         return this.http.post(url, JSON.stringify(tracking), options)
-            .map(res => { console.log("Opprettet tracking i db"); return res.json(); })
+            .map(res => { return res.json(); })
             .catch(this.ExceptionService.catchBadResponse)
     }
+
+    /**
+     * Method to update an excisting Tracking-object
+     * @param Tracking object to be persisted. Id, geopoint and date required
+     */
 
     public updateTracking(track: Tracking) {
         let minFrequency = 60000; // Frequency controller for how often the database should be utdated in milliseconds
@@ -325,10 +330,9 @@ export class SARService {
 
         this.lastUpdate = now;
         this._configureOptions(options);
-        console.log(JSON.stringify(track));
 
         return this.http.patch(url, JSON.stringify(track), options)
-            .map(res => { console.log(res.json()); return res.json(); })
+            .map(res => { return res.json(); })
             .catch(this.ExceptionService.catchBadResponse)    
     }
 }
