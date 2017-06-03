@@ -21,6 +21,15 @@ export class ExceptionService {
         alert.present();    
     }
 
+    expenseError() {
+        let alert = this.alertCtrl.create ({
+            title: 'Mangelfull info',
+            subTitle: 'Du må fylle ut begge feltene. Prøv på nytt!',
+            buttons: ['Ok']
+        });
+        alert.present();     
+    }
+
     catchBadResponse: (errorResponse: any) => Observable<any> = (errorResponse: any) => {
         console.log(errorResponse)
 
@@ -38,8 +47,10 @@ export class ExceptionService {
                 (err.error ? err.error.statusCode : '') : '';
         }
 
-        if (statusCode == '401' || statusCode == 401 ) {
+        if (statusCode == '401') {
             this.emsg = 'Ingen tilgang. Forsøk å logge inn på nytt.'
+        } else if(statusCode == '400') {
+            this.emsg = 'Brukernavn og passord må fylles inn. Prøv på nytt!'
         } else if (statusCode == '404') {
             this.emsg = 'Denne ressursen finnes ikke.'
         } else if (statusCode == '500') {

@@ -50,38 +50,6 @@ export class SARService {
         headers.append('Content-Type', 'application/json');
         options.headers = headers;
     }
-    
-        getPos() {
-        console.log("getPos() fired");
-       //let user = this.getUser();
-        let tracking 
-        let url = baseUrl + "/SARUsers/Tracking";
-        let options = new RequestOptions({ withCredentials: true })
-        this._configureOptions(options);
-
-        //if (this.user.isTrackable == true) {
-            this.geolocation.getCurrentPosition().then((resp) => {
-
-               
-                this.tracking.positionLat = resp.coords.latitude.toString();
-                this.tracking.positionLong = resp.coords.longitude.toString();
-                console.log(this.tracking.positionLat);
-                let postBody = JSON.stringify(this.tracking, this._replacer);
-                console.log(postBody);
-                return this.http.post(url, postBody)
-                    .map(res => {
-                        return res.json()
-                    })
-
-            }).catch((error) => {
-                console.log('Error getting location', error);
-            });
-            
-            console.log(this.longitude);
-       // }
-
-
-    }
 
     /**
 	 * Filter out ID from JSON-object. 
@@ -156,22 +124,6 @@ export class SARService {
     }
 
     /**
-     * Method to register token for reciving push notifications from the app
-     */
-
-   public pushRegister() {
-
-    }
-
-    public handlePush() {
-
-
-    }
-
-    public pushUnregister() {
-
-    }
-    /**
      * Method to persist user availability to the server.
      * @param isAvailable new status of user.
      */
@@ -191,9 +143,7 @@ export class SARService {
             })
             .catch(this.ExceptionService.catchBadResponse)
     }
-
-
-
+    
     /**
      * Method to persist SARUser-variable isTrackable to database.
      * @param isTrackable boolean value to persist.
@@ -201,13 +151,12 @@ export class SARService {
 
     public setTrackable(isTrackable: boolean) {
         let postBody = { 
-            "isAvailable" : isTrackable
+            "isTrackable" : isTrackable
         }
 
         let url = baseUrl + "/sarusers/" + this.getUser().id;
         let options = new RequestOptions({ withCredentials: true })
         this._configureOptions(options);
-        console.log(postBody);
 
         return this.http.patch(url, JSON.stringify(postBody), options)
             .map(res => { 
@@ -310,26 +259,25 @@ export class SARService {
      * @param description of the expense
      */
 
-    public addExpense(amount: number, description: string, missionId: number) {
-        let user = this.getUser();
-
-        let url = baseUrl + "/SARUsers/Expences";
+    public addExpense(expense: Expence) {
+        let user =  this.getUser();
+        let url = baseUrl + "/Expences";
         let options = new RequestOptions({ withCredentials: true })
         this._configureOptions(options);
 
-        this.getMission(missionId).subscribe(res => {
-            this.mission = res;
-            let expense = new Expence(null, null, description, amount, this.mission, user.id);
-            let postBody = JSON.stringify(expense, this._replacer);
-            return this.http.post(url, postBody, options)
-                .map(res => {
-                    //console.log(res.json())
-                    return res.json()
-                })
-        }),
-            (error) => {
-                return error;
-            }
+        let postBody = {
+            "title" : "Brukerutgift for " + user.name,
+            "description" : expense.description,
+            "amount" : expense.amount,
+            "mission": expense.missionId,
+            "person" : expense.sARUserId
+        }
+
+        return this.http.post(url, JSON.stringify(postBody), options)
+            .map(res => {
+                    console.log(res.json())
+                    return res.json() })
+            .catch(this.ExceptionService.catchBadResponse)
     }
 
     /**
@@ -342,8 +290,4 @@ export class SARService {
         let options = new RequestOptions({ withCredentials: true })
         this._configureOptions(options);
     }
-
-
-
-
 }

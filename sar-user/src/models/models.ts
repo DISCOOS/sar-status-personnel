@@ -51,8 +51,8 @@ export class Expence {
 		public title: string,
 		public description: string,
 		public amount: number,
-		public mission: Mission,
-		public person: SARUser
+		public missionId: number,
+		public sARUserId: number
 	) { }
 }
 

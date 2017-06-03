@@ -33,22 +33,21 @@ export class MyApp {
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public push: Push) {
     this.initializeApp();
-
-    this.push.register().then((t: PushToken) => {
+    if(platform.is("cordova")) {
+      console.log("Running with cordova")
+      this.push.register().then((t: PushToken) => {
         return this.push.saveToken(t);
-    }).then((t: PushToken) => {
-  console.log('Token saved:', t.token);
+      }).then((t: PushToken) => {
+        console.log('Token saved:', t.token);
+      });
 
-  this.push.rx.notification()
-  .subscribe((msg) => {
-    alert(msg.title + ': ' + msg.text);
-  });
-
-
-});
-
-
-
+      this.push.rx.notification()
+      .subscribe((msg) => {
+        alert(msg.title + ': ' + msg.text);
+      });
+    } else {
+      console.log("Running without cordova")
+    }
   }
 
   initializeApp() {

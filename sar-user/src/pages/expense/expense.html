@@ -1,17 +1,18 @@
-<ion-content>
-    <div class="head text-center">
-       
-       
-    </div>
- <form (ngSubmit)="addExpense()" #loginForm="ngForm">
+<ion-content padding class="expense">
+	<h1>{{mission?.title}}</h1>
+	<h2>Registrering av utgift</h2>
+	<p></p>
+	<form (ngSubmit)="addExpense()" #expenseForm="ngForm">
 		<ion-list>
-			<ion-item>
-				<ion-input [(ngModel)]="title" placeholder="Beskrivelse" type="text" name="title"></ion-input>
-			</ion-item>
+			<ion-label>Beløp:</ion-label>   
 			<ion-item>
 				<ion-input [(ngModel)]="amount" type="number" placeholder="Sum utgift" name="amount"></ion-input>
-			</ion-item>	
+			</ion-item>
+			<ion-label>Beskrivelse av utgiften (obligatorisk):</ion-label>    
+			<ion-item>
+				<ion-textarea [(ngModel)]="description" placeholder="Beskrivelse" name="description"></ion-textarea>
+			</ion-item>
 		</ion-list>
-		<button padding ion-button (onclick)="addExpense()" type="submit">Bekreft</button>
+		<button padding ion-button item-right [disabled]="loading" (onclick)="addExpense()" type="submit">Bekreft</button>
 	</form>
 </ion-content>

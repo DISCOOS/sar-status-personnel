@@ -1,3 +1,15 @@
-Et mission
-
-<map [mission]="mission"></map>
+<ion-content padding class="singleMission">
+    <!--<map [mission]="mission"></map>-->
+    <h1>{{mission?.title}}</h1>
+    <h2>Oppmøte: {{mission?.meetingPointNicename}}</h2>
+    <p><b>Beskrivelse:</b> {{mission?.description}}</p>
+    <p></p>
+    <h2>Utkallinger: </h2>
+    <ion-item *ngFor="let alarm of alarms">
+        <ion-card>
+        <ion-item>
+            <p><b>Melding:</b> {{alarm?.message}}</p>
+        </ion-item>
+        </ion-card>
+    </ion-item>
+</ion-content>

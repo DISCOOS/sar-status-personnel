@@ -16,6 +16,7 @@ import { Call } from '../call/call';
 export class Login {
   username: string;
   password: string;
+  loading: boolean;
 
   constructor(
     public navCtrl: NavController,
@@ -29,11 +30,14 @@ export class Login {
    */
 
   login() {
+    this.loading = true;
     this.SARService.login(this.username, this.password)
       .subscribe(
-      data => { 
+      data => {
+        this.loading = false; 
         this.navCtrl.setRoot(TabsPage); },
       error => { 
+        this.loading = false;
         console.log("Error");
         console.log(error);
         this.navCtrl.setRoot(Login); 
@@ -45,7 +49,7 @@ export class Login {
   }
 
   ionViewDidLoad() {
+    this.loading = false;
     this.SARService.logout();
-    this.SARService.pushUnregister();
   }
 }

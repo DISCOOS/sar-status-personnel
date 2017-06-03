@@ -20,8 +20,7 @@ export class Alarms {
 	alarmType : string;
   isLoading: boolean;
 	alarm: any;
-	//alarms: Observable<Alarm[]>;
-	alarms : any;
+	alarms : Observable<any[]>;
 	activeAlarms: Alarm[];
 	inactiveAlarms: Alarm[];
 	user: SARUser;

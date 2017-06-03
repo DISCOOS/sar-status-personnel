@@ -34,8 +34,8 @@
             <ion-item *ngFor="let alarm of alarms">
                 <ion-card>
                     <ion-item>
-                        <!--{{alarm.alarm.mission.title}}-->
-                        <button ion-button item-right icon-left (click)="showExpensePage()">
+                        {{alarm.alarm.mission.title}}. Oppmøtested: {{alarm.alarm.mission.meetingPointNicename}}
+                        <button ion-button item-right icon-left (click)="showExpensePage(alarm.alarm.mission.id)">
                             <ion-icon name="ios-cash" ></ion-icon>
                             Registrer utlegg
                         </button>

@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Mission } from "../../models/models";
+import { Mission, Alarm } from "../../models/models";
 import { SARService } from "../../services/sar.service";
+import { AuthService } from "../../services/auth.service";
 import { NavParams } from "ionic-angular";
 
 
@@ -9,33 +10,32 @@ import { NavParams } from "ionic-angular";
     templateUrl: 'mission-single.html'
 })
 
-export class MissionSinglePage implements OnInit {
+export class MissionSinglePage {
     private id: any;
     private sub: any;
-    mission: Mission;
+    public mission: Mission;
+    public alarms: Alarm[];
 
     constructor(
         private SARService: SARService,
-        private navParams: NavParams
+        private navParams: NavParams,
+        private AuthService: AuthService
     ) { }
 
-    ngOnInit() {
 
-        this.id = this.navParams.get("id");
-        
-        this.getMission();
-    }
+  ionViewCanEnter() {
+    return this.AuthService.isLoggedIn();
+  }
 
-
-    getMission() {
-
-        this.SARService.getMission(this.id)
-            .subscribe(
-            mission => { this.mission = mission; },
+  ionViewDidLoad() {
+    this.id = this.navParams.get("id");
+    this.SARService.getMission(this.id)
+        .subscribe(
+            mission => { 
+                this.mission = mission;
+                this.alarms = mission.alarms; 
+            },
             error => { console.log("error getting mission") },
             () => { console.log("got mission") })
     }
-
-
-
 }
