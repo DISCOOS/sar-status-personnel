@@ -70,11 +70,11 @@ export class MissionResponse {
 
 export class Tracking {
 	constructor(
+		public date: Date,
+		public geopoint: any,
 		public id: number,
 		public missionResponseId: number,
-		public geopoint: any,
-		public date: Date
-	) { }
+	) {}
 }
 
 export class AlarmResponse {

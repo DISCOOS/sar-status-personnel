@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { Push, PushToken } from '@ionic/cloud-angular';
 
 import { Login } from '../pages/login/login';
 import { Home } from '../pages/home/home';
@@ -23,31 +22,11 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any = Login;
-  //rootPage: any = CallFeedback;
-  //rootPage: any = Call;
-  //rootPage: any = TabsPage;
-  //rootPage: any = SingleMission; 
-  //rootPage : any = MapPage;
 
   pages: Array<{title: string, component: any, icon: string}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public push: Push) {
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
-    if(platform.is("cordova")) {
-      console.log("Running with cordova")
-      this.push.register().then((t: PushToken) => {
-        return this.push.saveToken(t);
-      }).then((t: PushToken) => {
-        console.log('Token saved:', t.token);
-      });
-
-      this.push.rx.notification()
-      .subscribe((msg) => {
-        alert(msg.title + ': ' + msg.text);
-      });
-    } else {
-      console.log("Running without cordova")
-    }
   }
 
   initializeApp() {

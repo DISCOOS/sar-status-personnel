@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BackgroundGeolocation, BackgroundGeolocationConfig } from '@ionic-native/background-geolocation';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation';
 import { SARService } from '../services/sar.service';
@@ -12,24 +12,24 @@ const config: BackgroundGeolocationConfig = {
             distanceFilter: 30,
             debug: true, //  enable this hear sounds for background-geolocation life-cycle.
             stopOnTerminate: false, // enable this to clear background location settings when the app terminates
-            interval: 30000,
+            interval: 3000
 };
 
 @Injectable()
 export class GeoService {
     public watch: any;    
-    public lat: number = 0;
-    public lng: number = 0;
     public date: number = 0;
     private tracking: Tracking;
+    private lastUpdate: Date;
+    private lati: number;
+    private long: number; 
 
     constructor(
         public geolocation: Geolocation,
-        public zone: NgZone,
         private backgroundGeolocation: BackgroundGeolocation,
         public SARService: SARService,
     ) {}
-    
+
     startTracking(missionResponseId: number) {
         console.log(missionResponseId);
         this.SARService.setTracking(missionResponseId)
@@ -37,28 +37,20 @@ export class GeoService {
                 data => { this.tracking = data; },
                 error => { console.log("Error creating tracking object") }
             );
+        this.lastUpdate = new Date();    
         
         this.backgroundGeolocation.configure(config)
             .subscribe((location) => {          
                 console.log('BackgroundGeolocation:  ' + location.latitude + ', ' + location.longitude);
-                // Run update inside of Angular's zone
-                this.zone.run(() => {
-                    this.lat = location.latitude;
-                    this.lng = location.longitude;
-                });
-
-                if(this.tracking) {
-                    this.tracking.geopoint = {
-                        "lat" : this.lat,
-                        "lng" : this.lng
-                    } 
-                    this.tracking.date = new Date();
-                    this.SARService.updateTracking(this.tracking);
+                if(this.tracking && this.readyUpdate()) {
+                    this.lati = location.latitude;
+                    this.long = location.longitude;
+                    this.sendUpdate(this.lati, this.long);
                 }
-                this.backgroundGeolocation.finish();
              }, (err) => { console.log(err); });
 
-        this.backgroundGeolocation.start();
+        this.backgroundGeolocation.start()
+            .catch(error => console.log(error));
 
         let options = {
             enableHighAccuracy: true,
@@ -66,18 +58,19 @@ export class GeoService {
  
         this.watch = this.geolocation.watchPosition(options).filter((p: any) => p.code === undefined).subscribe((position: Geoposition) => {
             console.log(position);
-            if(this.tracking) {
-                console.log(this.tracking)                
-                this.tracking.geopoint = {
-                        "lat" : position.coords.latitude,
-                        "lng" : position.coords.longitude
-                }
-                console.log(this.tracking.geopoint)                       
-                this.tracking.date = new Date();
-                console.log("E vi her hver gang?"); 
-                this.SARService.updateTracking(this.tracking);
+            if(this.tracking && this.readyUpdate()) {
+                    console.log(this.tracking)                
+                    this.sendUpdate(position.coords.latitude, position.coords.longitude);
             }
         });
+    }
+
+    sendUpdate(lat: number, lng: number) {
+        console.log("E vi her hver gang?"); 
+        this.SARService.updateTracking(lat, lng, this.tracking.id, this.tracking.missionResponseId)
+            .subscribe(
+                (data) => {console.log("Fyrte av")},
+                (error) => {console.log("Error")});
     }
 
     stopTracking() {
@@ -86,8 +79,15 @@ export class GeoService {
         this.watch.unsubscribe();        
     }
 
-    getPosision() {
-        return this.geolocation.getCurrentPosition();
+    private readyUpdate() {
+        let minFrequency = 60000; // Frequency controller for how often the database should be updated in milliseconds
+        var now = new Date();
+        if(this.lastUpdate && now.getTime() - this.lastUpdate.getTime() < minFrequency) {
+            console.log("Ignoring updated geodata");
+            return false;
+        } 
+        this.lastUpdate = now;
+        return true;
     }
 }
 

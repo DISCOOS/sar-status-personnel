@@ -31,7 +31,6 @@
         "cordova-ios": "~4.3.1",
         "cordova-plugin-console": "1.0.5",
         "cordova-plugin-device": "1.1.4",
-        "cordova-plugin-googlemaps": "^1.4.0",
         "cordova-plugin-mauron85-background-geolocation": "^2.2.5",
         "cordova-plugin-splashscreen": "^4.0.3",
         "cordova-plugin-statusbar": "2.2.1",
@@ -41,7 +40,6 @@
         "ionic-plugin-keyboard": "~2.2.1",
         "ionic-project": "file:ios",
         "ionicons": "3.0.0",
-        "phonegap-plugin-push": "^1.10.4",
         "rxjs": "5.0.1",
         "sw-toolbox": "3.4.0",
         "zone.js": "0.7.2"
@@ -80,13 +78,6 @@
             "cordova-plugin-mauron85-background-geolocation": {
                 "ACCOUNT_TYPE": "$PACKAGE_NAME.account",
                 "CONTENT_AUTHORITY": "$PACKAGE_NAME"
-            },
-            "cordova-plugin-googlemaps": {
-                "API_KEY_FOR_ANDROID": "AIzaSyBYzGTxVG0t0RYu0-IFlqFbp9x4PjLUl_E",
-                "API_KEY_FOR_IOS": "AIzaSyAbB7r_KWe6_oUc-R_RCokYbEBnfautCqQ"
-            },
-            "phonegap-plugin-push": {
-                "SENDER_ID": "906828526894"
             }
         },
         "platforms": [

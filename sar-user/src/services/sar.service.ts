@@ -28,7 +28,6 @@ export class SARService {
     tracking: Tracking;
     longitude: number;
     latitude: number;
-    lastUpdate: Date;
     // Other components can subscribe to this 
     public isLoggedIn: Subject<boolean> = new Subject();
 
@@ -301,7 +300,7 @@ export class SARService {
             "lat": 60.38917550000001,
             "lng": 5.3132653
         }
-        let tracking = new Tracking(null, missionResponseId, geopoint, new Date());
+        let tracking = new Tracking(new Date(), geopoint, null, missionResponseId);
 
         let url = baseUrl + "/Trackings";
         let options = new RequestOptions({ withCredentials: true })
@@ -317,22 +316,23 @@ export class SARService {
      * @param Tracking object to be persisted. Id, geopoint and date required
      */
 
-    public updateTracking(track: Tracking) {
-        let minFrequency = 60000; // Frequency controller for how often the database should be utdated in milliseconds
-        var now = new Date();
-        let url = baseUrl + "/Trackings";
-        let options = new RequestOptions({ withCredentials: true })
-        
-        if(this.lastUpdate && now.getTime() - this.lastUpdate.getTime() < minFrequency) {
-            console.log("Ignoring updated geodata");
-            return;
-        } 
+    public updateTracking(latitude: number, longitude: number, id: number, missionResponseId: number) {
+        let postBody = {
+            "date": new Date(),
+            "geopoint": {
+                "lat":  latitude,
+                "lng": longitude
+            },
+            "id" : id,
+            "missionResponseId": missionResponseId
+        }
 
-        this.lastUpdate = now;
+        let url = baseUrl + "/Trackings/" + id;
+        let options = new RequestOptions({ withCredentials: true })
         this._configureOptions(options);
 
-        return this.http.patch(url, JSON.stringify(track), options)
-            .map(res => { return res.json(); })
-            .catch(this.ExceptionService.catchBadResponse)    
+        return this.http.patch(url, JSON.stringify(postBody), options)
+            .map((res) => { console.log(res.json()); return res.json(); })
+            .do(() => console.log("sendte object"))    
     }
 }
