@@ -9,7 +9,9 @@ import { URLSearchParams } from "@angular/http";
 import { Headers } from '@angular/http';
 import { Mission, Tracking, MissionResponse, Alarm, SARUser, Expence, AlarmResponse } from '../models/models';
 import { CONFIG } from '../shared/config';
+import { Push, PushToken } from '@ionic/cloud-angular';
 import { ExceptionService } from '../services/exception.service';
+import { Geolocation } from '@ionic-native/geolocation';
 
 let baseUrl = CONFIG.urls.baseUrl;
 let token = CONFIG.headers.token;
@@ -33,7 +35,9 @@ export class SARService {
 
     constructor(
         private http: Http,
+        public push: Push,
         public ExceptionService: ExceptionService,
+        private geolocation: Geolocation
     ) { }
 
     /**
@@ -45,6 +49,38 @@ export class SARService {
         headers.append('Authorization', 'Bearer ' + JSON.parse(localStorage.getItem("currentUser")).access_token);
         headers.append('Content-Type', 'application/json');
         options.headers = headers;
+    }
+    
+        getPos() {
+        console.log("getPos() fired");
+       //let user = this.getUser();
+        let tracking 
+        let url = baseUrl + "/SARUsers/Tracking";
+        let options = new RequestOptions({ withCredentials: true })
+        this._configureOptions(options);
+
+        //if (this.user.isTrackable == true) {
+            this.geolocation.getCurrentPosition().then((resp) => {
+
+               
+                this.tracking.positionLat = resp.coords.latitude.toString();
+                this.tracking.positionLong = resp.coords.longitude.toString();
+                console.log(this.tracking.positionLat);
+                let postBody = JSON.stringify(this.tracking, this._replacer);
+                console.log(postBody);
+                return this.http.post(url, postBody)
+                    .map(res => {
+                        return res.json()
+                    })
+
+            }).catch((error) => {
+                console.log('Error getting location', error);
+            });
+            
+            console.log(this.longitude);
+       // }
+
+
     }
 
     /**
@@ -104,6 +140,7 @@ export class SARService {
                 if (res.user && res.user.access_token) {
                     // store user details and token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify(res.user));
+                    console.log(localStorage.getItem("currentUser"));
                 } else {
                     return Observable.throw(new Error("Login error"));
                 }
@@ -117,6 +154,16 @@ export class SARService {
 
     public logout() {
         localStorage.removeItem('currentUser');
+        //this.push.unregister();
+    }
+
+    /**
+     * Method to register token for reciving push notifications from the app
+     */
+
+    private pushRegister() {
+        this.push.register().then((t: PushToken) => { return this.push.saveToken(t); })
+            .then((t: PushToken) => { console.log('Token saved:', t.token); });
     }
 
     /**
@@ -132,6 +179,7 @@ export class SARService {
         let url = baseUrl + "/sarusers/" + this.getUser().id;
         let options = new RequestOptions({ withCredentials: true })
         this._configureOptions(options);
+        console.log(postBody);
 
         return this.http.patch(url, JSON.stringify(postBody), options)
             .map(res => { 
@@ -139,7 +187,9 @@ export class SARService {
             })
             .catch(this.ExceptionService.catchBadResponse)
     }
-    
+
+
+
     /**
      * Method to persist SARUser-variable isTrackable to database.
      * @param isTrackable boolean value to persist.
@@ -147,12 +197,13 @@ export class SARService {
 
     public setTrackable(isTrackable: boolean) {
         let postBody = { 
-            "isTrackable" : isTrackable
+            "isAvailable" : isTrackable
         }
 
         let url = baseUrl + "/sarusers/" + this.getUser().id;
         let options = new RequestOptions({ withCredentials: true })
         this._configureOptions(options);
+        console.log(postBody);
 
         return this.http.patch(url, JSON.stringify(postBody), options)
             .map(res => { 
@@ -206,7 +257,7 @@ export class SARService {
     public getUserAlarms(userId: number) {
         let options = new RequestOptions({ withCredentials: true })
         this._configureOptions(options);
-        let url = baseUrl + '/attendants?filter[include][mission]&filter[where][sarUserId]=' + userId;
+        let url = baseUrl + '/alarmusers?filter[include][alarm][mission]&filter[where][sarUserId]=' + userId;
 
         return this.http.get(url, options)
             .map(response => { return response.json() })
@@ -223,7 +274,8 @@ export class SARService {
         let options = new RequestOptions({ withCredentials: true })
         this._configureOptions(options);
         let url = baseUrl + '/missionResponses';
-
+        
+        console.log("hit");
         let postBody = JSON.stringify(missionResponse, this._replacer);
         console.log(postBody);
         return this.http.post(url, missionResponse, options)
@@ -249,27 +301,11 @@ export class SARService {
     }
 
     /**
-     * Fetch all alarms of one mission
-     * @param missionId
-     */
-
-    public getAlarms(missionId: number) {
-        let options = new RequestOptions({ withCredentials: true })
-        this._configureOptions(options);
-        let url = baseUrl + '/missions/' + missionId + '/alarms';  
-
-        return this.http.get(url, options)
-            .map((res) => { return res.json(); })
-            .catch(this.ExceptionService.catchBadResponse)    
-    }
-
-    /**
      * Method to persist user expense
      * @param amount of the expense
      * @param description of the expense
      */
 
-<<<<<<< HEAD
     public addExpense(amount: number, description: string, missionId: number) {
         let user = this.getUser();
         console.log("expense fiiired");
@@ -294,72 +330,4 @@ export class SARService {
             }*/
     }
 
-=======
-    public addExpense(expense: Expence) {
-        let user =  this.getUser();
-        let url = baseUrl + "/Expences";
-        let options = new RequestOptions({ withCredentials: true })
-        this._configureOptions(options);
-
-        let postBody = {
-            "title" : "Brukerutgift for " + user.name,
-            "description" : expense.description,
-            "amount" : expense.amount,
-            "mission": expense.missionId,
-            "person" : expense.sARUserId
-        }
-
-        return this.http.post(url, JSON.stringify(postBody), options)
-            .map(res => {
-                    console.log(res.json())
-                    return res.json() })
-            .catch(this.ExceptionService.catchBadResponse)
-    }
-
-    /**
-     * Method to persist a new Tracking-object to the database.
-     * @param Tracking object to be persisted
-     */
-
-    public setTracking(missionResponseId: number) {
-        let geopoint = {
-            "lat": 60.38917550000001,
-            "lng": 5.3132653
-        }
-        let tracking = new Tracking(new Date(), geopoint, null, missionResponseId);
-
-        let url = baseUrl + "/Trackings";
-        let options = new RequestOptions({ withCredentials: true })
-        this._configureOptions(options);
-
-        return this.http.post(url, JSON.stringify(tracking), options)
-            .map(res => { return res.json(); })
-            .catch(this.ExceptionService.catchBadResponse)
-    }
-
-    /**
-     * Method to update an excisting Tracking-object
-     * @param Tracking object to be persisted. Id, geopoint and date required
-     */
-
-    public updateTracking(latitude: number, longitude: number, id: number, missionResponseId: number) {
-        let postBody = {
-            "date": new Date(),
-            "geopoint": {
-                "lat":  latitude,
-                "lng": longitude
-            },
-            "id" : id,
-            "missionResponseId": missionResponseId
-        }
-
-        let url = baseUrl + "/Trackings/" + id;
-        let options = new RequestOptions({ withCredentials: true })
-        this._configureOptions(options);
-
-        return this.http.patch(url, JSON.stringify(postBody), options)
-            .map((res) => { console.log(res.json()); return res.json(); })
-            .do(() => console.log("sendte object"))    
-    }
->>>>>>> origin/master
 }

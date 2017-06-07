@@ -14,13 +14,31 @@ import { GeoService } from '../services/geo.service';
 import { SARService } from '../services/sar.service';
 import { ExceptionService } from '../services/exception.service';
 import { AuthService } from '../services/auth.service';
-import {MissionSinglePage } from "../pages/mission-single/mission-single";
 
 import { Geolocation } from '@ionic-native/geolocation';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 
+
+const cloudSettings: CloudSettings = {
+  'core': {
+    'app_id': '0c6efcdf'
+  },
+  'push': {
+    'sender_id': '906828526894',
+    'pluginConfig': {
+      'ios': {
+        'badge': true,
+        'sound': true
+      },
+      'android': {
+        'iconColor': '#343434'
+      }
+    }
+  }
+};  
 
 @NgModule({
   declarations: [
@@ -33,13 +51,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     Expense,
     Call,
     CallFeedback,
-    MissionSinglePage,
   ],
   imports: [
     IonicModule.forRoot(MyApp),
-
-  ],
-  exports: [
+    CloudModule.forRoot(cloudSettings)   
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -52,7 +67,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     Expense,
     Call,
     CallFeedback,
-    MissionSinglePage,
   ],
   providers: [
     StatusBar,

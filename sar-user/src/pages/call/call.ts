@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Mission, Alarm } from '../../models/models';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController } from 'ionic-angular';
 import { SARService } from '../../services/sar.service';
 import { AuthService } from '../../services/auth.service';
 import { CallFeedback } from '../callFeedback/callFeedback';
@@ -22,7 +22,6 @@ export class Call {
     public navCtrl: NavController, 
     private SARService: SARService,
     private AuthService: AuthService,
-    private navParams: NavParams
   ) {}
 
   /**
@@ -44,7 +43,7 @@ export class Call {
   }
 
   ionViewDidLoad() {
-		this.SARService.getMission(this.navParams.get("missionId"))
+		this.SARService.getMission(1)
       .subscribe(
         mission => { this.mission = mission; },
         error => { 
