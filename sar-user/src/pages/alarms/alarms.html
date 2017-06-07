@@ -14,7 +14,6 @@
         <ion-list *ngSwitchCase="'current'"> 
             <ion-item *ngFor="let mission of missions">
                 <ion-card (click)="pushMission(mission.mission.id)">
-
                     <ion-fab right top>
                         <button ion-fab>
                             <ion-icon name="pin"></ion-icon>
@@ -32,15 +31,11 @@
 
         <ion-list *ngSwitchCase="'archived'">
             <ion-item *ngFor="let mission of missions">
-                <ion-card>
-                    <ion-item>
-                        {{mission.mission.title}}. Oppmøtested: {{mission.mission.meetingPointNicename}}
-                        <button ion-button item-right icon-left (click)="showExpensePage(mission.mission.id)">
-                            <ion-icon name="ios-cash" ></ion-icon>
-                            Registrer utlegg
-                        </button>
-                    </ion-item>
-                </ion-card>
+                {{mission.mission.title}}. Oppmøtested: {{mission.mission.meetingPointNicename}}
+                <button ion-button item-right icon-left (click)="showExpensePage(mission.mission.id)">
+                    <ion-icon name="ios-cash" ></ion-icon>
+                    Registrer utlegg
+                </button>
             </ion-item>
         </ion-list>   
     </div> 

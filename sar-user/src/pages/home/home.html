@@ -10,7 +10,7 @@
     <ion-grid padding>
         <ion-row padding>
             <ion-col col-3>
-                <ion-toggle [(ngModel)]="available" (ionChange)="setAvailable()"></ion-toggle>
+                <ion-toggle [(ngModel)]="available" (click)="setAvailable()"></ion-toggle>
             </ion-col>
             <ion-col col-9>
                 <h4>Tilgjengelig for alarmutkall</h4>
@@ -19,7 +19,7 @@
         </ion-row>
         <ion-row padding>
             <ion-col col-3>
-                <ion-toggle [(ngModel)]="trackable" (ionChange)="setTrackable()"></ion-toggle>
+                <ion-toggle [(ngModel)]="trackable" (click)="setTrackable()"></ion-toggle>
             </ion-col>
             <ion-col col-9>
                 <h4>Tilgjengelig for GPS-Sporing</h4>

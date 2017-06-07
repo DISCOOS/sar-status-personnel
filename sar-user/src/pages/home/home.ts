@@ -30,6 +30,7 @@ export class Home {
    */
 
   setAvailable() {
+    console.log("Kjøre")
     this.SARService.setAvailability(this.available)
       .subscribe(
         res => {
@@ -49,7 +50,15 @@ export class Home {
       .subscribe(
         res => { 
           this.user.isTrackable = this.trackable; 
-          localStorage.setItem('currentUser', JSON.stringify(this.user)) 
+          localStorage.setItem('currentUser', JSON.stringify(this.user))
+          if(this.trackable) {
+            let alert = this.alertCtrl.create ({
+              title: 'OBS',
+              subTitle: 'Du vil nå bli sporet neste gang du deltar i en aksjon.',
+              buttons: ['Ok']
+            });
+            alert.present();
+          }
         },
         error => { this.navCtrl.setRoot(Login); }
       );

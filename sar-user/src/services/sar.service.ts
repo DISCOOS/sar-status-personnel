@@ -199,7 +199,7 @@ export class SARService {
     }
 
     /**
-     * Method fetches all alarms connected to a user id from DAO.
+     * Method fetches all Missions with an alarm connected to a user id from DAO.
      * @param userId SARUser id
      */
 
@@ -209,8 +209,8 @@ export class SARService {
         let url = baseUrl + '/attendants?filter[include][mission]&filter[where][sarUserId]=' + userId;
 
         return this.http.get(url, options)
-            .map(response => { return response.json() })
-            .catch(this.ExceptionService.catchBadResponse)
+                        .map(response => { return response.json(); })
+                        .catch(this.ExceptionService.catchBadResponse)
     }
 
 

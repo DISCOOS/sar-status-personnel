@@ -18,7 +18,9 @@ import {MissionSinglePage } from "../mission-single/mission-single";
 
 export class Alarms {
 	alarmType : string;
-	missions : any;
+	missions : Mission[];
+	activeMissions : Mission[];
+	inactiveMissions : Mission[];
 	user: SARUser;
 
   constructor(
@@ -35,13 +37,13 @@ export class Alarms {
 	}
 
 	pushMission(id: number) {
-		    this.navCtrl
+		this.navCtrl
 			.push(MissionSinglePage, { id: id })
 			.catch(error => { console.log(error) });
 	}
 
 	sortAlarms() {
-		// TODO: Sort alarms
+
 	}
 
   ngOnInit() {
