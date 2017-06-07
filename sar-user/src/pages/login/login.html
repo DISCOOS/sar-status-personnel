@@ -1,5 +1,5 @@
-<ion-content padding >
-	<ion-spinner></ion-spinner>
+<ion-content padding>
+	<!--<ion-spinner></ion-spinner>-->
 	<form (ngSubmit)="login()" #loginForm="ngForm">
 		<ion-list>
 			<ion-item>
@@ -10,6 +10,6 @@
 				<ion-input [(ngModel)]="password" type="password" placeholder="Passord" name="password"></ion-input>
 			</ion-item>
 		</ion-list>
-		<button padding ion-button [disabled]="loading" (onclick)="login()" type="submit" >Logg inn</button>
+		<button padding ion-button [disabled]="loading" (onclick)="login()" type="submit">Logg inn</button>
 	</form>
 </ion-content>
