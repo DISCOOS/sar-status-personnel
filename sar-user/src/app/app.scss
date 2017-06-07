@@ -114,6 +114,14 @@ ion-spinner {
             transform: scale(1); } }
 
 
+.animated {-webkit-animation-duration: 0.5s; animation-duration: 0.5s; -webkit-animation-fill-mode: both; animation-fill-mode: both; }
+@keyframes fadeInDown {from {opacity: 0; -webkit-transform: translate3d(0, -100%, 0); transform: translate3d(0, -100%, 0); } to {opacity: 1; -webkit-transform: none; transform: none; } }
+.fadeInDown {-webkit-animation-name: fadeInDown; animation-name: fadeInDown; }
+@-webkit-keyframes fadeIn {from {opacity: 0; } to {opacity: 1; } } @keyframes fadeIn {from {opacity: 0; } to {opacity: 1; } } 
+.fadeIn {-webkit-animation-name: fadeIn; animation-name: fadeIn; }
+
+
+
 
 
 
@@ -126,7 +134,7 @@ h1, h2, h3, h4, h5 {font-family: $font-semibold; }
 .header-md::after {background-image: none; }
 
 ion-content { margin-top: 3.5em; margin-bottom: 5em; padding-top: 5em; }
-.ion-page { margin-top: 50px;}
+.ion-page { margin-top: 10px;}
 
 .availability {text-align: center; padding: 3rem; font-size: 2em; }
 .availability .icon {font-size: 2em; }

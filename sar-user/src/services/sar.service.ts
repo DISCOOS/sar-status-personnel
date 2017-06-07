@@ -138,11 +138,13 @@ export class SARService {
         let options = new RequestOptions({ withCredentials: true })
         this._configureOptions(options);
 
+        this.spinnerService.show();
         return this.http.patch(url, JSON.stringify(postBody), options)
             .map(res => { 
                 return res.json();
             })
             .catch(this.ExceptionService.catchBadResponse)
+            .finally(() => this.spinnerService.hide())
     }
     
     /**
