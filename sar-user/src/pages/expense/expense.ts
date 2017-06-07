@@ -1,40 +1,77 @@
 import { Component } from '@angular/core';
 import { SARService } from '../../services/sar.service';
+import { AuthService } from '../../services/auth.service';
+import { ExceptionService } from '../../services/exception.service';
+import { Expence, Mission } from '../../models/models'
 import { NavController, NavParams } from 'ionic-angular';
-import { TabsPage } from '../tabs/tabs'
 import { Alarms } from '../alarms/alarms';
+<<<<<<< HEAD
 import {Home } from '../home/home';
+=======
+import { Login } from '../login/login';
+>>>>>>> origin/master
 
 @Component({
   selector: 'page-expense',
   templateUrl: 'expense.html',
-  entryComponents: [
-
-  ]
 })
 
 export class Expense {
   amount: number;
   description: string;
-  missionId: number;
+  mission: Mission;
+  loading: boolean; 
 
   constructor(
     public navCtrl: NavController,
     public SARService : SARService,
-    public params:NavParams,
-  ) { 
-    this.missionId = params.get("missionId");
-  }
+    private AuthService : AuthService,
+    private ExceptionService : ExceptionService,
+    public params: NavParams,
+  ) { }
 
   addExpense(){
-    if(this.description.length == 0 && this.description == null ) {
-
-    } else if (this.amount == null ) {
-      
+    this.loading = true;
+    console.log("This: " + this.description + this.amount)
+    if(this.description && this.amount) {
+      let expense = new Expence(undefined, undefined, this.description, this.amount, this.mission.id, this.SARService.getUser().id);
+      this.SARService.addExpense(expense)
+        .subscribe(
+          (data) => { 
+            this.loading = false;
+            this.navCtrl.push(Alarms).catch(error => {
+              console.log(error);
+							this.ExceptionService.expiredSessionError();
+							this.navCtrl.push(Login);	 
+            })},
+          (error) => {
+            console.log(error);
+            this.loading = false;
+          }
+        );
     } else {
+<<<<<<< HEAD
       console.log("Mahad <3")
       this.SARService.addExpense(this.amount, this.description, this.missionId)
       this.navCtrl.setRoot(TabsPage);
+=======
+      this.loading = false;
+      this.ExceptionService.expenseError();
+>>>>>>> origin/master
     }
+  }
+
+  ionViewDidLoad() {
+    this.loading = false;
+    let missionId = this.params.get("missionId");
+    console.log(missionId);
+    this.SARService.getMission(missionId)
+      .subscribe(
+        (data) => { this.mission = data; console.log("Hentet mission"); },
+        (error) => { this.navCtrl.pop(); });
+  }
+
+  ionViewCanEnter() {
+    return this.AuthService.isLoggedIn();
   }
 }
