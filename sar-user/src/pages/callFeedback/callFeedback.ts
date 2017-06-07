@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-import { MissionResponse, Alarm, SARUser, Tracking } from '../../models/models';
+import { Mission,  MissionResponse, Alarm, SARUser, Tracking } from '../../models/models';
 import { SARService } from '../../services/sar.service';
 import { Alarms } from '../alarms/alarms';
 import { TabsPage } from '../tabs/tabs';
@@ -16,7 +16,6 @@ import { ExceptionService } from '../../services/exception.service';
 
 export class CallFeedback {
     feedbackType: boolean;
-    loading: boolean;
     missionResponse: MissionResponse;
     missionId: number;
     alarmId: number;
@@ -31,9 +30,7 @@ export class CallFeedback {
     this.alarmId = params.get("alarmId");
 
     if(!this.feedbackType) {
-      setTimeout(() => {
-        this.submit();
-      }, 3000)
+      this.submit();
     }
   }
 
@@ -43,22 +40,22 @@ export class CallFeedback {
    */
 
   submit() { 
-    this.loading = true;
+    console.log("hit før geo");
+
     this.user = this.SARService.getUser();
     let input = this.arrival;
+    this.user.isTrackable = true; // Må bort
  
-    let missionResponse = new MissionResponse(null, this.missionId, this.user.id, this.feedbackType, new Date(), input, null);
+    let missionResponse = new MissionResponse(this.alarm, this.user, this.feedbackType, 10, input, null);
 
+    if(this.feedbackType && this.user.isTrackable) {
+      console.log("hit geo");
+      this.GeoService.startTracking(missionResponse);
+    }
+
+    console.log("hit etter geo");
     this.SARService.postMissionResponse(missionResponse)
       .subscribe( res => {
-        this.loading = false;
-        missionResponse = res;
-        
-        if(this.feedbackType && this.user.isTrackable) {
-          console.log("hit geo2");
-          this.GeoService.startTracking(missionResponse.id);
-        }
-
         this.navCtrl.push(Alarms)
           .catch((error) => {
             console.log(error);
@@ -66,7 +63,6 @@ export class CallFeedback {
             this.navCtrl.setRoot(Login);
           }); // end catch
       }, (error) => {
-        this.loading = false;
         this.navCtrl.push(Alarms);
       }); // end subscribe 
   }
@@ -78,6 +74,8 @@ export class CallFeedback {
         this.navCtrl.setRoot(Login);
       });
   }
+
+
 
   /**
    * Method for validating user input from form
@@ -94,7 +92,6 @@ export class CallFeedback {
   }
 
   ionViewDidLoad() {
-    this.loading = false;
     this.SARService.getAlarm(this.alarmId)
       .subscribe(
         data => { this.alarm = data; }, 

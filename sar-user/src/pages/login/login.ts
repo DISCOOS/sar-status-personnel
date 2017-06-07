@@ -4,8 +4,7 @@ import { NavController } from 'ionic-angular';
 import { AlertController } from 'ionic-angular';
 import { SARService } from '../../services/sar.service';
 import { ExceptionService } from '../../services/exception.service';
-import { MapPage } from '../map/map.component';
-
+import {Home} from '../home/home';
 import { Call } from '../call/call';
 
 @Component({
@@ -16,7 +15,6 @@ import { Call } from '../call/call';
 export class Login {
   username: string;
   password: string;
-  loading: boolean;
 
   constructor(
     public navCtrl: NavController,
@@ -30,15 +28,10 @@ export class Login {
    */
 
   login() {
-    this.loading = true;
     this.SARService.login(this.username, this.password)
       .subscribe(
-      data => {
-        this.loading = false; 
-        this.navCtrl.setRoot(TabsPage); },
+      data => { this.navCtrl.setRoot(TabsPage); },
       error => { 
-        this.loading = false;
-        console.log("Error");
         console.log(error);
         this.navCtrl.setRoot(Login); 
       });
@@ -49,7 +42,6 @@ export class Login {
   }
 
   ionViewDidLoad() {
-    this.loading = false;
     this.SARService.logout();
   }
 }

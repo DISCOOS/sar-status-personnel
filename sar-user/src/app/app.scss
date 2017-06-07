@@ -30,8 +30,7 @@ h1, h2, h3, h4, h5 {font-family: $font-semibold; }
 .header img {height: 35px; margin: 1rem 0; }
 .header-md::after {background-image: none; }
 
-ion-content { margin-top: 3.5em; margin-bottom: 5em; padding-top: 5em; }
-.ion-page { margin-top: 50px;}
+ion-content { margin-top: 3.5em; margin-bottom: 5em; }
 
 .availability {text-align: center; padding: 3rem; font-size: 2em; }
 .availability .icon {font-size: 2em; }
@@ -51,18 +50,12 @@ ion-content { margin-top: 3.5em; margin-bottom: 5em; padding-top: 5em; }
 .call h2 { font-size: 1.5em; }
 .call p { font-size: 1.5em; }
 
-.singleMission h2 { font-size: 1.5em; }
-
 .callFeedback { display: block; height: auto; text-align: center; align-content: center; }
 .callFeedback p { font-size: 2em; }
 .callFeedback h1 { font-size: 3em; }
 .callFeedback h2 { font-size: 1.5em; }
 .callFeedback ion-icon { font-size: 10em; }
 .callFeedback ion-textarea { border-top: 0.2em solid #ccc; }
-
-.expense h2 { font-size: 1.5em; }
-
-.map { border: 0.2em solid #ccc; }
 
 map-picker { 
     .scroll-content {

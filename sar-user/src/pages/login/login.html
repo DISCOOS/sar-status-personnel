@@ -1,5 +1,6 @@
 <ion-content padding>
 	<!--<ion-spinner></ion-spinner>-->
+	<!--<img src="assets/logo.svg" class="loginlogo">!-->
 	<form (ngSubmit)="login()" #loginForm="ngForm">
 		<ion-list>
 			<ion-item>
@@ -12,4 +13,6 @@
 		</ion-list>
 		<button padding ion-button [disabled]="loading" (onclick)="login()" type="submit">Logg inn</button>
 	</form>
+	
+
 </ion-content>
