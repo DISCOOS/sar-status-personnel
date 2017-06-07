@@ -14,13 +14,19 @@ import { GeoService } from '../services/geo.service';
 import { SARService } from '../services/sar.service';
 import { ExceptionService } from '../services/exception.service';
 import { AuthService } from '../services/auth.service';
-import {MissionSinglePage } from "../pages/mission-single/mission-single";
+import { MissionSinglePage } from "../pages/mission-single/mission-single";
 
 import { Geolocation } from '@ionic-native/geolocation';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule } from '@angular/http';
+
+
+import { SpinnerService, SpinnerModule } from '../blocks/spinner/spinner';
 
 @NgModule({
   declarations: [
@@ -33,13 +39,16 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     Expense,
     Call,
     CallFeedback,
-    MissionSinglePage,
+    MissionSinglePage
   ],
   imports: [
     IonicModule.forRoot(MyApp),
-
+    BrowserModule,
+    HttpModule,
+    SpinnerModule
   ],
   exports: [
+    SpinnerModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -63,8 +72,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     SARService,
     GeoService,
     AuthService,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    SpinnerService,
+    { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
 
-export class AppModule {}
+export class AppModule { }

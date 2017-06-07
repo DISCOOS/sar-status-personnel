@@ -3,6 +3,7 @@ import { Observable } from "rxjs/Observable";
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/finally';
 import { Subject } from 'rxjs/Subject';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { URLSearchParams } from "@angular/http";
@@ -10,7 +11,7 @@ import { Headers } from '@angular/http';
 import { Mission, Tracking, MissionResponse, Alarm, SARUser, Expence, AlarmResponse } from '../models/models';
 import { CONFIG } from '../shared/config';
 import { ExceptionService } from '../services/exception.service';
-
+import { SpinnerService } from '../blocks/spinner/spinner';
 let baseUrl = CONFIG.urls.baseUrl;
 let token = CONFIG.headers.token;
 
@@ -34,6 +35,7 @@ export class SARService {
     constructor(
         private http: Http,
         public ExceptionService: ExceptionService,
+        private spinnerService : SpinnerService
     ) { }
 
     /**
@@ -95,6 +97,8 @@ export class SARService {
         data.append('username', username);
         data.append('password', password);
         let options = new RequestOptions();
+
+        this.spinnerService.show();
         return this.http
             .post(baseUrl + '/SARUsers/login', data, options)
             .map((response: Response) => {
@@ -109,6 +113,7 @@ export class SARService {
                 }
             })
             .catch(this.ExceptionService.catchBadResponse)
+            .finally(() => this.spinnerService.hide())
     }
 
     /**
