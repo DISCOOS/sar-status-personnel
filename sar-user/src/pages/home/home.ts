@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { SARService } from '../../services/sar.service';
 import { ExceptionService } from '../../services/exception.service';
+import { GeoService } from '../../services/geo.service';
 import { AuthService } from '../../services/auth.service';
 import { NavController } from 'ionic-angular';
 import { SARUser } from '../../models/models';
@@ -28,7 +29,8 @@ export class Home {
     public AuthService: AuthService,
     public alertCtrl: AlertController,
     private firebase: Firebase,
-    public platform: Platform
+    public platform: Platform,
+    public GeoService: GeoService,
   ) {
     if (this.platform.is('cordova')) {
       this._initNotifications();
@@ -127,6 +129,9 @@ export class Home {
    */
 
   setTrackable() {
+    if(!this.trackable) {
+      this.GeoService.stopTracking();
+    }
     this.SARService.setTrackable(this.trackable)
       .subscribe(
       res => {
