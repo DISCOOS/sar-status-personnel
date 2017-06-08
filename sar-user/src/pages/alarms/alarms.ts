@@ -7,29 +7,31 @@ import { AuthService } from '../../services/auth.service';
 import { ExceptionService } from '../../services/exception.service';
 import { TabsPage } from '../tabs/tabs';
 import { Login } from '../login/login';
-import {MissionSinglePage } from "../mission-single/mission-single";
+import { MissionSinglePage } from "../mission-single/mission-single";
 
 @Component({
-  selector: 'page-alarms',
+	selector: 'page-alarms',
 	templateUrl: 'alarms.html'
 })
 
 export class Alarms {
-	alarmType : string;
-	missions : Mission[];
-	activeMissions : Mission[];
-	inactiveMissions : Mission[];
+	alarmType: string;
+	attendants: any[];
+	activeMissions: Mission[];
+	inactiveMissions: Mission[];
 	user: SARUser;
 
-  constructor(
-    public navCtrl: NavController, 
-    private SARService: SARService,
+	constructor(
+		public navCtrl: NavController,
+		private SARService: SARService,
 		private AuthService: AuthService,
 		private ExceptionService: ExceptionService,
-	) {}
+	) {
+
+	}
 
 	showExpensePage(missId: number) {
-    this.navCtrl
+		this.navCtrl
 			.push(Expense, { missionId: missId })
 			.catch(error => { console.log(error) });
 	}
@@ -40,27 +42,42 @@ export class Alarms {
 			.catch(error => { console.log(error) });
 	}
 
-	sortAlarms() {
-
-	}
-
-  ngOnInit() {
-		this.alarmType = "current"; 
+	ionViewDidEnter() {
+		this.activeMissions = [];
+		this.inactiveMissions = [];
+		
+		console.log("getting missions......")
+		this.alarmType = "current";
 		this.user = this.SARService.getUser();
 		this.SARService.getUserAlarms(this.user.id)
 			.subscribe(
-				res => { this.missions = res; },
-				error => {
-					this.navCtrl.push(TabsPage)
-						.catch(error => {
-							console.log(error);
-							this.ExceptionService.expiredSessionError();
-							this.navCtrl.push(Login);	
-						})
-				});
+			res => {
+				this.attendants = res;
+
+				this.attendants.forEach((att) => {
+					if (att.mission.isActive) {
+						this.activeMissions.push(att.mission)
+					}
+					else {
+						this.inactiveMissions.push(att.mission)
+					}
+				})
+
+
+				console.log("Active missions " + JSON.stringify(this.activeMissions))
+				console.log("Inactive missions " + this.inactiveMissions)
+			},
+			error => {
+				this.navCtrl.push(TabsPage)
+					.catch(error => {
+						console.log(error);
+						this.ExceptionService.expiredSessionError();
+						this.navCtrl.push(Login);
+					})
+			});
 	}
 
 	ionViewCanEnter() {
-    return this.AuthService.isLoggedIn();
-  }
+		return this.AuthService.isLoggedIn();
+	}
 }
