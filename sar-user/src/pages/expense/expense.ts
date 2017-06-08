@@ -64,4 +64,7 @@ export class Expense {
   ionViewCanEnter() {
     return this.AuthService.isLoggedIn();
   }
+  cancel(){
+    this.navCtrl.push(Alarms);
+  }
 }

@@ -14,5 +14,6 @@
 			</ion-item>
 		</ion-list>
 		<button padding ion-button item-right [disabled]="loading" (onclick)="addExpense()" type="submit">Bekreft</button>
+		<button padding ion-button item-right [disabled]="loading" (click)="cancel()" type="button">Avbryt</button>
 	</form>
 </ion-content>
