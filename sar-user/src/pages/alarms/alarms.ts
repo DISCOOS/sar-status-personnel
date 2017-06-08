@@ -1,9 +1,7 @@
-import { ViewChild, Component, OnInit, ElementRef } from '@angular/core';
+import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { SARService } from '../../services/sar.service';
-import { Mission, SARUser, Alarm } from '../../models/models';
-import { Http, Response, RequestOptions } from '@angular/http';
-import { Observable } from "rxjs/Observable";
+import { Mission, SARUser } from '../../models/models';
 import { Expense } from '../expense/expense';
 import { AuthService } from '../../services/auth.service';
 import { ExceptionService } from '../../services/exception.service';

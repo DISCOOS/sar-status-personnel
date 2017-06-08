@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Mission, Alarm } from "../../models/models";
 import { SARService } from "../../services/sar.service";
 import { AuthService } from "../../services/auth.service";
@@ -44,7 +44,7 @@ export class MissionSinglePage {
         return this.AuthService.isLoggedIn();
     }
 
-    ionViewDidLoad() {
+    ionViewDidEnter() {
         this.id = this.navParams.get("id");
         this.SARService.getMission(this.id)
             .subscribe(
