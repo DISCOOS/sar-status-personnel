@@ -23,23 +23,27 @@ export class GeoService {
     private lastUpdate: Date;
     private lati: number;
     private long: number; 
+    private first: boolean;
+    private missResId: number;
+    private backTracking: any; 
 
     constructor(
         public geolocation: Geolocation,
         private backgroundGeolocation: BackgroundGeolocation,
         public SARService: SARService,
-    ) {}
+    ) {
+        this.backTracking = this.backgroundGeolocation.configure(config);
+
+        this.backgroundGeolocation.start()
+            .catch(error => console.log(error));
+    }
 
     startTracking(missionResponseId: number) {
         console.log(missionResponseId);
-        this.SARService.setTracking(missionResponseId)
-            .subscribe( 
-                data => { this.tracking = data; },
-                error => { console.log("Error creating tracking object") }
-            );
-        this.lastUpdate = new Date();    
-        
-        this.backgroundGeolocation.configure(config)
+        this.missResId = missionResponseId;
+        this.lastUpdate = new Date();  
+
+        this.backTracking
             .subscribe((location) => {          
                 console.log('BackgroundGeolocation:  ' + location.latitude + ', ' + location.longitude);
                 if(this.tracking && this.readyUpdate()) {
@@ -49,28 +53,30 @@ export class GeoService {
                 }
              }, (err) => { console.log(err); });
 
-        this.backgroundGeolocation.start()
-            .catch(error => console.log(error));
-
-        let options = {
-            enableHighAccuracy: true,
-        };
- 
-        this.watch = this.geolocation.watchPosition(options).filter((p: any) => p.code === undefined).subscribe((position: Geoposition) => {
+        this.watch = this.geolocation.watchPosition({ enableHighAccuracy: true }).filter((p: any) => p.code === undefined).subscribe((position: Geoposition) => {
             console.log(position);
             if(this.tracking && this.readyUpdate()) {
                     console.log(this.tracking)                
-                    this.sendUpdate(position.coords.latitude, position.coords.longitude);
+                    this.sendUpdate(position.coords.latitude, position.coords.longitude)
             }
         });
     }
 
     sendUpdate(lat: number, lng: number) {
         console.log("E vi her hver gang?"); 
-        this.SARService.updateTracking(lat, lng, this.tracking.id, this.tracking.missionResponseId)
-            .subscribe(
-                (data) => {console.log("Fyrte av")},
-                (error) => {console.log("Error")});
+        if(this.first) {
+            this.first = false;
+            this.SARService.setTracking(lat, lng, this.missResId)
+                .subscribe( 
+                    data => { this.tracking = data; },
+                    error => { console.log("Error creating tracking object") }
+                );
+        } else {
+            this.SARService.updateTracking(lat, lng, this.tracking.id, this.tracking.missionResponseId)
+                .subscribe(
+                    (data) => {console.log("Fyrte av")},
+                    (error) => {console.log("Error")});
+        }
     }
 
     stopTracking() {

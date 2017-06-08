@@ -350,10 +350,10 @@ export class SARService {
      * @param Tracking object to be persisted
      */
 
-    public setTracking(missionResponseId: number) {
+    public setTracking(lat: number, lng: number, missionResponseId: number) {
         let geopoint = {
-            "lat": 60.38917550000001,
-            "lng": 5.3132653
+            "lat": lat,
+            "lng": lng
         }
         let tracking = new Tracking(new Date(), geopoint, null, missionResponseId);
 
