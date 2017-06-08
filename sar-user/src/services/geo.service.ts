@@ -67,20 +67,19 @@ export class GeoService {
     }
 
     sendUpdate(lat: number, lng: number) {
-        console.log("E vi her hver gang?"); 
         if(this.first) {
             this.first = false;
             this.SARService.setTracking(lat, lng, this.missResId)
                 .subscribe( 
                     data => { this.tracking = data; },
-                    error => { console.log("Error creating tracking object") }
+                    error => { console.log("Error persisting tracking object") }
                 );
         } else {
             console.log()
             this.SARService.updateTracking(lat, lng, this.tracking.id, this.tracking.missionResponseId)
                 .subscribe(
-                    (data) => {console.log("Fyrte av")},
-                    (error) => {console.log("Error")});
+                    (data) => {console.log("Update complete")},
+                    (error) => {console.log("Error: Update not persisted")});
         }
     }
 
