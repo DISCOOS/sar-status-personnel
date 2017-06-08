@@ -35,8 +35,30 @@ export class SARService {
     constructor(
         private http: Http,
         public ExceptionService: ExceptionService,
-        private spinnerService : SpinnerService
+        private spinnerService: SpinnerService
     ) { }
+
+
+
+    savePushtokenOnUser(token: string, userId: number) {
+        const url = baseUrl + '/SARUsers/' + userId;
+        const options = new RequestOptions({ withCredentials: true })
+        this._configureOptions(options);
+
+        const body = {
+            "deviceToken": token
+        }
+        console.log("SARSERVICE savepushtokneonsuser _--")
+        console.log(url)
+        console.log(body);
+
+        return this.http.patch(url, JSON.stringify(body), options)
+            .map(res => {
+                console.log(res.json())
+                return res.json();
+            })
+
+    }
 
     /**
      * Configures options with token and header for http-operations on server.
@@ -82,7 +104,8 @@ export class SARService {
         return this.http.get(url, options)
             .map((res) => {
                 this.user = res.json();
-                return this.user; })
+                return this.user;
+            })
             .catch(this.ExceptionService.catchBadResponse);
     }
 
@@ -130,8 +153,8 @@ export class SARService {
      */
 
     public setAvailability(isAvailable: boolean) {
-        let postBody = { 
-            "isAvailable" : isAvailable
+        let postBody = {
+            "isAvailable": isAvailable
         }
 
         let url = baseUrl + "/sarusers/" + this.getUser().id;
@@ -140,21 +163,22 @@ export class SARService {
 
         this.spinnerService.show();
         return this.http.patch(url, JSON.stringify(postBody), options)
-            .map(res => { 
+            .map(res => {
+                console.log("Set available to " + isAvailable + " in db")
                 return res.json();
             })
             .catch(this.ExceptionService.catchBadResponse)
             .finally(() => this.spinnerService.hide())
     }
-    
+
     /**
      * Method to persist SARUser-variable isTrackable to database.
      * @param isTrackable boolean value to persist.
      */
 
     public setTrackable(isTrackable: boolean) {
-        let postBody = { 
-            "isTrackable" : isTrackable
+        let postBody = {
+            "isTrackable": isTrackable
         }
 
         let url = baseUrl + "/sarusers/" + this.getUser().id;
@@ -162,7 +186,7 @@ export class SARService {
         this._configureOptions(options);
 
         return this.http.patch(url, JSON.stringify(postBody), options)
-            .map(res => { 
+            .map(res => {
                 return res.json();
             })
             .catch(this.ExceptionService.catchBadResponse)
@@ -180,9 +204,10 @@ export class SARService {
         let url = baseUrl + '/missions/' + missionId;
         return this.http
             .get(url, options)
-            .map(response => {  
+            .map(response => {
                 this.mission = response.json();
-                return this.mission; })
+                return this.mission;
+            })
             .catch(this.ExceptionService.catchBadResponse);
     }
 
@@ -201,7 +226,8 @@ export class SARService {
         return this.http.get(url, options)
             .map((response) => {
                 this.missions = response.json();
-                return this.missions; })
+                return this.missions;
+            })
             .catch(this.ExceptionService.catchBadResponse);
     }
 
@@ -216,8 +242,8 @@ export class SARService {
         let url = baseUrl + '/attendants?filter[include][mission]&filter[where][sarUserId]=' + userId;
 
         return this.http.get(url, options)
-                        .map(response => { return response.json(); })
-                        .catch(this.ExceptionService.catchBadResponse)
+            .map(response => { return response.json(); })
+            .catch(this.ExceptionService.catchBadResponse)
     }
 
 
@@ -251,7 +277,8 @@ export class SARService {
         return this.http.get(url, options)
             .map((response) => {
                 this.alarm = response.json();
-                return this.alarm; })
+                return this.alarm;
+            })
             .catch(this.ExceptionService.catchBadResponse)
     }
 
@@ -263,11 +290,11 @@ export class SARService {
     public getAlarms(missionId: number) {
         let options = new RequestOptions({ withCredentials: true })
         this._configureOptions(options);
-        let url = baseUrl + '/missions/' + missionId + '/alarms';  
+        let url = baseUrl + '/missions/' + missionId + '/alarms';
 
         return this.http.get(url, options)
             .map((res) => { return res.json(); })
-            .catch(this.ExceptionService.catchBadResponse)    
+            .catch(this.ExceptionService.catchBadResponse)
     }
 
     /**
@@ -277,23 +304,24 @@ export class SARService {
      */
 
     public addExpense(expense: Expence) {
-        let user =  this.getUser();
+        let user = this.getUser();
         let url = baseUrl + "/Expences";
         let options = new RequestOptions({ withCredentials: true })
         this._configureOptions(options);
 
         let postBody = {
-            "title" : "Brukerutgift for " + user.name,
-            "description" : expense.description,
-            "amount" : expense.amount,
+            "title": "Brukerutgift for " + user.name,
+            "description": expense.description,
+            "amount": expense.amount,
             "mission": expense.missionId,
-            "person" : expense.sARUserId
+            "person": expense.sARUserId
         }
 
         return this.http.post(url, JSON.stringify(postBody), options)
             .map(res => {
-                    console.log(res.json())
-                    return res.json() })
+                console.log(res.json())
+                return res.json()
+            })
             .catch(this.ExceptionService.catchBadResponse)
     }
 
@@ -327,10 +355,10 @@ export class SARService {
         let postBody = {
             "date": new Date(),
             "geopoint": {
-                "lat":  latitude,
+                "lat": latitude,
                 "lng": longitude
             },
-            "id" : id,
+            "id": id,
             "missionResponseId": missionResponseId
         }
 
@@ -340,6 +368,6 @@ export class SARService {
 
         return this.http.patch(url, JSON.stringify(postBody), options)
             .map((res) => { console.log(res.json()); return res.json(); })
-            .do(() => console.log("sendte object"))    
+            .do(() => console.log("sendte object"))
     }
 }

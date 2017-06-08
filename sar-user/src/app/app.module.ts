@@ -28,6 +28,8 @@ import { HttpModule } from '@angular/http';
 
 import { SpinnerService, SpinnerModule } from '../blocks/spinner/spinner';
 
+import { Firebase } from '@ionic-native/firebase';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -73,6 +75,7 @@ import { SpinnerService, SpinnerModule } from '../blocks/spinner/spinner';
     GeoService,
     AuthService,
     SpinnerService,
+    Firebase,
     { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
