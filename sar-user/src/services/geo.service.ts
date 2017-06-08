@@ -31,31 +31,35 @@ export class GeoService {
         public geolocation: Geolocation,
         private backgroundGeolocation: BackgroundGeolocation,
         public SARService: SARService,
-    ) {
-        this.backTracking = this.backgroundGeolocation.configure(config);
-
-        this.backgroundGeolocation.start()
-            .catch(error => console.log(error));
-    }
+    ) { }
 
     startTracking(missionResponseId: number) {
-        console.log(missionResponseId);
+        console.log("Starting tracking for: " + missionResponseId);
         this.missResId = missionResponseId;
-        this.lastUpdate = new Date();  
+        this.lastUpdate = new Date();    
 
-        this.backTracking
+        this.backgroundGeolocation.configure(config)
             .subscribe((location) => {          
                 console.log('BackgroundGeolocation:  ' + location.latitude + ', ' + location.longitude);
-                if(this.tracking && this.readyUpdate()) {
+                console.log(this.readyUpdate())
+                if(this.readyUpdate()) {
                     this.lati = location.latitude;
                     this.long = location.longitude;
                     this.sendUpdate(this.lati, this.long);
                 }
              }, (err) => { console.log(err); });
 
-        this.watch = this.geolocation.watchPosition({ enableHighAccuracy: true }).filter((p: any) => p.code === undefined).subscribe((position: Geoposition) => {
+        this.backgroundGeolocation.start()
+            .catch(error => console.log(error));
+
+        let options = {
+            enableHighAccuracy: true,
+        };
+ 
+        this.watch = this.geolocation.watchPosition(options).filter((p: any) => p.code === undefined).subscribe((position: Geoposition) => {
             console.log(position);
-            if(this.tracking && this.readyUpdate()) {
+            console.log(this.readyUpdate())
+            if(this.readyUpdate()) {
                     console.log(this.tracking)                
                     this.sendUpdate(position.coords.latitude, position.coords.longitude)
             }
@@ -72,6 +76,7 @@ export class GeoService {
                     error => { console.log("Error creating tracking object") }
                 );
         } else {
+            console.log()
             this.SARService.updateTracking(lat, lng, this.tracking.id, this.tracking.missionResponseId)
                 .subscribe(
                     (data) => {console.log("Fyrte av")},
