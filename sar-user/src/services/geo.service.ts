@@ -85,8 +85,10 @@ export class GeoService {
 
     stopTracking() {
         console.log('stopTracking');
-        this.backgroundGeolocation.stop();
-        this.watch.unsubscribe();        
+        if(this.backgroundGeolocation && this.watch) {
+            this.backgroundGeolocation.stop();
+            this.watch.unsubscribe();    
+        }
     }
 
     private readyUpdate() {
