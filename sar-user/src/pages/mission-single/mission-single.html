@@ -1,13 +1,15 @@
 <ion-content class="singleMission">
-    <div id="map" onload="initMap()" style="width: 100%; height: 40%"></div>
-
+    <div id="map" style="width: 100%; height: 40%"></div>
+    <div padding>
     <h1>{{mission?.title}}</h1>
+    <button ion-button icon-left (click)="showCallPage()">Besvar</button>
     <p><b>Oppmøte:</b> {{mission?.meetingPointNicename}}</p>
     <ion-list inset>
-        <ion-list-header>Utkallinger:</ion-list-header>
+        <ion-list-header>Varslinger fra aksjonsleder:</ion-list-header>
         <ion-item *ngFor="let alarm of alarms">
             <b>{{alarm.date | date:'dd-MM-yyyy H:mm'}}:</b> {{alarm.message}}.
-            <button ion-button item-right icon-left (click)="showCallPage()">Besvar</button>
+            
         </ion-item>
-    </ion-list>  
+    </ion-list> 
+    </div> 
 </ion-content>

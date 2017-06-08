@@ -246,6 +246,26 @@ export class SARService {
             .catch(this.ExceptionService.catchBadResponse)
     }
 
+    public userHasAnsweredMission(userId: number, missionId: number) {
+        console.log("SARservice check if user has answered mission")
+
+        let options = new RequestOptions({ withCredentials: true })
+        this._configureOptions(options);
+        let url = baseUrl + '/attendants?filter[where][sarUserId]=' + userId + '&filter[where][missionId]=' + missionId;
+        let userExist: boolean;
+        return this.http.get(url, options)
+            .map(response => {
+                let res = response.json();
+                userExist = res[0] && res[0].id;
+                console.log("User has answered mission before " + userExist)
+                return userExist
+
+            })
+            .catch(this.ExceptionService.catchBadResponse)
+
+        
+    }
+
 
     /**
      * Send a persist MissionResponse to the database.

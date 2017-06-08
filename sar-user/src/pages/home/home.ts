@@ -5,7 +5,8 @@ import { AuthService } from '../../services/auth.service';
 import { NavController } from 'ionic-angular';
 import { SARUser } from '../../models/models';
 import { Login } from '../login/login';
-import { AlertController } from 'ionic-angular';
+import { Call } from '../call/call';
+import { AlertController, Platform } from 'ionic-angular';
 import { Firebase } from '@ionic-native/firebase';
 import { MissionSinglePage } from '../mission-single/mission-single';
 
@@ -26,9 +27,12 @@ export class Home {
     public ExceptionService: ExceptionService,
     public AuthService: AuthService,
     public alertCtrl: AlertController,
-    private firebase: Firebase
+    private firebase: Firebase,
+    public platform: Platform
   ) {
+    if (this.platform.is('cordova')) {
     this._initNotifications();
+    }
   }
 
   /**
@@ -42,9 +46,7 @@ export class Home {
       res => {
         console.log("Opened notit, missionID " + res.missionId)
         if (res.missionId) {
-          this.navCtrl
-            .push(MissionSinglePage, { id: res.missionId })
-            .catch(error => { console.log(error) });
+          this._openMissionOrCallPage(res.missionId);
         }
 
       },
@@ -61,6 +63,28 @@ export class Home {
     this._subscribeToAvailable();
 
   }
+
+  _openMissionOrCallPage(missionId: number) {
+    console.log("open mission or callpage")
+    // Go directly to mission if answered before
+    this.SARService.userHasAnsweredMission(this.user.id, missionId).subscribe(
+      (hasAnswered) => {
+        console.log(hasAnswered)
+        if (hasAnswered) {
+          this.navCtrl
+            .push(MissionSinglePage, { id: missionId })
+            .catch(error => { console.log(error) });
+
+        } else {
+          this.navCtrl
+            .push(Call, { missionId: missionId })
+            .catch(error => { console.log(error) });
+        }
+      },
+      (err) => { console.log("error " + err) }
+    )
+  }
+
 
   // Subscribes to available topic if available is true
   _subscribeToAvailable() {

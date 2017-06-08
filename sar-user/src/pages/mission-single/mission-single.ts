@@ -63,7 +63,11 @@ export class MissionSinglePage {
             }, error => {
                 console.log("error getting alarms");
                 this.navCtrl.pop();
-            })
+            },
+            () => this.initMap()
+            )
+
+
     }
 
     initMap() {
