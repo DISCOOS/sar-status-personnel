@@ -10,7 +10,7 @@ const config: BackgroundGeolocationConfig = {
             desiredAccuracy: 10,
             stationaryRadius: 50,
             distanceFilter: 30,
-            debug: true, //  enable this hear sounds for background-geolocation life-cycle.
+            debug: false, //  enable this hear sounds for background-geolocation life-cycle.
             stopOnTerminate: false, // enable this to clear background location settings when the app terminates
             interval: 3000
 };
