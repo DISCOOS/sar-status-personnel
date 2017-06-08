@@ -45,6 +45,7 @@ export class MissionSinglePage {
     }
 
     ionViewDidEnter() {
+        
         this.id = this.navParams.get("id");
         this.SARService.getMission(this.id)
             .subscribe(

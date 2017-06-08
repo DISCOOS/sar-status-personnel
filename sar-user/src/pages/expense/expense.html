@@ -1,6 +1,6 @@
 <ion-content padding class="expense">
 	<h1>{{mission?.title}}</h1>
-	<h2>Registrering av utgift</h2>
+	
 	<p></p>
 	<form (ngSubmit)="addExpense()" #expenseForm="ngForm">
 		<ion-list>
@@ -8,11 +8,12 @@
 			<ion-item>
 				<ion-input [(ngModel)]="amount" type="number" placeholder="Sum utgift" name="amount"></ion-input>
 			</ion-item>
-			<ion-label>Beskrivelse av utgiften (obligatorisk):</ion-label>    
+			<ion-label>Beskrivelse:</ion-label>    
 			<ion-item>
 				<ion-textarea [(ngModel)]="description" placeholder="Beskrivelse" name="description"></ion-textarea>
 			</ion-item>
 		</ion-list>
 		<button padding ion-button item-right [disabled]="loading" (onclick)="addExpense()" type="submit">Bekreft</button>
+		<button padding ion-button item-right [disabled]="loading" (click)="cancel()" type="button">Avbryt</button>
 	</form>
 </ion-content>
