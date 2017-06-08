@@ -31,7 +31,7 @@ export class Home {
     public platform: Platform
   ) {
     if (this.platform.is('cordova')) {
-    this._initNotifications();
+      this._initNotifications();
     }
   }
 
@@ -114,7 +114,11 @@ export class Home {
 
       },
       error => { this.navCtrl.setRoot(Login); },
-      () => { this._subscribeToAvailable(); }
+      () => {
+        if (this.platform.is('cordova')) {
+          this._subscribeToAvailable();
+        }
+      }
       );
   }
 
