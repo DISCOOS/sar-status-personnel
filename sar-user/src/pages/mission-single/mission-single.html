@@ -2,17 +2,17 @@
     <div id="map" style="width: 100%; height: 40%"></div>
     <div padding>
         <h1>{{mission?.title}}</h1>
-        <h3 *ngIf="!mission?.isActive">Denne aksjonen er avsluttet</h3>
+        <p><b>Status:</b>  {{mission?.isActive ? 'Aktiv' : 'Avsluttet'}}</p>
+        <p><b>Oppmøte:</b>  {{mission?.meetingPointNicename}}</p>
         <button *ngIf="mission?.isActive" ion-button icon-left (click)="showCallPage()">Besvar</button>
 
         <button *ngIf="!mission?.isActive" ion-button item-right icon-left (click)="showExpensePage(mission.id)">
             <ion-icon name="ios-cash" ></ion-icon>
              Registrer utlegg
         </button>
-        <p><b>Oppmøte:</b> {{mission?.meetingPointNicename}}</p>
         <ion-list inset>
             <ion-list-header>Varslinger fra aksjonsleder:</ion-list-header>
-            <ion-item *ngFor="let alarm of alarms">
+            <ion-item *ngFor="let alarm of mission?.alarms">
                 <b>{{alarm.date | date:'dd-MM-yyyy H:mm'}}:</b> {{alarm.message}}.
             </ion-item>
         </ion-list>

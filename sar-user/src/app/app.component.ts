@@ -6,6 +6,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Login } from '../pages/login/login';
 
 
+
+
 @Component({
   templateUrl: 'app.html'
 })

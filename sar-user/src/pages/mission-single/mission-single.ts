@@ -57,9 +57,7 @@ export class MissionSinglePage {
     }
 
     ionViewDidLoad() {
-        console.log("----inits map------")
-        this.initMap()
-
+        //this.initMap()
     }
 
     getMission() {
@@ -71,31 +69,18 @@ export class MissionSinglePage {
                 console.log("error getting mission");
                 this.navCtrl.pop();
             },
-            () => this.getAlarms()
-            )
-    }
-
-    getAlarms() {
-        this.SARService.getAlarms(this.id)
-            .subscribe(
-            alarms => {
-                this.alarms = alarms;
-            }, error => {
-                console.log("error getting alarms");
-                this.navCtrl.pop();
-            },
-            () => console.log("got alarms")
+            () => {
+                this.initMap();
+            }
             )
     }
 
     initMap() {
+        console.log("----inits map------")
         console.log(this.mission)
         const position = {
-
-            // lat: 60.3927016,
             lat: this.mission.meetingPoint.lat,
             lng: this.mission.meetingPoint.lng
-            //  lng: 5.321656
         }
 
         const mapOptions = {
@@ -114,7 +99,7 @@ export class MissionSinglePage {
         // Create a marker for each place.
         marker = new google.maps.Marker({
             map: map,
-            title: "Tittel",
+            title: this.mission.meetingPointNicename,
             position: position
         });
     }

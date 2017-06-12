@@ -48,7 +48,11 @@ export class Home {
       res => {
         console.log("Opened notit, missionID " + res.missionId)
         if (res.missionId) {
-          this._openMissionOrCallPage(res.missionId);
+          console.log(res)
+          if (this.AuthService.isLoggedIn()) {
+            this._alertNewAlarm(res.missionId);
+          }
+
         }
 
       },
@@ -63,6 +67,32 @@ export class Home {
       .catch(() => console.log("error subscribing to emergency missions"))
 
     this._subscribeToAvailable();
+
+  }
+
+  _alertNewAlarm(missionId: number) {
+    let alert = this.alertCtrl.create({
+      title: 'Ny varsling',
+      message: 'Åpne denne aksjonen?',
+      buttons: [
+        {
+          text: 'Nei',
+          role: 'cancel',
+          handler: () => {
+
+          }
+        },
+        {
+          text: 'Ja',
+          handler: () => {
+            this.navCtrl
+              .push(MissionSinglePage, { id: missionId })
+              .catch(error => { console.log(error) });
+          }
+        }
+      ]
+    });
+    alert.present();
 
   }
 
@@ -129,7 +159,7 @@ export class Home {
    */
 
   setTrackable() {
-    if(!this.trackable) {
+    if (!this.trackable) {
       this.GeoService.stopTracking();
     }
     this.SARService.setTrackable(this.trackable)

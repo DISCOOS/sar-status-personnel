@@ -202,7 +202,7 @@ export class SARService {
     public getMission(missionId?: number) {
         let options = new RequestOptions({ withCredentials: true })
         this._configureOptions(options);
-        let url = baseUrl + '/missions/' + missionId;
+        let url = baseUrl + '/missions/' + missionId + '?filter[include][alarms]';
         this.spinnerService.show();
         return this.http
             .get(url, options)
