@@ -8,12 +8,13 @@ import { Subject } from 'rxjs/Subject';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { URLSearchParams } from "@angular/http";
 import { Headers } from '@angular/http';
-import { Mission, Tracking, MissionResponse, Alarm, SARUser, Expence, AlarmResponse } from '../models/models';
+import { Mission, Tracking, MissionResponse, Alarm, SARUser, Expence } from '../models/models';
 import { CONFIG } from '../shared/config';
 import { ExceptionService } from '../services/exception.service';
 import { SpinnerService } from '../blocks/spinner/spinner';
-let baseUrl = CONFIG.urls.baseUrl;
-let token = CONFIG.headers.token;
+
+const baseUrl = CONFIG.urls.baseUrl;
+
 
 @Injectable()
 export class SARService {
@@ -202,13 +203,15 @@ export class SARService {
         let options = new RequestOptions({ withCredentials: true })
         this._configureOptions(options);
         let url = baseUrl + '/missions/' + missionId;
+        this.spinnerService.show();
         return this.http
             .get(url, options)
             .map(response => {
                 this.mission = response.json();
                 return this.mission;
             })
-            .catch(this.ExceptionService.catchBadResponse);
+            .catch(this.ExceptionService.catchBadResponse)
+            .finally(() => this.spinnerService.hide())
     }
 
     /**
@@ -221,14 +224,15 @@ export class SARService {
         let options = new RequestOptions({ withCredentials: true })
         this._configureOptions(options);
         let url = baseUrl + '/missions';
-        let returnMissions: any;
 
+        this.spinnerService.show();
         return this.http.get(url, options)
             .map((response) => {
                 this.missions = response.json();
                 return this.missions;
             })
-            .catch(this.ExceptionService.catchBadResponse);
+            .catch(this.ExceptionService.catchBadResponse)
+            .finally(() => this.spinnerService.hide())
     }
 
     /**
@@ -241,9 +245,11 @@ export class SARService {
         this._configureOptions(options);
         let url = baseUrl + '/attendants?filter[include][mission]&filter[where][sarUserId]=' + userId;
 
+        this.spinnerService.show();
         return this.http.get(url, options)
             .map(response => { return response.json(); })
             .catch(this.ExceptionService.catchBadResponse)
+            .finally(() => this.spinnerService.hide())
     }
 
     public userHasAnsweredMission(userId: number, missionId: number) {
@@ -263,7 +269,7 @@ export class SARService {
             })
             .catch(this.ExceptionService.catchBadResponse)
 
-        
+
     }
 
 
@@ -351,13 +357,19 @@ export class SARService {
      */
 
     public setTracking(lat: number, lng: number, missionResponseId: number) {
-        let geopoint = {
-            "lat": lat,
-            "lng": lng
+        console.log("-----set tracking---------")
+        let tracking = {
+            "date": new Date(),
+            "geopoint": {
+                "lat": lat,
+                "lng": lng
+            },
+            "missionResponseId": missionResponseId
         }
-        let tracking = new Tracking(new Date(), geopoint, null, missionResponseId);
 
-        let url = baseUrl + "/Trackings";
+        console.log("posting initial " + JSON.stringify(tracking))
+
+        let url = baseUrl + '/missionresponses/' + missionResponseId + '/tracking';
         let options = new RequestOptions({ withCredentials: true })
         this._configureOptions(options);
 
@@ -381,6 +393,8 @@ export class SARService {
             "id": id,
             "missionResponseId": missionResponseId
         }
+
+        console.log("posting updated tracking" + JSON.stringify(postBody))
 
         let url = baseUrl + "/Trackings/" + id;
         let options = new RequestOptions({ withCredentials: true })

@@ -68,7 +68,6 @@ export class Login {
       });
 
 
-
   }
 
   _saveTokenToDB(token: string, id: number) {

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Mission, Alarm } from "../../models/models";
+import { Expense } from '../expense/expense';
 import { SARService } from "../../services/sar.service";
 import { AuthService } from "../../services/auth.service";
 import { NavParams } from "ionic-angular";
@@ -20,7 +21,6 @@ marker = false;
 
 export class MissionSinglePage {
     private id: any;
-    private sub: any;
     public mission: Mission;
     public alarms: Alarm[];
 
@@ -40,13 +40,29 @@ export class MissionSinglePage {
             })
     }
 
+    showExpensePage(missId: number) {
+        this.navCtrl
+            .push(Expense, { missionId: missId })
+            .catch(error => { console.log(error) });
+    }
+
     ionViewCanEnter() {
         return this.AuthService.isLoggedIn();
     }
 
     ionViewDidEnter() {
-        
+
         this.id = this.navParams.get("id");
+        this.getMission();
+    }
+
+    ionViewDidLoad() {
+        console.log("----inits map------")
+        this.initMap()
+
+    }
+
+    getMission() {
         this.SARService.getMission(this.id)
             .subscribe(
             mission => {
@@ -55,8 +71,11 @@ export class MissionSinglePage {
                 console.log("error getting mission");
                 this.navCtrl.pop();
             },
-            () => this.initMap()
+            () => this.getAlarms()
             )
+    }
+
+    getAlarms() {
         this.SARService.getAlarms(this.id)
             .subscribe(
             alarms => {
@@ -65,10 +84,8 @@ export class MissionSinglePage {
                 console.log("error getting alarms");
                 this.navCtrl.pop();
             },
-            () => this.initMap()
+            () => console.log("got alarms")
             )
-
-
     }
 
     initMap() {

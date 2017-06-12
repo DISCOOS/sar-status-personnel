@@ -7,100 +7,61 @@ import { Tracking, MissionResponse } from '../models/models';
 import 'rxjs/add/operator/filter';
 
 const config: BackgroundGeolocationConfig = {
-            desiredAccuracy: 10,
-            stationaryRadius: 50,
-            distanceFilter: 30,
-            debug: false, //  enable this hear sounds for background-geolocation life-cycle.
-            stopOnTerminate: false, // enable this to clear background location settings when the app terminates
-            interval: 3000
+    desiredAccuracy: 10,
+    stationaryRadius: 50,
+    distanceFilter: 30,
+    debug: false, //  enable this hear sounds for background-geolocation life-cycle.
+    stopOnTerminate: false, // enable this to clear background location settings when the app terminates
+    interval: 3000
 };
 
 @Injectable()
 export class GeoService {
-    public watch: any;    
+    public watch: any;
     public date: number = 0;
     private tracking: Tracking;
     private lastUpdate: Date;
     private lati: number;
-    private long: number; 
+    private long: number;
     private first: boolean;
     private missResId: number;
-    private backTracking: any; 
+    private backTracking: any;
 
     constructor(
         public geolocation: Geolocation,
         private backgroundGeolocation: BackgroundGeolocation,
         public SARService: SARService,
-    ) { }
+    ) {
+        this.first = true;
+    }
 
     startTracking(missionResponseId: number) {
-        console.log("Starting tracking for: " + missionResponseId);
-        this.missResId = missionResponseId;
-        this.lastUpdate = new Date();    
+        this.geolocation.getCurrentPosition().then((resp) => {
+            let lat = resp.coords.latitude;
+            let lng = resp.coords.longitude;
+            console.log("GOT POSITION " + lat + " " + lng)
+            
+            // POST tracking to api
+            this.SARService.setTracking(lat, lng, missionResponseId)
+                .subscribe(
+                data => { this.tracking = data; },
+                error => { console.log("Error persisting tracking object") }
+                );
 
-        this.backgroundGeolocation.configure(config)
-            .subscribe((location) => {          
-                console.log('BackgroundGeolocation:  ' + location.latitude + ', ' + location.longitude);
-                console.log(this.readyUpdate())
-                if(this.readyUpdate()) {
-                    this.lati = location.latitude;
-                    this.long = location.longitude;
-                    this.sendUpdate(this.lati, this.long);
-                }
-             }, (err) => { console.log(err); });
-
-        this.backgroundGeolocation.start()
-            .catch(error => console.log(error));
-
-        let options = {
-            enableHighAccuracy: true,
-        };
- 
-        this.watch = this.geolocation.watchPosition(options).filter((p: any) => p.code === undefined).subscribe((position: Geoposition) => {
-            console.log(position);
-            console.log(this.readyUpdate())
-            if(this.readyUpdate()) {
-                    console.log(this.tracking)                
-                    this.sendUpdate(position.coords.latitude, position.coords.longitude)
-            }
+        }).catch((error) => {
+            console.log('Error getting location', error);
         });
     }
 
-    sendUpdate(lat: number, lng: number) {
-        if(this.first) {
-            this.first = false;
-            this.SARService.setTracking(lat, lng, this.missResId)
-                .subscribe( 
-                    data => { this.tracking = data; },
-                    error => { console.log("Error persisting tracking object") }
-                );
-        } else {
-            console.log()
-            this.SARService.updateTracking(lat, lng, this.tracking.id, this.tracking.missionResponseId)
-                .subscribe(
-                    (data) => {console.log("Update complete")},
-                    (error) => {console.log("Error: Update not persisted")});
-        }
-    }
 
     stopTracking() {
         console.log('stopTracking');
-        if(this.backgroundGeolocation && this.watch) {
+        if (this.backgroundGeolocation && this.watch) {
             this.backgroundGeolocation.stop();
-            this.watch.unsubscribe();    
+            this.watch.unsubscribe();
         }
     }
 
-    private readyUpdate() {
-        let minFrequency = 60000; // Frequency controller for how often the database should be updated in milliseconds
-        var now = new Date();
-        if(this.lastUpdate && now.getTime() - this.lastUpdate.getTime() < minFrequency) {
-            console.log("Ignoring updated geodata");
-            return false;
-        } 
-        this.lastUpdate = now;
-        return true;
-    }
 }
 
 

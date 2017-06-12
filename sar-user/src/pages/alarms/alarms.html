@@ -12,37 +12,39 @@
 
     <div [ngSwitch]="alarmType">
         <ion-list *ngSwitchCase="'current'">
-            <ion-item *ngFor="let mission of activeMissions">
-                <ion-card (click)="pushMission(mission.id)">
+            <ion-item *ngFor="let att of attendantsMissions">
+                <ion-card (click)="pushMission(att.mission.id)" *ngIf="att.mission.isActive">
                     <ion-fab right top>
                         <button ion-fab>
-                            <ion-icon name="pin"></ion-icon>
+                            <ion-icon name="medkit" *ngIf="att.mission.isEmergency"></ion-icon>
+                            <ion-icon name="alert-circled" *ngIf="!att.mission.isEmergency"></ion-icon>
                         </button>
                     </ion-fab>
                     <ion-item>
                         <ion-icon name="ios-map-outline" item-left large></ion-icon>
-                        <h2>{{mission.title}}</h2>
-                        <h3>{{mission.meetingPointNicename}}</h3>
-                        <p>{{mission.description}}</p>
+                        <h2>{{att.mission.title}}</h2>
+                        <h3>{{att.mission.meetingPointNicename}}</h3>
+                        <p>{{att.mission.description}}</p>
                     </ion-item>
                 </ion-card>
             </ion-item>
         </ion-list>
 
         <ion-list *ngSwitchCase="'archived'">
-            <ion-item *ngFor="let mission of inactiveMissions">
-                <ion-card (click)="pushMission(mission.id)">
+            <ion-item *ngFor="let att of attendantsMissions">
+                <ion-card (click)="pushMission(att.mission.id)" *ngIf="!att.mission.isActive">
+                    <ion-fab right top>
+                        <button ion-fab>
+                            <ion-icon name="medkit" *ngIf="att.mission.isEmergency"></ion-icon>
+                            <ion-icon name="alert-circled" *ngIf="!att.mission.isEmergency"></ion-icon>
+                        </button>
+                    </ion-fab>
                     <ion-item>
-                        <h2>{{mission.title}}</h2>
-                        <h3>{{mission.meetingPointNicename}}</h3>
-                        <p>{{mission.description}}</p>
+                        <ion-icon name="ios-map-outline" item-left large></ion-icon>
+                        <h2>{{att.mission.title}}</h2>
+                        <h3>{{att.mission.meetingPointNicename}}</h3>
+                        <p>{{att.mission.description}}</p>
                     </ion-item>
-
-                    <button ion-button item-right icon-left (click)="showExpensePage(mission.id)">
-                    <ion-icon name="ios-cash" ></ion-icon>
-                    Registrer utlegg
-                    
-                </button>
                 </ion-card>
 
             </ion-item>

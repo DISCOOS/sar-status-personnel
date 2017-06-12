@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Login } from '../pages/login/login';
 import { Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { AlertController } from 'ionic-angular';
@@ -36,9 +35,6 @@ export class ExceptionService {
         let res = <Response>errorResponse;
         let err = res.json();
 
-        let emsg = err ?
-            (err.error ? err.error.message : JSON.stringify(err)) :
-            (res.statusText || 'Ukjent feil');
         let statusCode;
         if (err && err.status) {
             statusCode = err.status;

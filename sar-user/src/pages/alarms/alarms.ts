@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { SARService } from '../../services/sar.service';
-import { Mission, SARUser } from '../../models/models';
-import { Expense } from '../expense/expense';
+import { SARUser } from '../../models/models';
 import { AuthService } from '../../services/auth.service';
 import { ExceptionService } from '../../services/exception.service';
 import { TabsPage } from '../tabs/tabs';
@@ -16,9 +15,7 @@ import { MissionSinglePage } from "../mission-single/mission-single";
 
 export class Alarms {
 	alarmType: string;
-	attendants: any[];
-	activeMissions: Mission[];
-	inactiveMissions: Mission[];
+	attendantsMissions: any[];
 	user: SARUser;
 
 	constructor(
@@ -30,12 +27,6 @@ export class Alarms {
 
 	}
 
-	showExpensePage(missId: number) {
-		this.navCtrl
-			.push(Expense, { missionId: missId })
-			.catch(error => { console.log(error) });
-	}
-
 	pushMission(id: number) {
 		this.navCtrl
 			.push(MissionSinglePage, { id: id })
@@ -43,41 +34,32 @@ export class Alarms {
 	}
 
 	ionViewDidEnter() {
-		this.activeMissions = [];
-		this.inactiveMissions = [];
-		
-		console.log("getting missions......")
+
+		// Show current mission/alarms when entering
 		this.alarmType = "current";
+		console.log("getting missions......")
+
 		this.user = this.SARService.getUser();
 		this.SARService.getUserAlarms(this.user.id)
 			.subscribe(
 			res => {
-				this.attendants = res;
-
-				this.attendants.forEach((att) => {
-					if (att.mission.isActive) {
-						this.activeMissions.push(att.mission)
-					}
-					else {
-						this.inactiveMissions.push(att.mission)
-					}
-				})
-
-
-				console.log("Active missions " + JSON.stringify(this.activeMissions))
-				console.log("Inactive missions " + this.inactiveMissions)
+				this.attendantsMissions = res;
 			},
 			error => {
-				this.navCtrl.push(TabsPage)
-					.catch(error => {
-						console.log(error);
-						this.ExceptionService.expiredSessionError();
-						this.navCtrl.push(Login);
-					})
+				this.gotoLogin();
 			});
 	}
 
 	ionViewCanEnter() {
 		return this.AuthService.isLoggedIn();
+	}
+
+	gotoLogin() {
+		this.navCtrl.push(TabsPage)
+			.catch(error => {
+				console.log(error);
+				this.ExceptionService.expiredSessionError();
+				this.navCtrl.push(Login);
+			})
 	}
 }
