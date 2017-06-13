@@ -88,7 +88,7 @@ export class MyApp {
   _nonLoggedInAlert() {
     return this.alertCtrl.create({
       title: 'Ny varsling',
-      message: 'Vennligst logg inn for å se denne aksjonen',
+      message: 'Vennligst logg inn for å gå til aksjonen.',
       buttons: [
         {
           text: 'Ok'
