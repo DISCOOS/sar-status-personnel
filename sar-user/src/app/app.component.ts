@@ -78,12 +78,10 @@ export class MyApp {
 
     if (this.nav.getActive().name === 'Login') {
       alert = this._nonLoggedInAlert();
+    } else {
+      alert = this._gotoMissionAlert(missionId, title, body);
     }
-
-    alert = this._gotoMissionAlert(missionId, title, body);
-
     alert.present();
-
   }
 
   // Alert to show if user is not logged in
@@ -104,7 +102,7 @@ export class MyApp {
   _gotoMissionAlert(missionId: number, title: string, body: string) {
     return this.alertCtrl.create({
       title: title,
-      message: this.nav.getActive().name + '----- ' + body,
+      message: body,
       buttons: [
         {
           text: 'Avbryt',
