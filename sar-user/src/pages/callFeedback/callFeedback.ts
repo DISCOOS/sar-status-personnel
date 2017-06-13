@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { MissionResponse, Alarm, SARUser, Tracking } from '../../models/models';
 import { SARService } from '../../services/sar.service';
 import { Alarms } from '../alarms/alarms';
@@ -15,26 +15,44 @@ import { ExceptionService } from '../../services/exception.service';
 })
 
 export class CallFeedback {
-    feedbackType: boolean;
-    loading: boolean;
-    missionResponse: MissionResponse;
-    missionId: number;
-    alarmId: number;
-    arrival: string;
-    tracking: Tracking;
-    alarm: Alarm;
-    user: SARUser;
+  feedbackType: boolean;
+  loading: boolean;
+  missionResponse: MissionResponse;
+  missionId: number;
+  alarmId: number;
+  arrival: string;
+  tracking: Tracking;
+  alarm: Alarm;
+  user: SARUser;
 
-  constructor(public navCtrl: NavController, public SARService: SARService, public params:NavParams, private AuthService: AuthService, public GeoService: GeoService, private ExceptionService: ExceptionService) {   
+  constructor(
+    public navCtrl: NavController,
+    public SARService: SARService,
+    public params: NavParams,
+    private AuthService: AuthService,
+    public GeoService: GeoService,
+    private ExceptionService: ExceptionService,
+    private toastCtrl: ToastController
+
+  ) {
     this.feedbackType = params.get("feedbackType");
     this.missionId = params.get("missionId");
     this.alarmId = params.get("alarmId");
 
-    if(!this.feedbackType) {
+    if (!this.feedbackType) {
       setTimeout(() => {
         this.submit();
       }, 3000)
     }
+  }
+
+  showSuccessToast() {
+    let toast = this.toastCtrl.create({
+      message: 'Sendte inn påmelding',
+      duration: 3000,
+      position: 'top'
+    });
+    toast.present();
   }
 
   /**
@@ -42,19 +60,19 @@ export class CallFeedback {
    * @param type user input for type of response true/false
    */
 
-  submit() { 
+  submit() {
     this.loading = true;
     this.user = this.SARService.getUser();
     let input = this.arrival;
- 
+
     let missionResponse = new MissionResponse(null, this.missionId, this.user.id, this.feedbackType, new Date(), input, null);
 
     this.SARService.postMissionResponse(missionResponse)
-      .subscribe( res => {
+      .subscribe(res => {
         this.loading = false;
         missionResponse = res;
-        
-        if(this.feedbackType && this.user.isTrackable) {
+
+        if (this.feedbackType && this.user.isTrackable) {
           console.log("hit geo2");
           this.GeoService.startTracking(missionResponse.id);
         }
@@ -68,7 +86,8 @@ export class CallFeedback {
       }, (error) => {
         this.loading = false;
         this.navCtrl.push(Alarms);
-      }); // end subscribe 
+      },
+      () => this.showSuccessToast()); // end subscribe 
   }
 
   backButton() {
@@ -86,9 +105,9 @@ export class CallFeedback {
    */
 
   private validateInput(input: string) {
-    return encodeURI(input);  
+    return encodeURI(input);
   }
-  
+
   ionViewCanEnter() {
     return this.AuthService.isLoggedIn();
   }
@@ -97,7 +116,7 @@ export class CallFeedback {
     this.loading = false;
     this.SARService.getAlarm(this.alarmId)
       .subscribe(
-        data => { this.alarm = data; }, 
-        error => { this.navCtrl.setRoot(TabsPage); })
+      data => { this.alarm = data; },
+      error => { this.navCtrl.setRoot(TabsPage); })
   }
 }
