@@ -33,13 +33,8 @@ export class Alarms {
 			.catch(error => { console.log(error) });
 	}
 
-	ionViewDidEnter() {
+	getMissions() {
 
-		// Show current mission/alarms when entering
-		this.alarmType = "current";
-		console.log("getting missions......")
-
-		this.user = this.SARService.getUser();
 		this.SARService.getUserAlarms(this.user.id)
 			.subscribe(
 			res => {
@@ -47,7 +42,19 @@ export class Alarms {
 			},
 			error => {
 				this.gotoLogin();
-			});
+			},
+			() => console.log("ok, got missions"))
+	}
+
+	ionViewDidEnter() {
+
+		// Show current mission/alarms when entering
+		this.alarmType = "current";
+		console.log("getting missions......")
+
+		this.user = this.SARService.getUser();
+		this.getMissions();
+
 	}
 
 	ionViewCanEnter() {

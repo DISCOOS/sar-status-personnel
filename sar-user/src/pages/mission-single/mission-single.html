@@ -10,10 +10,10 @@
             <ion-icon name="ios-cash" ></ion-icon>
              Registrer utlegg
         </button>
-        <ion-list inset>
+        <ion-list>
             <ion-list-header>Varslinger fra aksjonsleder:</ion-list-header>
             <ion-item *ngFor="let alarm of mission?.alarms">
-                <b>{{alarm.date | date:'dd-MM-yyyy H:mm'}}:</b> {{alarm.message}}.
+                <b>{{alarm.date | date:'dd-MM-yyyy H:mm'}}:</b> {{alarm.message}}
             </ion-item>
         </ion-list>
     </div>

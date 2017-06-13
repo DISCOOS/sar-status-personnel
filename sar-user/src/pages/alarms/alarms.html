@@ -12,42 +12,46 @@
 
     <div [ngSwitch]="alarmType">
         <ion-list *ngSwitchCase="'current'">
-            <ion-item *ngFor="let att of attendantsMissions">
-                <ion-card (click)="pushMission(att.mission.id)" *ngIf="att.mission.isActive">
-                    <ion-fab right top>
-                        <button ion-fab>
+            <div *ngFor="let att of attendantsMissions">
+                <ion-item *ngIf="att.mission.isActive">
+                    <ion-card (click)="pushMission(att.mission.id)">
+                        <ion-fab right top>
+                            <button ion-fab>
                             <ion-icon name="medkit" *ngIf="att.mission.isEmergency"></ion-icon>
                             <ion-icon name="alert" *ngIf="!att.mission.isEmergency"></ion-icon>
                         </button>
-                    </ion-fab>
-                    <ion-item>
-                        <ion-icon name="ios-map-outline" item-left large></ion-icon>
-                        <h2>{{att.mission.title}}</h2>
-                        <h3>{{att.mission.meetingPointNicename}}</h3>
-                        <p>{{att.mission.description}}</p>
-                    </ion-item>
-                </ion-card>
-            </ion-item>
+                        </ion-fab>
+                        <ion-item>
+                            <ion-icon name="ios-map-outline" item-left large></ion-icon>
+                            <h2>{{att.mission.title}}</h2>
+                            <h3>{{att.mission.meetingPointNicename}}</h3>
+                            <p>{{att.mission.description}}</p>
+                        </ion-item>
+                    </ion-card>
+                </ion-item>
+            </div>
         </ion-list>
 
         <ion-list *ngSwitchCase="'archived'">
-            <ion-item *ngFor="let att of attendantsMissions">
-                <ion-card (click)="pushMission(att.mission.id)" *ngIf="!att.mission.isActive">
-                    <ion-fab right top>
-                        <button ion-fab>
+            <div *ngFor="let att of attendantsMissions">
+                <ion-item *ngIf="!att.mission.isActive">
+                    <ion-card (click)="pushMission(att.mission.id)">
+                        <ion-fab right top>
+                            <button ion-fab>
                             <ion-icon name="medkit" *ngIf="att.mission.isEmergency"></ion-icon>
                             <ion-icon name="alert" *ngIf="!att.mission.isEmergency"></ion-icon>
                         </button>
-                    </ion-fab>
-                    <ion-item>
-                        <ion-icon name="ios-map-outline" item-left large></ion-icon>
-                        <h2>{{att.mission.title}}</h2>
-                        <h3>{{att.mission.meetingPointNicename}}</h3>
-                        <p>{{att.mission.description}}</p>
-                    </ion-item>
-                </ion-card>
+                        </ion-fab>
+                        <ion-item>
+                            <ion-icon name="ios-map-outline" item-left large></ion-icon>
+                            <h2>{{att.mission.title}}</h2>
+                            <h3>{{att.mission.meetingPointNicename}}</h3>
+                            <p>{{att.mission.description}}</p>
+                        </ion-item>
+                    </ion-card>
 
-            </ion-item>
+                </ion-item>
+            </div>
         </ion-list>
     </div>
 </ion-content>

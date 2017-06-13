@@ -245,7 +245,9 @@ export class SARService {
         this._configureOptions(options);
         let url = baseUrl + '/attendants?filter[include][mission]&filter[where][sarUserId]=' + userId;
 
-        this.spinnerService.show();
+  
+            this.spinnerService.show();
+  
         return this.http.get(url, options)
             .map(response => { return response.json(); })
             .catch(this.ExceptionService.catchBadResponse)

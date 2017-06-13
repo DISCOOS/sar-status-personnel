@@ -15,19 +15,13 @@ import { SARService } from '../services/sar.service';
 import { ExceptionService } from '../services/exception.service';
 import { AuthService } from '../services/auth.service';
 import { MissionSinglePage } from "../pages/mission-single/mission-single";
-
 import { Geolocation } from '@ionic-native/geolocation';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
-
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
-
-
 import { SpinnerService, SpinnerModule } from '../blocks/spinner/spinner';
-
 import { Firebase } from '@ionic-native/firebase';
 
 @NgModule({

@@ -57,7 +57,7 @@ export class MissionSinglePage {
     }
 
     ionViewDidLoad() {
-        //this.initMap()
+        this.initMap()
     }
 
     getMission() {
@@ -76,8 +76,11 @@ export class MissionSinglePage {
     }
 
     initMap() {
+        if(!this.mission.meetingPoint) {
+            return;
+        }
         console.log("----inits map------")
-        console.log(this.mission)
+       
         const position = {
             lat: this.mission.meetingPoint.lat,
             lng: this.mission.meetingPoint.lng
