@@ -76,7 +76,7 @@ export class MissionSinglePage {
     }
 
     initMap() {
-        if(!this.mission.meetingPoint) {
+        if(!this.mission || !this.mission.meetingPoint) {
             return;
         }
         console.log("----inits map------")

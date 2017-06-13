@@ -4,7 +4,7 @@
         <h1>{{mission?.title}}</h1>
         <p><b>Status:</b>  {{mission?.isActive ? 'Aktiv' : 'Avsluttet'}}</p>
         <p><b>Oppmøte:</b>  {{mission?.meetingPointNicename}}</p>
-        <button *ngIf="mission?.isActive" ion-button icon-left (click)="showCallPage()">Besvar</button>
+        <button *ngIf="mission?.isActive" ion-button icon-left (click)="showCallPage()">Besvar innkalling</button>
 
         <button *ngIf="!mission?.isActive" ion-button item-right icon-left (click)="showExpensePage(mission.id)">
             <ion-icon name="ios-cash" ></ion-icon>
