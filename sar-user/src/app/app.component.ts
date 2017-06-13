@@ -25,8 +25,8 @@ export class MyApp {
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
     private firebase: Firebase,
-    public alertCtrl: AlertController 
-    ) {
+    public alertCtrl: AlertController
+  ) {
     this.initializeApp();
 
     if (this.platform.is('cordova')) {
@@ -74,9 +74,37 @@ export class MyApp {
 
 
   _alertNewAlarm(missionId: number, title: string, body: string) {
-    let alert = this.alertCtrl.create({
+    let alert;
+
+    if (this.nav.getActive().name === 'Login') {
+      alert = this._nonLoggedInAlert();
+    }
+
+    alert = this._gotoMissionAlert(missionId, title, body);
+
+    alert.present();
+
+  }
+
+  // Alert to show if user is not logged in
+  _nonLoggedInAlert() {
+    return this.alertCtrl.create({
+      title: 'Ny varsling',
+      message: 'Vennligst logg inn for å se denne aksjonen',
+      buttons: [
+        {
+          text: 'Ok'
+        }
+      ]
+    });
+  }
+
+
+  // Alert to show if user is logged in
+  _gotoMissionAlert(missionId: number, title: string, body: string) {
+    return this.alertCtrl.create({
       title: title,
-      message: body,
+      message: this.nav.getActive().name + '----- ' + body,
       buttons: [
         {
           text: 'Avbryt',
@@ -85,17 +113,15 @@ export class MyApp {
         {
           text: 'Åpne aksjon',
           handler: () => {
-            
+
             this.nav
-                .push(MissionSinglePage, { id: missionId })
-                .catch(error => { console.log(error) });
-                
+              .push(MissionSinglePage, { id: missionId })
+              .catch(error => { console.log(error) });
+
           }
         }
       ]
     });
-    alert.present();
-
   }
 
 
