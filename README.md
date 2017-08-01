@@ -1,2 +1,2 @@
-# sar-user
-Hybrid-app in Ionic / Cordova for SAR-personell
+# sar-status-personnel
+Hybrid-app in Ionic / Cordova for SAR personnel
