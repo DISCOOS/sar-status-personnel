@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "906828526894",
-    "firebase_url": "https://sar-rk.firebaseio.com",
-    "project_id": "sar-rk",
-    "storage_bucket": "sar-rk.appspot.com"
+    "project_number": "197493773952",
+    "firebase_url": "https://sar-status-175521.firebaseio.com",
+    "project_id": "sar-status-175521",
+    "storage_bucket": "sar-status-175521.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:906828526894:android:e1db9b246c042198",
+        "mobilesdk_app_id": "1:197493773952:android:88548401db95a862",
         "android_client_info": {
-          "package_name": "com.ionicframework.userapp233626"
+          "package_name": "org.discoos.sar.status_personnel"
         }
       },
       "oauth_client": [
         {
-          "client_id": "906828526894-6m2njc7eqdmffc6f2j5cie9pp8egm0ja.apps.googleusercontent.com",
+          "client_id": "197493773952-080u9oa35du1nrrhmi5atvn1m0llhof3.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAeYkIMNJ6Wz4c8sogBiB2pIbr8vucJE0A"
+          "current_key": "AIzaSyCoSyzMm84qkZKVzD4ZJY9tL96FmNclSdQ"
         }
       ],
       "services": {
