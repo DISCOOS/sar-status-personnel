@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.ionicframework.userapp233626" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="org.discoos.sar.status_personnel" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>SAR-Status</name>
     <description>App for SAR-personell to set availability and answer alarmcalls</description>
     <author email="stian@stianmorsund.no" href="http://stianmorsund.no/">Stian Morsund, Bendik Breidablikk, Lasse Tomren</author>
@@ -54,7 +54,7 @@
     <engine name="ios" spec="4.4.0" />
     <plugin name="cordova-plugin-console" spec="^1.0.7" />
     <plugin name="cordova-plugin-device" spec="^1.1.6" />
-    <plugin name="cordova-plugin-firebase" spec="^0.1.21" />
+    <plugin name="cordova-plugin-firebase" spec="^0.1.22" />
     <plugin name="cordova-plugin-mauron85-background-geolocation" spec="^2.2.5">
         <variable name="ACCOUNT_TYPE" value="$PACKAGE_NAME.account" />
         <variable name="CONTENT_AUTHORITY" value="$PACKAGE_NAME" />

@@ -33,7 +33,7 @@
         "cordova-ios": "4.4.0",
         "cordova-plugin-console": "^1.0.7",
         "cordova-plugin-device": "^1.1.6",
-        "cordova-plugin-firebase": "^0.1.21",
+        "cordova-plugin-firebase": "^0.1.22",
         "cordova-plugin-mauron85-background-geolocation": "^2.2.5",
         "cordova-plugin-splashscreen": "^4.0.3",
         "cordova-plugin-statusbar": "^2.2.3",
@@ -41,7 +41,6 @@
         "cordova-windows": "^5.0.0",
         "ionic-angular": "3.3.0",
         "ionic-plugin-keyboard": "^2.2.1",
-        "ionic-project": "file:ios",
         "ionicons": "3.0.0",
         "rxjs": "5.4.0",
         "sw-toolbox": "3.6.0",
@@ -49,8 +48,9 @@
     },
     "devDependencies": {
         "@ionic/app-scripts": "1.3.7",
-        "@ionic/cli-plugin-cordova": "1.3.0",
-        "@ionic/cli-plugin-ionic-angular": "1.3.0",
+        "@ionic/cli-plugin-cordova": "1.5.0",
+        "@ionic/cli-plugin-ionic-angular": "1.4.0",
+        "ionic": "3.6.0",
         "typescript": "2.3.4"
     },
     "cordovaPlugins": [
