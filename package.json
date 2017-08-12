@@ -13,7 +13,11 @@
         "sass": "ionic-app-scripts sass",
         "watch": "ionic-app-scripts watch",
         "minify": "ionic-app-scripts minify",
-        "resources": "ionic cordova resources"
+        "resources": "ionic cordova resources",
+        "add:android": "ionic cordova add android",
+        "run:android": "ionic cordova run android",
+        "add:ios": "ionic cordova add ios",
+        "run:ios": "ionic cordova run ios"
     },
     "dependencies": {
         "@angular/common": "4.1.3",
