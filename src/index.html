@@ -2,33 +2,60 @@
 <html lang="en" dir="ltr">
 
 <head>
-    <meta charset="UTF-8">
     <title>SAR Status</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
-    <link rel="icon" type="image/x-icon" href="assets/icon/favicon.ico">
-    <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#ed1c24">
+
+
+    <!-- built resources -->
+    <link href="build/main.css" rel="stylesheet">
+
+    <!-- some external resources -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet">
+
+    <!-- favicon support for ios, macos, win and android -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icon/favicon-16x16.png">
+    <link rel="mask-icon" href="assets/icon/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="assets/icon/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="assets/icon/mstile-144x144.png">
+    <meta name="msapplication-config" content="assets/icon/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+
     <!-- cordova.js required for cordova apps -->
     <script src="cordova.js"></script>
+
     <!-- un-comment this code to enable service worker
-  <script>
+    <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js')
         .then(() => console.log('service worker installed'))
         .catch(err => console.log('Error', err));
     }
-  </script>-->
-    <link href="build/main.css" rel="stylesheet">
+    </script>
+    -->
+
+    <!-- some external scripts -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYzGTxVG0t0RYu0-IFlqFbp9x4PjLUl_E&libraries=places"></script>
+
 </head>
 
 <body>
     <!-- Ionic's root component and where the app will load -->
     <ion-app></ion-app>
+
     <!-- The polyfills js is generated during the build process -->
     <script src="build/polyfills.js"></script>
+
+    <!-- The vendor js is generated during the build process -->
+    <script src="build/vendor.js"></script>
+
     <!-- The bundle js is generated during the build process -->
     <script src="build/main.js"></script>
 </body>

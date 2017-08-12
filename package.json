@@ -6,8 +6,14 @@
     "scripts": {
         "clean": "ionic-app-scripts clean",
         "build": "ionic-app-scripts build",
-        "ionic:build": "ionic-app-scripts build",
-        "ionic:serve": "ionic-app-scripts serve"
+        "serve": "ionic-app-scripts serve",
+        "cleancss": "ionic-app-scripts cleancss",
+        "copy": "ionic-app-scripts copy",
+        "lint": "ionic-app-scripts lint",
+        "sass": "ionic-app-scripts sass",
+        "watch": "ionic-app-scripts watch",
+        "minify": "ionic-app-scripts minify",
+        "resources": "ionic cordova resources"
     },
     "dependencies": {
         "@angular/common": "4.1.3",
@@ -33,7 +39,7 @@
         "cordova-ios": "^4.4.0",
         "cordova-plugin-console": "^1.0.7",
         "cordova-plugin-device": "^1.1.6",
-        "cordova-plugin-firebase": "^0.1.22",
+        "cordova-plugin-firebase": "^0.1.23",
         "cordova-plugin-mauron85-background-geolocation": "^2.2.5",
         "cordova-plugin-splashscreen": "^4.0.3",
         "cordova-plugin-statusbar": "^2.2.3",
@@ -47,10 +53,10 @@
         "zone.js": "0.8.11"
     },
     "devDependencies": {
-        "@ionic/app-scripts": "1.3.7",
-        "@ionic/cli-plugin-cordova": "1.5.0",
-        "@ionic/cli-plugin-ionic-angular": "1.4.0",
-        "ionic": "3.6.0",
+        "@ionic/app-scripts": "^2.1.3",
+        "@ionic/cli-plugin-cordova": "1.6.2",
+        "@ionic/cli-plugin-ionic-angular": "1.4.1",
+        "ionic": "3.7.0",
         "typescript": "2.3.4"
     },
     "cordovaPlugins": [

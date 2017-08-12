@@ -1,10 +1,10 @@
 {
-  "name": "Ionic",
-  "short_name": "Ionic",
+  "name": "SAR Status Personnel",
+  "short_name": "SAR Status",
   "start_url": "index.html",
   "display": "standalone",
   "icons": [{
-    "src": "assets/imgs/logo.png",
+    "src": "assets/img/icon.png",
     "sizes": "512x512",
     "type": "image/png"
   }],

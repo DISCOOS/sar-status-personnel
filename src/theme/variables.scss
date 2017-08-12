@@ -1,24 +1,23 @@
 // Ionic Variables and Theming. For more info, please see:
 // http://ionicframework.com/docs/v2/theming/
-$font-path: "../assets/fonts";
 
 @import "ionic.globals";
 
 
-@font-face {
-    font-family: 'MyriadPro-Regular';
-    src: url('../assets/fonts/MyriadPro-Regular.woff');
-}
-
-@font-face {
-    font-family: 'MyriadPro-Semibold';
-    src: url('../assets/fonts/MyriadPro-Semibold.woff');
-}
-
-@font-face {
-    font-family: 'MyriadPro-Bold';
-    src: url('../assets/fonts/MyriadPro-Bold.woff');
-}
+//@font-face {
+//    font-family: 'MyriadPro-Regular';
+//    src: url('../assets/fonts/MyriadPro-Regular.woff');
+//}
+//
+//@font-face {
+//    font-family: 'MyriadPro-Semibold';
+//    src: url('../assets/fonts/MyriadPro-Semibold.woff');
+//}
+//
+//@font-face {
+//    font-family: 'MyriadPro-Bold';
+//    src: url('../assets/fonts/MyriadPro-Bold.woff');
+//}
 
 
 
@@ -105,6 +104,7 @@ $colors: (
 // Fonts
 // --------------------------------------------------
 
-$font-regular: "MyriadPro-Regular",sans-serif !default;
-$font-semibold: "MyriadPro-Semibold",sans-serif !default;
-$font-bold: "MyriadPro-Bold",sans-serif !default;
+$font-family: 'Open Sans', sans-serif;
+$font-regular: 400;
+$font-semibold: 600;
+$font-bold: 700;
