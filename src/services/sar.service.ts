@@ -4,21 +4,17 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/finally';
-import { Subject } from 'rxjs/Subject';
 import { Http, Response, RequestOptions } from '@angular/http';
 import { URLSearchParams } from "@angular/http";
 import { Headers } from '@angular/http';
 import { Mission, Tracking, MissionResponse, Alarm, SARUser, Expence } from '../models/models';
-import { CONFIG } from '../shared/config';
-import { ExceptionService } from '../services/exception.service';
+import { ExceptionService } from './exception.service';
 import { SpinnerService } from '../blocks/spinner/spinner';
-
-const baseUrl = CONFIG.urls.baseUrl;
-
+import { ConfigService } from "./config.service";
 
 @Injectable()
 export class SARService {
-    loggedIn: boolean;
+
     token: string;
     available: string;
     id: any;
@@ -30,32 +26,40 @@ export class SARService {
     tracking: Tracking;
     longitude: number;
     latitude: number;
-    // Other components can subscribe to this 
-    public isLoggedIn: Subject<boolean> = new Subject();
+    baseUrl: string;
 
     constructor(
         private http: Http,
         public ExceptionService: ExceptionService,
-        private spinnerService: SpinnerService
-    ) { }
+        private spinnerService: SpinnerService,
+        private configService: ConfigService
+    ) {
 
+      this.baseUrl = configService.get("sar.status.url");
+    }
+
+
+    private getApiUrl(uri: string) {
+        return this.baseUrl + uri;
+    }
 
 
     savePushtokenOnUser(token: string, userId: number) {
-        const url = baseUrl + '/SARUsers/' + userId;
-        const options = new RequestOptions({ withCredentials: true })
+
+        const url = this.getApiUrl('sarusers/' + userId);
+        const options = new RequestOptions({ withCredentials: true });
         this._configureOptions(options);
 
         const body = {
             "deviceToken": token
-        }
-        console.log("SARSERVICE savepushtokneonsuser _--")
-        console.log(url)
+        };
+        console.log("SARSERVICE savepushtokneonsuser _--");
+        console.log(url);
         console.log(body);
 
         return this.http.patch(url, JSON.stringify(body), options)
             .map(res => {
-                console.log(res.json())
+                console.log(res.json());
                 return res.json();
             })
 
@@ -73,9 +77,9 @@ export class SARService {
     }
 
     /**
-	 * Filter out ID from JSON-object. 
-	 * @param key 
-	 * @param value 
+	 * Filter out ID from JSON-object.
+	 * @param key
+	 * @param value
 	 */
 
     private _replacer(key, value) {
@@ -99,8 +103,8 @@ export class SARService {
      */
 
     getUserFromDAO(id: number) {
-        let url = baseUrl + "/SARUsers/" + id;
-        let options = new RequestOptions({ withCredentials: true })
+        let url = this.getApiUrl("/sarusers/" + id);
+        let options = new RequestOptions({ withCredentials: true });
         this._configureOptions(options);
         return this.http.get(url, options)
             .map((res) => {
@@ -115,7 +119,6 @@ export class SARService {
      */
 
     public login(username: string, password: string) {
-        //this.getPos();
 
         let data = new URLSearchParams();
         data.append('username', username);
@@ -123,8 +126,11 @@ export class SARService {
         let options = new RequestOptions();
 
         this.spinnerService.show();
+
+        let url = this.getApiUrl('/sarusers/login');
+
         return this.http
-            .post(baseUrl + '/SARUsers/login', data, options)
+            .post(url, data, options)
             .map((response: Response) => {
 
                 // login successful if there's a token in the response
@@ -156,16 +162,16 @@ export class SARService {
     public setAvailability(isAvailable: boolean) {
         let postBody = {
             "isAvailable": isAvailable
-        }
+        };
 
-        let url = baseUrl + "/sarusers/" + this.getUser().id;
-        let options = new RequestOptions({ withCredentials: true })
+        let url = this.getApiUrl("/sarusers/" + this.getUser().id);
+        let options = new RequestOptions({ withCredentials: true });
         this._configureOptions(options);
 
         this.spinnerService.show();
         return this.http.patch(url, JSON.stringify(postBody), options)
             .map(res => {
-                console.log("Set available to " + isAvailable + " in db")
+                console.log("Set available to " + isAvailable + " in db");
                 return res.json();
             })
             .catch(this.ExceptionService.catchBadResponse)
@@ -180,10 +186,10 @@ export class SARService {
     public setTrackable(isTrackable: boolean) {
         let postBody = {
             "isTrackable": isTrackable
-        }
+        };
 
-        let url = baseUrl + "/sarusers/" + this.getUser().id;
-        let options = new RequestOptions({ withCredentials: true })
+        let url = this.getApiUrl("/sarusers/" + this.getUser().id);
+        let options = new RequestOptions({ withCredentials: true });
         this._configureOptions(options);
 
         return this.http.patch(url, JSON.stringify(postBody), options)
@@ -200,9 +206,9 @@ export class SARService {
      */
 
     public getMission(missionId?: number) {
-        let options = new RequestOptions({ withCredentials: true })
+        let options = new RequestOptions({ withCredentials: true });
         this._configureOptions(options);
-        let url = baseUrl + '/missions/' + missionId + '?filter[include][alarms]';
+        let url = this.getApiUrl('/missions/' + missionId + '?filter[include][alarms]');
         this.spinnerService.show();
         return this.http
             .get(url, options)
@@ -221,9 +227,9 @@ export class SARService {
     */
 
     public getMissions(limit?: number) {
-        let options = new RequestOptions({ withCredentials: true })
+        let options = new RequestOptions({ withCredentials: true });
         this._configureOptions(options);
-        let url = baseUrl + '/missions';
+        let url = this.getApiUrl('/missions');
 
         this.spinnerService.show();
         return this.http.get(url, options)
@@ -241,13 +247,12 @@ export class SARService {
      */
 
     public getUserAlarms(userId: number) {
-        let options = new RequestOptions({ withCredentials: true })
+        let options = new RequestOptions({ withCredentials: true });
         this._configureOptions(options);
-        let url = baseUrl + '/attendants?filter[include][mission]&filter[where][sarUserId]=' + userId;
+        let url = this.getApiUrl('/attendants?filter[include][mission]&filter[where][sarUserId]=' + userId);
 
-  
-            this.spinnerService.show();
-  
+        this.spinnerService.show();
+
         return this.http.get(url, options)
             .map(response => { return response.json(); })
             .catch(this.ExceptionService.catchBadResponse)
@@ -255,17 +260,18 @@ export class SARService {
     }
 
     public userHasAnsweredMission(userId: number, missionId: number) {
-        console.log("SARservice check if user has answered mission")
+        console.log("SARservice check if user has answered mission");
 
-        let options = new RequestOptions({ withCredentials: true })
+        let options = new RequestOptions({ withCredentials: true });
         this._configureOptions(options);
-        let url = baseUrl + '/attendants?filter[where][sarUserId]=' + userId + '&filter[where][missionId]=' + missionId;
+        let url = this.getApiUrl('/attendants?filter[where][sarUserId]='
+          + userId + '&filter[where][missionId]=' + missionId);
         let userExist: boolean;
         return this.http.get(url, options)
             .map(response => {
                 let res = response.json();
                 userExist = res[0] && res[0].id;
-                console.log("User has answered mission before " + userExist)
+                console.log("User has answered mission before " + userExist);
                 return userExist
 
             })
@@ -281,9 +287,9 @@ export class SARService {
      */
 
     public postMissionResponse(missionResponse: MissionResponse) {
-        let options = new RequestOptions({ withCredentials: true })
+        let options = new RequestOptions({ withCredentials: true });
         this._configureOptions(options);
-        let url = baseUrl + '/missionResponses';
+        let url = this.getApiUrl('/missionResponses');
 
         let postBody = JSON.stringify(missionResponse, this._replacer);
         console.log(postBody);
@@ -298,9 +304,9 @@ export class SARService {
      */
 
     public getAlarm(alarmId: number) {
-        let options = new RequestOptions({ withCredentials: true })
+        let options = new RequestOptions({ withCredentials: true });
         this._configureOptions(options);
-        let url = baseUrl + '/alarms/' + alarmId;
+        let url = this.getApiUrl('/alarms/' + alarmId);
 
         return this.http.get(url, options)
             .map((response) => {
@@ -316,9 +322,9 @@ export class SARService {
      */
 
     public getAlarms(missionId: number) {
-        let options = new RequestOptions({ withCredentials: true })
+        let options = new RequestOptions({ withCredentials: true });
         this._configureOptions(options);
-        let url = baseUrl + '/missions/' + missionId + '/alarms';
+        let url = this.getApiUrl('/missions/' + missionId + '/alarms');
 
         return this.http.get(url, options)
             .map((res) => { return res.json(); })
@@ -333,8 +339,8 @@ export class SARService {
 
     public addExpense(expense: Expence) {
         let user = this.getUser();
-        let url = baseUrl + "/Expences";
-        let options = new RequestOptions({ withCredentials: true })
+        let url = this.getApiUrl("/Expences");
+        let options = new RequestOptions({ withCredentials: true });
         this._configureOptions(options);
 
         let postBody = {
@@ -343,11 +349,11 @@ export class SARService {
             "amount": expense.amount,
             "mission": expense.missionId,
             "person": expense.sARUserId
-        }
+        };
 
         return this.http.post(url, JSON.stringify(postBody), options)
             .map(res => {
-                console.log(res.json())
+                console.log(res.json());
                 return res.json()
             })
             .catch(this.ExceptionService.catchBadResponse)
@@ -359,7 +365,7 @@ export class SARService {
      */
 
     public setTracking(lat: number, lng: number, missionResponseId: number) {
-        console.log("-----set tracking---------")
+        console.log("-----set tracking---------");
         let tracking = {
             "date": new Date(),
             "geopoint": {
@@ -367,12 +373,12 @@ export class SARService {
                 "lng": lng
             },
             "missionResponseId": missionResponseId
-        }
+        };
 
-        console.log("posting initial " + JSON.stringify(tracking))
+        console.log("posting initial " + JSON.stringify(tracking));
 
-        let url = baseUrl + '/missionresponses/' + missionResponseId + '/tracking';
-        let options = new RequestOptions({ withCredentials: true })
+        let url = this.getApiUrl('/missionresponses/' + missionResponseId + '/tracking');
+        let options = new RequestOptions({ withCredentials: true });
         this._configureOptions(options);
 
         return this.http.post(url, JSON.stringify(tracking), options)
@@ -394,12 +400,12 @@ export class SARService {
             },
             "id": id,
             "missionResponseId": missionResponseId
-        }
+        };
 
-        console.log("posting updated tracking" + JSON.stringify(postBody))
+        console.log("posting updated tracking" + JSON.stringify(postBody));
 
-        let url = baseUrl + "/Trackings/" + id;
-        let options = new RequestOptions({ withCredentials: true })
+        let url = this.getApiUrl("/Trackings/" + id);
+        let options = new RequestOptions({ withCredentials: true });
         this._configureOptions(options);
 
         return this.http.patch(url, JSON.stringify(postBody), options)

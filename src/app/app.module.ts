@@ -14,15 +14,18 @@ import { GeoService } from '../services/geo.service';
 import { SARService } from '../services/sar.service';
 import { ExceptionService } from '../services/exception.service';
 import { AuthService } from '../services/auth.service';
+import { ConfigService } from '../services/config.service';
 import { MissionSinglePage } from "../pages/mission-single/mission-single";
 import { Geolocation } from '@ionic-native/geolocation';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
+import { AppPreferences } from '@ionic-native/app-preferences';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { SpinnerService, SpinnerModule } from '../blocks/spinner/spinner';
 import { Firebase } from '@ionic-native/firebase';
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [
@@ -41,7 +44,8 @@ import { Firebase } from '@ionic-native/firebase';
     IonicModule.forRoot(MyApp),
     BrowserModule,
     HttpModule,
-    SpinnerModule
+    SpinnerModule,
+    IonicStorageModule.forRoot()
   ],
   exports: [
     SpinnerModule
@@ -62,12 +66,14 @@ import { Firebase } from '@ionic-native/firebase';
   providers: [
     StatusBar,
     SplashScreen,
+    AppPreferences,
     BackgroundGeolocation,
     Geolocation,
     ExceptionService,
     SARService,
     GeoService,
     AuthService,
+    ConfigService,
     SpinnerService,
     Firebase,
     { provide: ErrorHandler, useClass: IonicErrorHandler }

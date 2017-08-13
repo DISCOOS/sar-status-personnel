@@ -17,4 +17,5 @@
             <ion-input readonly="true" type="tel" value="{{user.phone}}"></ion-input>
         </ion-item>
     </ion-list>
+    <button padding ion-button [disabled]="loading" (click)="logout()">Logg ut</button>
 </ion-content>

@@ -14,6 +14,12 @@
 // automatically applied to the <body> element in the app.
 // Basics
 
+html {
+  width:100%;
+  height:100%;
+  background:url(../assets/img/logo-with-text.svg) center center no-repeat;
+}
+
 body { font-family: $font-family}
 
 .hidden {display: none; }

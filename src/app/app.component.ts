@@ -6,7 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Login } from '../pages/login/login';
 import { Firebase } from '@ionic-native/firebase';
 import { MissionSinglePage } from '../pages/mission-single/mission-single';
-
+import { ConfigService } from "../services/config.service";
 
 
 @Component({
@@ -14,9 +14,10 @@ import { MissionSinglePage } from '../pages/mission-single/mission-single';
 })
 
 export class MyApp {
+
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = Login;
+  rootPage: any;
 
   pages: Array<{ title: string, component: any, icon: string }>;
 
@@ -25,8 +26,10 @@ export class MyApp {
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
     private firebase: Firebase,
-    public alertCtrl: AlertController
+    public alertCtrl: AlertController,
+    private config: ConfigService
   ) {
+
     this.initializeApp();
 
     if (this.platform.is('cordova')) {
@@ -36,8 +39,21 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
+
+      // Configure app
       this.statusBar.styleDefault();
-      this.splashScreen.hide();
+
+      // Load config
+      this.config.load().then((config) => {
+          this.rootPage = Login;
+          this.splashScreen.hide();
+          console.log('Config loaded = ' + JSON.stringify(config));
+      }).catch((error) => {
+          this.rootPage = Login;
+          this.splashScreen.hide();
+          console.log('Config not loaded: ' + error);
+      });
+
     });
   }
 
@@ -55,7 +71,7 @@ export class MyApp {
       res => {
         console.log("Opened notit, missionID " + res.missionId)
         if (res.missionId) {
-          console.log(res)
+          console.log(res);
 
           this._alertNewAlarm(res.missionId, res.title, res.body);
         }
