@@ -1,19 +1,22 @@
 <ion-content class="singleMission">
     <div id="map" style="width: 100%; height: 40%"></div>
-    <div padding>
+    <div padding [ngSwitch]="status">
         <h1>{{mission?.title}}</h1>
         <p><b>Status:</b>  {{mission?.isActive ? 'Aktiv' : 'Avsluttet'}}</p>
         <p><b>Oppmøte:</b>  {{mission?.meetingPointNicename}}</p>
-        <button *ngIf="mission?.isActive" ion-button icon-left (click)="showCallPage()">Besvar innkalling</button>
-
-        <button *ngIf="!mission?.isActive" ion-button item-right icon-left (click)="showExpensePage(mission.id)">
+        <button *ngSwitchCase="0" ion-button icon-left disabled>Sjekker status</button>
+        <button *ngSwitchCase="1" ion-button icon-left (click)="showCallPage()">Send svar</button>
+        <button *ngSwitchCase="2" ion-button icon-left (click)="showCallPage()" color="secondary">Kan stiller</button>
+        <button *ngSwitchCase="3" ion-button icon-left (click)="showCallPage()" color="danger">Kan ikke stille</button>
+        <button *ngSwitchCase="4" ion-button item-right icon-left (click)="showExpensePage(mission.id)">
             <ion-icon name="ios-cash" ></ion-icon>
              Registrer utlegg
         </button>
+        <h2>Meldinger:</h2>
         <ion-list>
-            <ion-list-header>Varslinger fra aksjonsleder:</ion-list-header>
             <ion-item *ngFor="let alarm of mission?.alarms">
-                <b>{{alarm.date | date:'dd-MM-yyyy H:mm'}}:</b> {{alarm.message}}
+                <p><b>{{alarm.date | date:'dd/MMM/yyyy H:mm'}}:</b></p>
+                <p>{{alarm.message}}</p>
             </ion-item>
         </ion-list>
     </div>

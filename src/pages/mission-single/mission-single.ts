@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Mission, Alarm } from "../../models/models";
+import { Mission, Alarm, SARUser } from "../../models/models";
 import { Expense } from '../expense/expense';
 import { SARService } from "../../services/sar.service";
 import { AuthService } from "../../services/auth.service";
@@ -8,6 +8,7 @@ import { NavController } from 'ionic-angular';
 import { Call } from '../call/call';
 import { Login } from '../login/login';
 import { ExceptionService } from '../../services/exception.service';
+
 
 
 declare var google: any;
@@ -23,6 +24,8 @@ export class MissionSinglePage {
     private id: any;
     public mission: Mission;
     public alarms: Alarm[];
+    public status: any;
+    private user: SARUser;
 
     constructor(
         public navCtrl: NavController,
@@ -30,7 +33,11 @@ export class MissionSinglePage {
         private SARService: SARService,
         private navParams: NavParams,
         private AuthService: AuthService
-    ) { }
+    ) {
+
+      this.user = JSON.parse(localStorage.getItem('currentUser'));
+
+    }
 
     showCallPage() {
         this.navCtrl.push(Call, { missionId: this.mission.id })
@@ -62,17 +69,31 @@ export class MissionSinglePage {
 
     getMission() {
         this.SARService.getMission(this.id)
-            .subscribe(
-            mission => {
-                this.mission = mission;
-            }, error => {
-                console.log("error getting mission");
-                this.navCtrl.pop();
-            },
-            () => {
-                this.initMap();
-            }
-            )
+            .subscribe(mission => {
+                  this.mission = mission;
+              }, error => {
+                  console.log("failed to get mission: " + error);
+                  this.navCtrl.pop();
+              },
+              () => {
+
+                  this.initMap();
+
+                  if(this.mission.isActive) {
+                    this.SARService.getUserResponses(this.user.id,
+                        this.mission.id).subscribe(responses => {
+                        if (responses.length === 0) {
+                            this.status = 1;
+                        } else {
+                          let last = responses.slice(-1).pop();
+                          this.status = last.response ? 2 : 3;
+                      }
+                    });
+                  }
+                  else {
+                      this.status = 4;
+                  }
+              });
     }
 
     initMap() {
@@ -80,7 +101,7 @@ export class MissionSinglePage {
             return;
         }
         console.log("----inits map------")
-       
+
         const position = {
             lat: this.mission.meetingPoint.lat,
             lng: this.mission.meetingPoint.lng

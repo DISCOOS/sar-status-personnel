@@ -14,12 +14,9 @@ import { Alarms } from '../alarms/alarms';
 
 export class Call {
   mission : Mission;
-  isLoading : boolean;
-  alarm: Alarm;
-  feedback: string;
 
   constructor(
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     private SARService: SARService,
     private AuthService: AuthService,
     private navParams: NavParams
@@ -47,9 +44,9 @@ export class Call {
 		this.SARService.getMission(this.navParams.get("missionId"))
       .subscribe(
         mission => { this.mission = mission; },
-        error => { 
+        error => {
           console.log(error);
-          this.navCtrl.push(Alarms)
+          this.navCtrl.pop(Alarms)
             .catch(navError => {
               console.log(navError);
               this.navCtrl.setRoot(Login);

@@ -18,7 +18,6 @@ import { ConfigService } from '../services/config.service';
 import { MissionSinglePage } from "../pages/mission-single/mission-single";
 import { Geolocation } from '@ionic-native/geolocation';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
-import { AppPreferences } from '@ionic-native/app-preferences';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { BrowserModule } from '@angular/platform-browser';
@@ -66,7 +65,6 @@ import { IonicStorageModule } from '@ionic/storage';
   providers: [
     StatusBar,
     SplashScreen,
-    AppPreferences,
     BackgroundGeolocation,
     Geolocation,
     ExceptionService,

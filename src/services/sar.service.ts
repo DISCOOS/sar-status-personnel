@@ -12,6 +12,7 @@ import { ExceptionService } from './exception.service';
 import { SpinnerService } from '../blocks/spinner/spinner';
 import { ConfigService } from "./config.service";
 
+
 @Injectable()
 export class SARService {
 
@@ -259,20 +260,23 @@ export class SARService {
             .finally(() => this.spinnerService.hide())
     }
 
-    public userHasAnsweredMission(userId: number, missionId: number) {
+    public getUserResponses(userId: number, missionId: number) {
         console.log("SARservice check if user has answered mission");
 
         let options = new RequestOptions({ withCredentials: true });
         this._configureOptions(options);
-        let url = this.getApiUrl('/attendants?filter[where][sarUserId]='
-          + userId + '&filter[where][missionId]=' + missionId);
-        let userExist: boolean;
+        let url = this.getApiUrl('/missions?filter[include]=missionresponses&' +
+            'filter[where][sarUserId]='+userId+'&filter[where][missionId]=' + missionId);
         return this.http.get(url, options)
             .map(response => {
+                let responses = [];
                 let res = response.json();
-                userExist = res[0] && res[0].id;
-                console.log("User has answered mission before " + userExist);
-                return userExist
+                res.forEach((mission) => {
+                    responses = responses.concat(mission.missionresponses);
+                });
+                console.log("User has number of sent responses " + responses.length);
+                console.log("User is " + (responses.slice(-1).pop().response ? 'coming' : ' not coming'));
+                return responses;
 
             })
             .catch(this.ExceptionService.catchBadResponse)

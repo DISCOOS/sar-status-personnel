@@ -17,7 +17,7 @@ export class ConfigService {
       return this.storage.get('config').then((config) => {
 
           // Initialize with default if not exists
-          this.config = config ? Object.assign(CONFIG, config) : CONFIG;
+          this.config = config ? config : CONFIG;
 
           return this.storage.set('config', this.config).then(() => {
               return Promise.resolve(this.config)

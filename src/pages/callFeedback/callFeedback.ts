@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, ToastController } from 'ionic-angular';
 import { MissionResponse, Alarm, SARUser, Tracking } from '../../models/models';
 import { SARService } from '../../services/sar.service';
-import { Alarms } from '../alarms/alarms';
+import { MissionSinglePage } from "../mission-single/mission-single";
 import { TabsPage } from '../tabs/tabs';
 import { Login } from '../login/login';
 import { AuthService } from '../../services/auth.service';
@@ -70,14 +70,14 @@ export class CallFeedback {
     this.SARService.postMissionResponse(missionResponse)
       .subscribe(res => {
         this.loading = false;
-        missionResponse = res;
+        this.missionResponse = res;
 
         if (this.feedbackType && this.user.isTrackable) {
           console.log("hit geo2");
-          this.GeoService.startTracking(missionResponse.id);
+          this.GeoService.startTracking(res.id);
         }
 
-        this.navCtrl.push(Alarms)
+        this.navCtrl.popToRoot()
           .catch((error) => {
             console.log(error);
             this.ExceptionService.expiredSessionError();
@@ -85,9 +85,9 @@ export class CallFeedback {
           }); // end catch
       }, (error) => {
         this.loading = false;
-        this.navCtrl.push(Alarms);
+        this.navCtrl.popToRoot();
       },
-      () => this.showSuccessToast()); // end subscribe 
+      () => this.showSuccessToast()); // end subscribe
   }
 
   backButton() {
