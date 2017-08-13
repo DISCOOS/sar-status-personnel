@@ -51,11 +51,11 @@ $ ionic cordova run android
 
 ### Release to Google Play
 
-Since this repo is public you need to fist get PRIVATE signing keys `release-signing.properties`, 
-`sar-status-personnel.jks` and place them into `platforms/android/`. 
+Since this repo is public you need to fist get PRIVATE signing keys `release-signing.properties`,
+`sar-status-personnel.jks` and place them into `platforms/android/`.
 Once done you can release the app with following command.
 
-Before every release remember to increace build number in `confix.xml`
+Before every release remember to increace build number in `config.xml`
 
 ```sh
 $ ionic cordova build android --prod --release
