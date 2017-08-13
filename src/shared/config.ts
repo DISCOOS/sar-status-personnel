@@ -1,8 +1,9 @@
+import {environment} from "../environments/environment";
+
 export let CONFIG = {
-    headers: {
-        token: ''
-    },
-    urls: {
-    	baseUrl: 'https://sar-api.herokuapp.com/api'
-  }
-}
+    sar: {
+        status: {
+          url: (environment.SAR_STATUS_API_HOST + '/api')
+        }
+    }
+};
